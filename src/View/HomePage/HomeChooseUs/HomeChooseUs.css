@@ -1,0 +1,75 @@
+.home_choose_us_wrapper {
+    padding: 0px 0 0px 0;
+    background-color: rgba(129, 155, 109, 0.85);
+    background-image: url('../../../assets/Images/Rectangle 452.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 80vh;
+}
+
+.home_choose_us_content_wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.home_choose_us_left {
+    width: 35%;
+    border-radius: 20px;
+    overflow: hidden;
+    height: 85vh;
+    transform: translateY(-14%);
+}
+
+.home_choose_us_right {
+    width: 62%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 25px;
+        margin-top: 80px;
+}
+
+.home_choose_us_left img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+
+.home_choose_us_right .all_heading {
+
+    color: #fff;
+}
+
+.home_choose_us_right .all_heading2 {
+    color: var(--text-color);
+}
+
+.home_choose_points_wrapper {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.home_choose_points {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+}
+
+.home_choose_points h3 {
+    font-size: 45px;
+    font-weight: 700;
+    color: rgba(255, 249, 240, 1);
+}
+
+.home_choose_points h4 {
+    color: rgba(255, 249, 240, 1);
+    font-weight: 400;
+    font-size: 22px;
+}
+.home_choose_points p{
+    color: rgba(255, 255, 255, 1);
+    line-height: 22px;
+    font-size: 14px;
+}

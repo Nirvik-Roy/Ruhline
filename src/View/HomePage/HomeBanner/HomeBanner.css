@@ -1,0 +1,41 @@
+.home_banner_Wrappper {
+    background: url('../../../assets/Images/WhatsApp Image 2025-11-03 at 18.52.46_1d39b650 1.svg');
+    min-height: 100vh;
+    background-position: center;
+    background-size: cover;
+    padding: 150px 0 80px 0;
+}
+
+.home_banner_content_wrapper {
+    display: flex;
+    flex-direction: column;
+    row-gap: 30px;
+    justify-content: center;
+    align-items: center;
+}
+
+.home_banner_content_wrapper p {
+    color: rgba(255, 255, 255, 1);
+    font-size: 16px;
+    text-align: center;
+    line-height: 25px;
+}
+
+.home_banner_content_wrapper button {
+    width: fit-content;
+    padding: 17px 50px;
+    border-radius: 8px;
+    border: none;
+    background-color: rgba(250, 249, 246, 1);
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.home_banner_content_wrapper img {
+    width: 80%;
+}
+
+.banner_para {
+    width: 780px;
+}

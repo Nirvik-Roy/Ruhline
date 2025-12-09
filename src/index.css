@@ -1,0 +1,20 @@
+:root {
+    --primary-color: rgba(206, 115, 86, 1);
+    --body-color: #faf9f5;
+    --text-color: rgba(70, 35, 7, 1)
+}
+
+.all_heading {
+    letter-spacing: 10px;
+    color: var(--primary-color);
+    font-weight: 400;
+    font-size: 20px;
+    text-transform: uppercase;
+}
+
+.all_heading2 {
+    letter-spacing: 3px;
+
+    font-size: 30px;
+    color: var(--text-color);
+}
