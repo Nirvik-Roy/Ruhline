@@ -4,9 +4,9 @@ import logo from '../../assets/Images/Frame 1984078480 (1).svg'
 import { Link } from 'react-router-dom'
 import location from '../../assets/Images/icon.svg'
 import message from '../../assets/Images/icon (1).svg'
-import facebook from '../../assets/Images/social.svg'
+import facebook from '../../assets/Images/social (2).svg'
 import telegram from '../../assets/Images/social (1).svg'
-import instagram from '../../assets/Images/social (2).svg'
+import instagram from '../../assets/Images/social (3).svg'
 const Footer = () => {
   return (
     <>
@@ -22,18 +22,18 @@ const Footer = () => {
             <h3>Company</h3>
             <div className='footer_2_links_wrapper'>
               <div className='footer_2_links'>
-                <Link>Home</Link>
-                <Link>About Us</Link>
+                <Link to={'/'}>Home</Link>
+                <Link to={'/about'}>About Us</Link>
                 <Link>Programs</Link>
-                <Link>Articles</Link>
-                <Link>Contact Us</Link>
+                <Link to={'/articles'}>Articles</Link>
+                <Link to={'/contact'}>Contact Us</Link>
               </div>
               <div className='footer_2_links'>
                 <Link>My Account</Link>
                 <Link>Become a Coach</Link>
-                <Link>Terms & Conditions</Link>
-                <Link>Privacy Policy</Link>
-                <Link>Refund Policy</Link>
+                <Link to={'/terms-conditions'}>Terms & Conditions</Link>
+                <Link to={'/privacy-policy'}>Privacy Policy</Link>
+                <Link to={'/refund-policy'}>Refund Policy</Link>
               </div>
             </div>
           </div>
@@ -53,9 +53,17 @@ const Footer = () => {
             <div className='footer_follow_us_wrapper'>
               <h5>Follow Us</h5>
               <div className='footer_img_wrapper'>
-                <img src={facebook} />
-                <img src={telegram} />
-                <img src={instagram} />
+                <div className='footer_icon'>
+                  <img src={facebook} />
+                </div>
+
+                <div className='footer_icon'>
+                  <img src={telegram} />
+                </div>
+
+                <div className='footer_icon'>
+                  <img src={instagram} />
+                </div>
               </div>
             </div>
           </div>

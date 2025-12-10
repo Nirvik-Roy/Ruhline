@@ -1,0 +1,15 @@
+.articles_wrapper {
+    padding: 50px 0 70px 0;
+}
+
+.articles_content_wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto;
+    gap: 40px;
+}
+
+.articles_content_wrapper .home_blog_slide {
+    width: 100% !important;
+}
+

@@ -1,0 +1,18 @@
+.contact_us_wrapper{
+    padding: 70px 0;
+}
+.contact_us_content_wrapper{
+    display: flex;
+    justify-content: space-between;
+}
+.contact_us_img{
+    width: 45%;
+    border-radius: 10px;
+    overflow: hidden;
+    height: 110vh;
+}
+.contact_us_img img{
+    width: 100%;
+    object-fit: cover;
+    height: 100%;
+}

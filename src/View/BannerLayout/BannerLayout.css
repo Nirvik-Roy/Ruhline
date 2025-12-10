@@ -1,0 +1,15 @@
+.banner_layout_wrapper{
+    background: url('../../assets/Images/WhatsApp Image 2025-11-03 at 18.52.46_1d39b650 1.svg');
+    min-height: 60vh;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.banner_layout_wrapper h1{
+    font-weight: 700;
+    color: rgba(250, 249, 246, 1);
+    font-size: 5.2vw;
+    text-align: center;
+}

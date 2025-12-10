@@ -1,0 +1,8 @@
+.privacy_policy_wrapper{
+    padding: 50px 0;
+}
+.privacy_policy_content_wrapper p{
+    font-size: 13px;
+    color: var(--text-color);
+    line-height: 20px;
+}

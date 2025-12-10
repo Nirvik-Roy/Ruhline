@@ -49,8 +49,11 @@ const HomeProgramSlider = () => {
                     {SliderData.map((e, i) => (
                         <div className='program_slide' key={i}>
                             {e.isBestSelling && <p>Best Selling</p>}
-                            <h4>Program {i + 1}</h4>
+                            <h4 style={{
+                                zIndex:'99'
+                            }}>Program {i + 1}</h4>
                             <img src={e.img} alt='slider_img..' />
+                            <div className='overlay'></div>
                         </div>
                     ))}
                 </Slider>
