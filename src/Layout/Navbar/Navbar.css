@@ -1,7 +1,7 @@
 .navbar_wrapper_main {
     position: absolute;
     top: 20px;
-    padding: 12px 0;
+    padding: 17px 0;
     width: 100%;
     background-color: var(--body-color);
 }
@@ -37,8 +37,8 @@
 .nav_links_wrapper .active::before {
     content: '';
     position: absolute;
-    bottom: -4px;
-    width: 120%;
+    bottom: -8px;
+    width: 100%;
     height: 2px;
     background-color: var(--text-color);
     left: 50%;
