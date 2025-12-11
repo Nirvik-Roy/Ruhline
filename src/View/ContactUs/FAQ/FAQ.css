@@ -1,5 +1,5 @@
 .faq_wrapper {
-    padding: 70px 0 50px 0;
+    padding: 70px 0 0px 0;
 }
 
 .faq_content_wrapper h2 {
@@ -57,6 +57,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 15px;
 }
 
 .faq_head_wrapper .down_img56 {
@@ -78,4 +79,25 @@
     border-radius: 10px;
     border: 1px solid rgba(216, 216, 216, 1);
     box-shadow: 0px 0.5px 1px 0px rgba(25, 33, 61, 0.07);
+}
+
+@media(max-width:768px) {
+    .faq_accordion h3 {
+        font-size: 17px;
+    }
+
+    .faq_accordion p {
+        font-size: 12px;
+        line-height: 20px;
+    }
+}
+
+@media(max-width:480px) {
+    .faq_accordion h3 {
+        font-size: 13px;
+    }
+
+    .faq_accordion {
+        padding: 15px;
+    }
 }

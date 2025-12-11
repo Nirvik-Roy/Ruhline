@@ -139,8 +139,8 @@ const NavbarLinks = () => {
 
                     <form className='modal_form'>
                         <Input type={'text'} label={'Email Address'} required={true} placeholder={'example@mail.com'} />
-                        <div onClick={(()=>handleModal(4))}>
-                        <Button children={'Send Link'} styles={{ width: '100%', padding: '17px 0px' }} />
+                        <div onClick={(() => handleModal(4))}>
+                            <Button children={'Send Link'} styles={{ width: '100%', padding: '17px 0px' }} />
 
                         </div>
                     </form>
@@ -169,7 +169,7 @@ const NavbarLinks = () => {
                                 width: '20px',
                                 cursor: 'pointer'
                             }} src={eye} />
-            
+
                         </div>
                         <div className='input_form' style={{
                             position: 'relative'
@@ -212,7 +212,7 @@ const NavbarLinks = () => {
             {modalToggle.signUp && <Modal children={SignUpmodalData()} handleModal={handleModal} />}
             {modalToggle.signIn && <Modal children={SignInmodalData()} handleModal={handleModal} />}
             {modalToggle.forGotPassword && <Modal children={ForgotPassword()} handleModal={handleModal} />}
-            {modalToggle.newPassword && <Modal children={newPassword()} handleModal={handleModal}/>}
+            {modalToggle.newPassword && <Modal children={newPassword()} handleModal={handleModal} />}
             <div className='nav_links_wrapper'>
                 <NavLink to={'/'}>Home</NavLink>
                 <NavLink to={'/about'}>About Us</NavLink>
@@ -222,6 +222,7 @@ const NavbarLinks = () => {
                 <div onClick={(() => handleModal(1))}>
                     <Button children={'Login/Sign Up'} />
                 </div>
+                <i class="fa-solid fa-bars"></i>
             </div>
         </>
     )

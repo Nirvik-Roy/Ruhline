@@ -13,3 +13,20 @@
     width: 100% !important;
 }
 
+@media(max-width:999px){
+    .articles_content_wrapper{
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+    }
+}
+@media(max-width:620px){
+      .articles_content_wrapper{
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+}
+@media(max-width:480px){
+    .home_blog_slide img{
+        height: auto;
+    }
+}

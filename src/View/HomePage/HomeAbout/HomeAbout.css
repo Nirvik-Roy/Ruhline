@@ -29,3 +29,30 @@
     line-height: 20px;
     font-weight: 400;
 }
+@media(max-width:1099px){
+    .about_us_content_wrapper{
+        align-items: center;
+    }
+    .home_about_right{
+        margin-top: 0;
+    }
+}
+@media(max-width:768px){
+    .about_us_content_wrapper{
+        flex-direction: column;
+        row-gap: 40px;
+    }
+    .home_about_right{
+        width: 100%;
+    }
+    .about_us_image{
+        width: 100%;
+        height: auto;
+    }
+    
+}
+@media(max-width:480px){
+    .about_us_wrapper{
+        padding: 50px 0 40px 0;
+    }
+}

@@ -10,6 +10,15 @@
 .banner_layout_wrapper h1{
     font-weight: 700;
     color: rgba(250, 249, 246, 1);
-    font-size: 5.2vw;
+    font-size: 77px;
     text-align: center;
+}
+@media(max-width:768px){
+   .banner_layout_wrapper h1{
+    font-size: 50px;
+   } 
+   .banner_layout_wrapper{
+    min-height: fit-content;
+    padding: 150px 0 80px 0;
+   }
 }

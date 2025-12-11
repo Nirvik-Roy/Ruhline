@@ -63,3 +63,36 @@
 .programs_link img {
     width: 20px;
 }
+
+.fa-bars{
+    font-size: 25px;
+    color: var(--primary-color);
+    cursor: pointer;
+    display: none;
+}
+
+@media(max-width:1070px) {
+    .nav_links_wrapper a {
+        display: none;
+    }
+
+    .nav_links_wrapper .programs_link {
+        display: none;
+    }
+    .fa-bars{
+        display: block;
+    }
+}
+
+
+@media(max-width:550px){
+    .nav_links_wrapper .brown_button{
+        display: none;
+    }
+}
+
+@media(max-width:480px){
+    .nav_logo{
+        width: 80%;
+    }
+}

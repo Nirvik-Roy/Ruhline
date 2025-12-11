@@ -1,6 +1,6 @@
 .home_banner_Wrappper {
     background: url('../../../assets/Images/WhatsApp Image 2025-11-03 at 18.52.46_1d39b650 1.svg');
-    min-height: 100vh;
+    /* min-height: 100vh; */
     background-position: center;
     background-size: cover;
     padding: 170px 0 80px 0;
@@ -38,4 +38,16 @@
 
 .banner_para {
     width: 780px;
+}
+
+@media(max-width:999px) {
+    .home_banner_content_wrapper img {
+        width: 90%;
+    }
+}
+
+@media(max-width:800px){
+    .banner_para{
+        width: 95%;
+    }
 }

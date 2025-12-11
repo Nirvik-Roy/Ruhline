@@ -14,7 +14,30 @@ const HomeBlogSlider = () => {
         slidesToScroll: 1,
         arrows: false,
         autoplay: true,
-        autoplaySpeed: 2000
+        autoplaySpeed: 2000,
+        responsive: [
+            {
+                breakpoint: 899,
+                settings: {
+                    slidesToShow: 2,
+
+                }
+            },
+            {
+                breakpoint: 599,
+                settings: {
+                    slidesToShow: 1,
+
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 1,
+
+                }
+            },
+        ]
     };
     const SliderData = [
         {
@@ -38,7 +61,7 @@ const HomeBlogSlider = () => {
             img: img3,
             time: '10 Days ago',
         },
-         {
+        {
             category: 'Yoga',
             title: 'How Yoga is useful',
             details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor...',
@@ -65,21 +88,21 @@ const HomeBlogSlider = () => {
     return (
         <>
             <div className='home_blog_slider_wrapper'>
-            <Slider {...settings}>
+                <Slider {...settings}>
 
-                {SliderData.map((e, i) => (
-       
-                    <div className='home_blog_slide'>
-                        <img src={e.img}/>
-                        <div className='category_wrapper'>
-                            <p>{e.category}</p>
-                            <span>{e.time}</span>
+                    {SliderData.map((e, i) => (
+
+                        <div className='home_blog_slide'>
+                            <img src={e.img} />
+                            <div className='category_wrapper'>
+                                <p>{e.category}</p>
+                                <span>{e.time}</span>
+                            </div>
+                            <h3>{e.title}</h3>
+                            <p>{e.details}</p>
                         </div>
-                        <h3>{e.title}</h3>
-                        <p>{e.details}</p>
-                    </div>
-                ))}
-            </Slider>
+                    ))}
+                </Slider>
             </div>
         </>
     )

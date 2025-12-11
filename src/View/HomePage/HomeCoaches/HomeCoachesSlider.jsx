@@ -15,7 +15,37 @@ const HomeCoachesSlider = () => {
         slidesToScroll: 1,
         arrows: false,
         autoplay: true,
-        autoplaySpeed: 2000
+        autoplaySpeed: 2000,
+                responsive: [
+            {
+                breakpoint: 1099,
+                settings: {
+                    slidesToShow: 3,
+
+                }
+            },
+            {
+                breakpoint: 899,
+                settings: {
+                    slidesToShow: 3,
+
+                }
+            },
+            {
+                breakpoint: 699,
+                settings: {
+                    slidesToShow: 2,
+
+                }
+            },
+             {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 1,
+
+                }
+            },
+        ]
     };
     const SliderData = [
         {

@@ -37,3 +37,24 @@
     background-color: rgba(224, 173, 34, 1);
     border: none;
 }
+@media(max-width:899px){
+    .about_cards_content_wrapper{
+        flex-wrap: wrap;
+        row-gap: 30px;
+    }
+    .about_card1{
+        width: 48%;
+    }
+        .about_cards_wrapper{
+        padding: 20px 0;
+    }
+}
+
+@media(max-width:480px){
+    .about_cards_wrapper{
+        padding: 20px 0;
+    }
+     .about_card1{
+        width: 100%;
+    }
+}

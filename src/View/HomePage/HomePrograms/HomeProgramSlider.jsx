@@ -40,7 +40,37 @@ const HomeProgramSlider = () => {
         slidesToScroll: 1,
         arrows: false,
         autoplay: true,
-        autoplaySpeed: 2000
+        autoplaySpeed: 2000,
+        responsive: [
+            {
+                breakpoint: 1299,
+                settings: {
+                    slidesToShow: 4,
+
+                }
+            },
+            {
+                breakpoint: 899,
+                settings: {
+                    slidesToShow: 3,
+
+                }
+            },
+            {
+                breakpoint: 699,
+                settings: {
+                    slidesToShow: 2,
+
+                }
+            },
+             {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 1,
+
+                }
+            },
+        ]
     };
     return (
         <>
@@ -50,7 +80,7 @@ const HomeProgramSlider = () => {
                         <div className='program_slide' key={i}>
                             {e.isBestSelling && <p>Best Selling</p>}
                             <h4 style={{
-                                zIndex:'99'
+                                zIndex: '99'
                             }}>Program {i + 1}</h4>
                             <img src={e.img} alt='slider_img..' />
                             <div className='overlay'></div>

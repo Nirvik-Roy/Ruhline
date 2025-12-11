@@ -39,3 +39,8 @@
     color: var(--text-color);
     font-size: 13px;
 }
+@media(max-width:768px){
+    .contact_us_form_wrapper{
+        width: 100%;
+    }
+}

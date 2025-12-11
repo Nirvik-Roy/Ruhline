@@ -7,6 +7,11 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.home_coaches_head_wrapper .brown_button{
+    margin-left: auto;
 }
 .home_coaches_head{
     display: flex;
@@ -24,7 +29,7 @@
     position: absolute;
     height: 100%;
     width: 100%;
-    background:linear-gradient(to bottom , #00000000,#0000009c);
+    background:linear-gradient(to bottom , #00000000,#00000026);
     bottom: 0;
     
 }
@@ -46,4 +51,17 @@
     font-weight: 400;
     font-size: 12px;
     color: #fff;
+}
+@media(max-width:1099px){
+    .home_coache_slide{
+        width: 97% !important;
+    }
+}
+@media(max-width:480px){
+    .home_coache_slide{
+        width: 100% !important;
+    }
+    .home_coaches_wrapper{
+        padding: 50px 0 50px 0;
+    }
 }
