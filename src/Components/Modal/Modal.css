@@ -33,6 +33,7 @@
 
 .sign_up_wrapper span {
     font-weight: 600;
+    cursor: pointer;
 }
 
 .modal_form {
@@ -46,4 +47,36 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
+}
+.checkbox_wrapper{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px;
+    margin-left: 10px;
+}
+.checkbox_wrapper p{
+    font-size: 12px;
+}
+.checkbox_wrapper input{
+    width: 18px;
+    height: 18px;
+    accent-color: rgba(144, 155, 109, 1);
+}
+.modal_cross_div{
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #fff;
+    box-shadow: 0px 4px 13px 0px rgba(0,0,0,0.25);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.modal_cross_div i{
+    color: var(--text-color);
 }

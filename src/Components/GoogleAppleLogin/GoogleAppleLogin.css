@@ -1,0 +1,47 @@
+.or_with_wrapper {
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+    width: 100%;
+}
+
+.or_with_wrapper p {
+    text-align: center;
+    position: relative;
+}
+
+.or_with_wrapper p::before {
+    content: '';
+    position: absolute;
+    width: 43%;
+    height: 0.5px;
+    background-color: rgba(144, 155, 109, 1);
+    left: 5px;
+    top: 10px;
+}
+
+.or_with_wrapper p::after {
+    content: '';
+    position: absolute;
+    width: 43%;
+    height: 0.5px;
+    background-color: rgba(144, 155, 109, 1);
+    right: 5px;
+    top: 10px;
+}
+
+.google_apple_wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.google_apple_wrapper .google_img {
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(70, 35, 7, 0.42);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
