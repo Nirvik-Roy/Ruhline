@@ -15,59 +15,24 @@ import Yoga from './View/Programs/Yoga/Yoga'
 import LifeCoaching from './View/Programs/LifeCoaching/LifeCoaching'
 import Coaches from './View/Programs/Coaches/Coaches'
 function App() {
-  const PublicRoutes = [
-    {
-      path: '/',
-      element: <HomePage />
-    },
-    {
-      path: '/about',
-      element: <AboutUs />
-    },
-    {
-      path: '/contact',
-      element: <ContactUs />
-    },
-    {
-      path: '/privacy-policy',
-      element: <PrivacyPolicy />
-    },
-    {
-      path: '/terms-conditions',
-      element: <TermsConditions />
-    },
-    {
-      path: '/refund-policy',
-      element: <RefundPolicy />
-    },
-    {
-      path: '/articles',
-      element: <Articles />
-    },
-    {
-      path: '/program/yoga',
-      element: <Yoga />
-    },
-    {
-      path: '/program/life-coaching',
-      element: <LifeCoaching />
-    },
-    {
-      path: '/program/coaches',
-      element: <Coaches />
-    }
-  ]
-
   return (
     <>
-
       <BrowserRouter>
         <ScrollToTop />
         <Routes>
           <Route path='' element={<MainLayout />}>
-            {PublicRoutes.map((e, i) => (
-              <Route key={e.path} path={e.path} element={e.element} />
-            ))}
+            <Route path='/' element={<HomePage />} />
+            <Route path='/about' element={<AboutUs />} />
+            <Route path='/contact' element={<ContactUs />} />
+            <Route path='/privacy-policy' element={<PrivacyPolicy />} />
+            <Route path='/terms-conditions' element={<TermsConditions />} />
+            <Route path='/refund-policy' element={<RefundPolicy />} />
+            <Route path='/articles' element={<Articles />} />
+            <Route path='/program'>
+              <Route path='yoga' element={<Yoga />} />
+              <Route path='life-coaching' element={<LifeCoaching />} />
+              <Route path='coaches' element={<Coaches />} />
+            </Route>
           </Route>
         </Routes>
       </BrowserRouter>
