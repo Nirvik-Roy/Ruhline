@@ -83,7 +83,7 @@ const NavbarLinks = () => {
     const SignInmodalData = () => {
         return (
             <>
-                <div className='sign_up_wrapper'>
+                <div className='sign_up_wrapper sign_in_wrapper'>
                     <h3>Log in</h3>
                     <p>Don't have an account yet? <span onClick={(() => handleModal(1))}>Sign up </span>for free</p>
 
@@ -131,7 +131,9 @@ const NavbarLinks = () => {
     const ForgotPassword = () => {
         return (
             <>
-                <div className='sign_up_wrapper'>
+                <div className='sign_up_wrapper' style={{
+                    height:'fit-content'
+                }}>
                     <h3>Lost your password?</h3>
                     <p>Please enter your username or email address. You will receive a link to create a new password via email.
                         Remember now? <span onClick={(() => handleModal(2))}>Back to login
@@ -152,7 +154,9 @@ const NavbarLinks = () => {
     const newPassword = () => {
         return (
             <>
-                <div className='sign_up_wrapper'>
+                <div className='sign_up_wrapper' style={{
+                    height:'fit-content'
+                }}>
                     <h3>Create a new password</h3>
                     <form className='modal_form'>
                         <div className='input_form' style={{

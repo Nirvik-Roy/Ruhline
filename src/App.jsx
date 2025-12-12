@@ -14,6 +14,9 @@ import Articles from './View/Articles/Articles'
 import Yoga from './View/Programs/Yoga/Yoga'
 import LifeCoaching from './View/Programs/LifeCoaching/LifeCoaching'
 import Coaches from './View/Programs/Coaches/Coaches'
+import OneTimeProgram from './View/OneTimeService/OneTimeProgram'
+import AvailableFacilitor from './View/OneTimeService/AvailableFacilitor'
+import ServiceDate from './View/OneTimeService/ServiceDate'
 function App() {
   return (
     <>
@@ -33,6 +36,9 @@ function App() {
               <Route path='life-coaching' element={<LifeCoaching />} />
               <Route path='coaches' element={<Coaches />} />
             </Route>
+            <Route path='/onetime-service' element={<OneTimeProgram />} />
+            <Route path='/available-facilitor' element={<AvailableFacilitor />} />
+            <Route path='/service-date' element={<ServiceDate />} />
           </Route>
         </Routes>
       </BrowserRouter>

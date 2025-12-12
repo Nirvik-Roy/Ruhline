@@ -48,22 +48,26 @@
     grid-template-columns: 1fr 1fr;
     gap: 20px;
 }
-.checkbox_wrapper{
+
+.checkbox_wrapper {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     gap: 5px;
     margin-left: 10px;
 }
-.checkbox_wrapper p{
+
+.checkbox_wrapper p {
     font-size: 12px;
 }
-.checkbox_wrapper input{
+
+.checkbox_wrapper input {
     width: 18px;
     height: 18px;
     accent-color: rgba(144, 155, 109, 1);
 }
-.modal_cross_div{
+
+.modal_cross_div {
     position: absolute;
     top: -20px;
     right: -20px;
@@ -71,12 +75,60 @@
     height: 50px;
     border-radius: 50%;
     background-color: #fff;
-    box-shadow: 0px 4px 13px 0px rgba(0,0,0,0.25);
+    box-shadow: 0px 4px 13px 0px rgba(0, 0, 0, 0.25);
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
 }
-.modal_cross_div i{
+
+.modal_cross_div i {
     color: var(--text-color);
+}
+
+.sign_up_wrapper {
+    height: 86vh;
+    overflow-y: auto;
+}
+
+.sign_up_wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+.sign_in_wrapper {
+    height: 66vh;
+    overflow-y: auto;
+}
+
+.sign_in_wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+@media(max-width:650px) {
+    .modal_wrapper_div {
+        width: 90%;
+    }
+}
+
+@media(max-width:576px) {
+    .modal_form_grid_wrapper {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width:480px) {
+    .modal_cross_div {
+        position: absolute;
+        top: -15px;
+        right: -14px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #fff;
+        box-shadow: 0px 4px 13px 0px rgba(0, 0, 0, 0.25);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
 }
