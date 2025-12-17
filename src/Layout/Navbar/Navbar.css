@@ -102,8 +102,8 @@
 }
 
 .program_dropdown p {
-    font-size: 11px;
-    font-weight: 500;
+    font-size: 15px;
+    font-weight: 400;
     padding: 5px 10px;
     transition: 0.2s linear all;
 }
