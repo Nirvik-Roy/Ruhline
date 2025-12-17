@@ -17,6 +17,7 @@ import Coaches from './View/Programs/Coaches/Coaches'
 import OneTimeProgram from './View/OneTimeService/OneTimeProgram'
 import AvailableFacilitor from './View/OneTimeService/AvailableFacilitor'
 import ServiceDate from './View/OneTimeService/ServiceDate'
+import ConfirmBooking from './View/OneTimeService/ConfirmBooking/ConfirmBooking'
 function App() {
   return (
     <>
@@ -39,6 +40,7 @@ function App() {
             <Route path='/onetime-service' element={<OneTimeProgram />} />
             <Route path='/available-facilitor' element={<AvailableFacilitor />} />
             <Route path='/service-date' element={<ServiceDate />} />
+            <Route path='/confirm-booking' element={<ConfirmBooking/>}/>
           </Route>
         </Routes>
       </BrowserRouter>

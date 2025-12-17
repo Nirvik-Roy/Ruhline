@@ -118,7 +118,9 @@ const AvailableFacilitor = () => {
                                     <h5>{e.title}</h5>
                                     <h6>{e.occupation}</h6>
                                 </div>
-                                <div className='overlay'></div>
+                                <div className='overlay' style={{
+                                    borderRadius:'15px'
+                                }}></div>
                                 <img style={i == selectedIndex ? {
                                     border: '3px solid rgba(144, 155, 109, 1)',
                                     borderRadius: '15px',

@@ -152,6 +152,8 @@
     line-height: 22px;
 }
 
+.benefits_wrapper img {}
+
 .service_expert_left h3 {
     font-size: 28px;
     font-weight: 600;
@@ -284,6 +286,7 @@
     display: flex;
     justify-content: space-between;
     align-items: start;
+    gap: 20px;
 }
 
 .service_review_img_wrapper {
@@ -316,6 +319,10 @@
     font-weight: 400;
 }
 
+.service_review_img_wrapper p {
+    white-space: nowrap;
+}
+
 .review_text {
     color: var(--text-color);
     font-size: 16px;
@@ -341,7 +348,8 @@
     align-items: center;
     gap: 60px;
 }
-.available_tabs_wrapper p{
+
+.available_tabs_wrapper p {
     position: relative;
 }
 
@@ -405,56 +413,68 @@
     padding: 0 20px;
 
 }
-.service_date_calendar{
+
+.service_date_calendar {
     width: 100% !important;
     border: none !important;
     background-color: transparent !important;
 }
-.service_date_calendar span{
+
+.service_date_calendar span {
     font-size: 18px !important;
 }
-.service_date_calendar abbr{
+
+.service_date_calendar abbr {
     text-decoration: none !important;
     font-weight: 400;
     font-size: 14px;
     color: var(--text-color);
 }
-.service_date_calendar .react-calendar__navigation__arrow{
+
+.service_date_calendar .react-calendar__navigation__arrow {
     border: 2px solid rgba(217, 217, 217, 1);
     border-radius: 50%;
     font-size: 20px;
     margin: 0 10px;
 }
-.service_date_calendar .react-calendar__navigation__arrow:nth-child(1){
+
+.service_date_calendar .react-calendar__navigation__arrow:nth-child(1) {
     display: none;
 }
-.service_date_calendar .react-calendar__navigation__next2-button{
+
+.service_date_calendar .react-calendar__navigation__next2-button {
     display: none;
 }
-.service_date_calendar .react-calendar__tile--active{
-   background-color: var(--primary-color) !important;
-   
+
+.service_date_calendar .react-calendar__tile--active {
+    background-color: var(--primary-color) !important;
+
 }
-.service_date_calendar .react-calendar__tile--active abbr{
+
+.service_date_calendar .react-calendar__tile--active abbr {
     color: #fff;
 }
-.service_date_right{
+
+.service_date_right {
     width: 32%;
     padding: 0 20px;
 }
-.service_date_right h3{
+
+.service_date_right h3 {
     color: var(--text-color);
     font-weight: 600;
     font-size: 15px;
 }
-.time_gird_wrapper{
+
+.time_gird_wrapper {
     width: 72%;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
-    margin-top:15px;
+    margin-top: 15px;
 }
-.time_gird_wrapper p{
+
+.time_gird_wrapper p {
     padding: 10px 10px;
     font-weight: 400;
     color: var(--text-color);
@@ -464,7 +484,8 @@
     white-space: nowrap;
     border-radius: 5px;
 }
-.cancel_select_button_wrapper{
+
+.cancel_select_button_wrapper {
     display: flex;
     justify-content: end;
     align-items: center;
@@ -472,9 +493,453 @@
     width: 100%;
     margin-top: 120px;
 }
-.cancel_select_button_wrapper button{
+
+.cancel_select_button_wrapper button {
     background-color: transparent;
     border: none;
     font-size: 16px;
     font-weight: 500;
+}
+
+.confirm_booking_wrapper {
+    padding: 50px 0 80px 0;
+}
+
+.confirm_booking_content_wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.confirm_left_wrapper {
+    width: 60%;
+}
+
+.confirm_right_wrapper {
+    width: 35%;
+    border: 1px solid rgba(217, 217, 217, 1);
+    border-radius: 15px;
+    padding: 40px 20px 20px 20px;
+    height: fit-content;
+}
+
+.booking_details_wrapper4896 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid rgba(217, 217, 217, 1);
+    border-radius: 8px;
+    padding: 10px 15px;
+}
+
+.booking_details_wrapper4896 i {
+    color: rgba(255, 77, 73, 1);
+    cursor: pointer;
+}
+
+.booking_image_wrapper7893 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.booking_image_wrapper7893 img {
+    width: 60px;
+    border-radius: 10px;
+}
+
+.booking_image_wrapper7893 h4 {
+    font-weight: 400;
+    color: var(--text-color);
+    margin-bottom: 10px;
+}
+
+.booking_image_wrapper7893 h1 {
+    color: var(--text-color);
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.booking_image_wrapper7893 h1 del {
+    color: rgba(70, 35, 7, 0.34);
+}
+
+.confirm_left_wrapper h3 {
+    color: var(--text-color);
+    font-size: 18px;
+    margin-top: 30px;
+    font-weight: 600;
+}
+
+.confirm_right_wrapper h3 {
+    color: var(--text-color);
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.confirm_form_wrapper {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.cofirm_form_grid_wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    row-gap: 30px;
+}
+
+.confirm_form_wrapper input {
+    border: 1px solid rgba(70, 35, 7, 0.42)
+}
+
+.payment_head_wrapper_4566778 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.payment_head_wrapper_4566778 h3 {
+    margin-top: 0px;
+}
+
+.payment_head_wrapper_4566778 svg {
+    transition: 0.2s linear all;
+}
+
+.transform_svg {
+    transform: rotate(180deg);
+    transition: 0.2s linear all;
+}
+
+.coupon_input_wrapper_45 {
+    position: relative;
+    width: 100%;
+    margin-top: 20px;
+    border-bottom: 1px solid rgba(217, 217, 217, 1);
+    padding-bottom: 40px;
+}
+
+.coupon_input_wrapper_45 input {
+    border: 1px solid rgba(70, 35, 7, 0.42);
+    padding-right: 60px;
+}
+
+.coupon_input_wrapper_45 span {
+    color: var(--primary-color);
+    font-size: 16px;
+    font-weight: 700;
+    position: absolute;
+    top: 13px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.order_summary_wrapper562 {
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.order_program_wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.order_program_wrapper h5 {
+    color: var(--text-color);
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.order_summary_wrapper562 {
+    border-bottom: 1px solid rgba(217, 217, 217, 1);
+    padding-bottom: 20px;
+}
+
+.total_wrapper_462 {
+    display: flex;
+    flex-direction: column;
+    row-gap: 25px;
+    margin-top: 20px;
+}
+
+.total_head_Wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.total_head_Wrapper h2 {
+    font-size: 21px;
+    font-weight: 800;
+    color: var(--text-color);
+}
+
+.total_head_Wrapper h1 {
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--text-color);
+}
+
+.total_wrapper_462 p {
+    font-size: 15px;
+    color: var(--text-color);
+    line-height: 22px;
+}
+
+.payment_succesful_modal_wrapper {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(29, 29, 29, 0.49);
+    height: 100vh;
+    z-index: 99;
+}
+
+.payment_succesful_modal {
+    padding: 40px;
+    width: 500px;
+    border-radius: 10px;
+    background-color: #fff;
+    z-index: 999;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.payment_succesful_modal h1 {
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.payment_succesful_modal p {
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.payment_succesful_modal a {
+    color: var(--primary-color);
+}
+
+@media(max-width:999px) {
+    .one_time_service_details_wrapper {
+        display: flex;
+        flex-direction: column;
+        row-gap: 40px;
+    }
+
+    .left_one_time_service {
+        width: 100%;
+    }
+
+    .service_big_img {
+        height: 90vh;
+    }
+
+    .service_small_img {
+        height: 144px;
+    }
+
+    .right_one_time_service_details {
+        width: 100%;
+    }
+
+    .service_expect_wrapper {
+        flex-direction: column-reverse;
+        row-gap: 40px;
+    }
+
+    .service_expert_left {
+        width: 100%;
+    }
+
+    .service_expert_right {
+        width: 50%;
+    }
+
+    .service_review_wrapper {
+        flex-direction: column;
+    }
+
+    .service_review_details {
+        width: 100%;
+    }
+
+    .service_review_img_wrapper {
+        width: 100%;
+    }
+
+    .service_long_img img {
+        height: 60vh;
+        object-fit: cover;
+    }
+
+    .service_content_date {
+        flex-direction: column;
+        row-gap: 30px;
+        padding-bottom: 30px;
+    }
+
+    .service_date_left {
+        width: 100%;
+        padding: 20px;
+        border: 1px solid rgba(217, 217, 217, 1);
+        border-radius: 15px;
+    }
+
+    .service_date_center {
+        width: 100%;
+        padding: 20px;
+        border: 1px solid rgba(217, 217, 217, 1);
+        border-radius: 15px;
+    }
+
+    .service_date_right {
+        width: 100%;
+        padding: 20px;
+        border: 1px solid rgba(217, 217, 217, 1);
+        border-radius: 15px;
+    }
+    .time_gird_wrapper{
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+    .service_date_right p{
+        text-align: center;
+        width: 100%;
+    }
+    .confirm_booking_content_wrapper{
+        flex-direction: column;
+        row-gap: 40px;
+    }
+    .confirm_left_wrapper{
+        width: 100%;
+    }
+    .confirm_right_wrapper{
+        width: 100%;
+    }
+}
+
+@media(max-width:768px) {
+        .time_gird_wrapper{
+        grid-template-columns: 1fr 1fr 1fr ;
+    }
+    .service_content_wrapper {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        row-gap: 40px;
+    }
+
+    .service_reviews_right {
+        width: 100%;
+    }
+
+    .service_reviews_left {
+        width: 100%;
+    }
+
+    .available_tabs_wrapper {
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+
+    .available_tabs_wrapper::-webkit-scrollbar {
+        display: none;
+    }
+
+    .available_tabs_wrapper p {
+        text-wrap: nowrap;
+    }
+}
+
+@media(max-width:699px) {
+    .service_expert_right {
+        width: 100%;
+    }
+
+}
+
+@media(max-width:576px) {
+    .cofirm_form_grid_wrapper{
+        grid-template-columns: 1fr;
+    }
+         .time_gird_wrapper{
+        grid-template-columns: 1fr 1fr  ;
+    }
+    .service_expert_left .faq_accordion_wrapper h3 {
+        font-size: 15px;
+    }
+
+    .service_tabs_wrapper {
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+
+    .service_tabs_wrapper::-webkit-scrollbar {
+        display: none;
+    }
+
+    .service_tabs_wrapper p {
+        white-space: nowrap;
+    }
+    .payment_succesful_modal{
+        width: 95%;
+    }
+}
+
+@media(max-width:480px) {
+    .service_big_img {
+        height: auto;
+    }
+
+    .service_small_img {
+        height: auto;
+    }
+    .service_date_calendar span {
+    font-size: 12px !important;
+}
+.order_program_wrapper h5{
+    font-size: 15px;
+}
+.total_head_Wrapper h2{
+    font-size: 18px;
+}
+.total_head_Wrapper h1 {
+    font-size: 18px;
+}
+.booking_image_wrapper7893 h1 {
+    color: var(--text-color);
+    font-size: 16px;
+    font-weight: 500;
+}
+.booking_image_wrapper7893 h4{
+    font-size: 14px;
+}
+.payment_succesful_modal h1{
+    font-size: 20px;
+}
+.payment_succesful_modal p{
+    font-size: 15px;
+    text-align: center;
+}
+}
+@media(max-width:399px){
+        .time_gird_wrapper{
+        grid-template-columns: 1fr   ;
+    }
+    .time_gird_wrapper p{
+        width: 100%;
+    }
 }
