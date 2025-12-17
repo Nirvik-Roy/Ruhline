@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Navbar.css'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import Button from '../../Components/Button/Button'
 import down from '../../assets/Images/arrow-right.svg'
 import Modal from '../../Components/Modal/Modal'
@@ -15,6 +15,10 @@ const NavbarLinks = () => {
         forGotPassword: false,
         newPassword: false,
     })
+    const navigate = useNavigate()
+    const location = useLocation()
+
+    const [dropdown, setDropdown] = useState(false)
 
     const handleModal = (i) => {
         setmodalToggle({
@@ -132,7 +136,7 @@ const NavbarLinks = () => {
         return (
             <>
                 <div className='sign_up_wrapper' style={{
-                    height:'fit-content'
+                    height: 'fit-content'
                 }}>
                     <h3>Lost your password?</h3>
                     <p>Please enter your username or email address. You will receive a link to create a new password via email.
@@ -155,7 +159,7 @@ const NavbarLinks = () => {
         return (
             <>
                 <div className='sign_up_wrapper' style={{
-                    height:'fit-content'
+                    height: 'fit-content'
                 }}>
                     <h3>Create a new password</h3>
                     <form className='modal_form'>
@@ -211,6 +215,10 @@ const NavbarLinks = () => {
             </>
         )
     }
+
+    useEffect(()=>{
+     setDropdown(false)
+    },[location.pathname])
     return (
         <>
             {modalToggle.signUp && <Modal children={SignUpmodalData()} handleModal={handleModal} />}
@@ -220,7 +228,16 @@ const NavbarLinks = () => {
             <div className='nav_links_wrapper'>
                 <NavLink to={'/'}>Home</NavLink>
                 <NavLink to={'/about'}>About Us</NavLink>
-                <div className={'programs_link'} to={'/programs'}>Programs <img src={down} /></div>
+                <div className={'programs_link'} onClick={(()=>setDropdown(!dropdown))}>
+
+                    Programs <img src={down} />
+                    {dropdown && <div onClick={((e)=>e.stopPropagation())} className='program_dropdown'>
+                        <p onClick={(()=>navigate('/program/yoga'))}>Yoga</p>
+                        <p onClick={(()=>navigate('/program/life-coaching'))}>Life Coaching</p>
+                        <p  onClick={(()=>navigate('/program/coaches'))}>Coaches</p>
+                    </div>}
+
+                </div>
                 <NavLink to={'/articles'}>Articles</NavLink>
                 <NavLink to={'/contact'}>Contact Us</NavLink>
                 <div onClick={(() => handleModal(1))}>
