@@ -3,7 +3,7 @@ import './FAQ.css'
 import FAQAccordion from './FAQAccordion'
 const FAQ = () => {
     const [toggle, setToggle] = useState({
-        toggle1: false,
+        toggle1: true,
         toggle2: false,
     })
 

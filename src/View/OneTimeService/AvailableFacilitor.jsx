@@ -6,8 +6,10 @@ import img3 from '../../assets/Images/b2d6b1b6bfbe8f8f3eb5ef556d41129707d892e6.j
 import img4 from '../../assets/Images/db2d1b05932154b8cb3e995a344ff87f52f104f6.jpg'
 import Button from '../../Components/Button/Button.jsx'
 import Slider from 'react-slick'
+import { useNavigate } from 'react-router-dom'
 const AvailableFacilitor = () => {
-    const [selectedIndex, setselectedIndex] = useState()
+    const [selectedIndex, setselectedIndex] = useState();
+    const navigate = useNavigate()
     const [toggle, setToggle] = useState({
         toggle1: false,
         toggle2: true,
@@ -131,13 +133,15 @@ const AvailableFacilitor = () => {
                             </div>
                         ))}
                     </Slider>
-
-                    <Button children={'Next'} styles={{
+                   <div onClick={(()=>navigate('/service-date'))}>
+     <Button children={'Next'} styles={{
                         marginLeft: 'auto',
                         padding: '8px 40px',
                         marginRight: '30px',
                         marginTop: '80px'
                     }} />
+                   </div>
+               
                 </div>
 
 

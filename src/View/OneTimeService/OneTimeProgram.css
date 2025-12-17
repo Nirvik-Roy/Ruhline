@@ -483,6 +483,7 @@
     font-size: 13px;
     white-space: nowrap;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .cancel_select_button_wrapper {

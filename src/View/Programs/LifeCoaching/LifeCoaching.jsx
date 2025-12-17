@@ -6,7 +6,9 @@ import ProgramSidebar from '../ProgramSidebar'
 import img from '../../../assets/Images/Rectangle 448.png'
 import img1 from '../../../assets/Images/Rectangle 448 (1).png'
 import img2 from '../../../assets/Images/Rectangle 448 (2).png'
+import { useNavigate } from 'react-router-dom'
 const LifeCoaching = () => {
+    const navigate = useNavigate()
     const data = [
         {
             id: 1,
@@ -48,8 +50,7 @@ const LifeCoaching = () => {
                     <div className='program_content_right'>
                         <div className='program_content_grid_Wrapper'>
                             {data.map((e, i) => (
-
-                                <div className='program_card156' key={e.id}>
+                                <div  onClick={(()=>navigate('/onetime-service/1'))} className='program_card156' key={e.id}>
                                     <img src={e.img} />
                                     <h3>{e.title}</h3>
                                 </div>

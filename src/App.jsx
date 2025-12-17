@@ -37,7 +37,7 @@ function App() {
               <Route path='life-coaching' element={<LifeCoaching />} />
               <Route path='coaches' element={<Coaches />} />
             </Route>
-            <Route path='/onetime-service' element={<OneTimeProgram />} />
+            <Route path='/onetime-service/:id' element={<OneTimeProgram />} />
             <Route path='/available-facilitor' element={<AvailableFacilitor />} />
             <Route path='/service-date' element={<ServiceDate />} />
             <Route path='/confirm-booking' element={<ConfirmBooking/>}/>
