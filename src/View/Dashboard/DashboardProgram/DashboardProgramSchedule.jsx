@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import arrow from '../../../assets/Images/Vector (4).svg'
 import img from '../../../assets/Images/Capa_1 (1).svg'
+import FeedBackModal from './FeedBackModal'
 const DashboardProgramSchedule = () => {
+  const [modal, setModal] = useState(false)
   return (
     <>
+      {modal && <FeedBackModal modal={modal} setModal={setModal} />}
       <div className='dashboard_content_wrapper'>
         <div className='schedule_program_head_wrapper'>
           <div className='schedule_program_back_wrapper'>
