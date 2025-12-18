@@ -17,7 +17,7 @@ const HomePrograms = () => {
                     justifyContent:'center'
                 }}>
 
-                <Button styles={{ padding: '15px 20px' }} children={'View All Programs'} />
+                {/* <Button styles={{ padding: '15px 20px' }} children={'View All Programs'} /> */}
                 </div>
             </div>
         </>

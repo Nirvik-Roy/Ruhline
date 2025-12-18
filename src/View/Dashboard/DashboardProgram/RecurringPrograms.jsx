@@ -1,7 +1,9 @@
 import React from 'react'
 import img from '../../../assets/Images/image.png'
+import { useNavigate } from 'react-router-dom'
 
 const RecurringPrograms = () => {
+    const navigate = useNavigate()
     const allProgramsData = [
         {
             id: 4,
@@ -29,7 +31,7 @@ const RecurringPrograms = () => {
         <>
             <div className='all_programs_wrapper'>
                 {allProgramsData.map((e, i) => (
-                    <div className='all_program_card'>
+                    <div className='all_program_card' onClick={(() => navigate('/dashboard/programs/schedule/2'))}>
                         <p style={e.status === 'Pending' ? {
                             background: 'rgba(255, 77, 73, 1)'
                         } : {

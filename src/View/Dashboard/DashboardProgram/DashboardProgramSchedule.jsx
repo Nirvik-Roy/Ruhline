@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import arrow from '../../../assets/Images/Vector (4).svg'
 import img from '../../../assets/Images/Capa_1 (1).svg'
 import FeedBackModal from './FeedBackModal'
 const DashboardProgramSchedule = () => {
-  const [modal, setModal] = useState(false)
+  const [modal, setModal] = useState(false);
+  const { id } = useParams()
+  const navigate = useNavigate()
   return (
     <>
       {modal && <FeedBackModal modal={modal} setModal={setModal} />}
@@ -28,7 +30,7 @@ const DashboardProgramSchedule = () => {
               <img src={img} />
               <h6>Session 1 </h6>
               <span>25/05/2025: 09:30 PM</span>
-              <small>Reschedule</small>
+              <small onClick={(() => navigate('/dashboard/programs/session/2'))}>Reschedule</small>
             </div>
 
 
@@ -37,7 +39,7 @@ const DashboardProgramSchedule = () => {
               <p>Pending</p>
               <img src={img} />
               <h6>Session 2 </h6>
-              <small>Select Time slots</small>
+              <small onClick={(() => navigate('/dashboard/programs/session/2'))}>Select Time slots</small>
             </div>
 
 
@@ -46,7 +48,7 @@ const DashboardProgramSchedule = () => {
               <p>Pending</p>
               <img src={img} />
               <h6>Session 3 </h6>
-              <small>Select Time slots</small>
+              <small onClick={(() => navigate('/dashboard/programs/session/2'))}>Select Time slots</small>
             </div>
 
 
@@ -54,15 +56,20 @@ const DashboardProgramSchedule = () => {
               <p>Pending</p>
               <img src={img} />
               <h6>Session 4 </h6>
-              <small>Select Time slots</small>
+              <small onClick={(() => navigate('/dashboard/programs/session/2'))}>Select Time slots</small>
             </div>
 
           </div>
         </div>
 
         <div className='cancel_program_wrapper'>
-          <button>Cancel Program</button>
-          <button>Raise a dispute</button>
+          {id != 2 ? <>
+            <button className='cancel_btn'>Cancel Program</button>
+            <button className='dispute_btn'>Raise a dispute</button>
+          </> : 
+          <>          
+           <button onClick={(()=>setModal(true))} className='dispute_btn'>Write a review</button>
+          </>}
         </div>
       </div>
     </>

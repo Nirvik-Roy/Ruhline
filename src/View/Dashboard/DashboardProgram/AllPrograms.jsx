@@ -1,8 +1,10 @@
 import React from 'react'
 import './DashboardProgram.css'
 import img from '../../../assets/Images/image.png'
+import { useNavigate } from 'react-router-dom'
 
 const AllPrograms = () => {
+    const navigate = useNavigate()
     const allProgramsData = [
         {
             id: 1,
@@ -51,7 +53,7 @@ const AllPrograms = () => {
         <>
             <div className='all_programs_wrapper'>
                 {allProgramsData.map((e, i) => (
-                    <div className='all_program_card'>
+                    <div onClick={(() => navigate(e.status === 'Pending' ? '/dashboard/programs/schedule/1'  : '/dashboard/programs/schedule/2'))} className='all_program_card'>
                         <p style={e.status === 'Pending' ? {
                             background: 'rgba(255, 77, 73, 1)'
                         } : {
