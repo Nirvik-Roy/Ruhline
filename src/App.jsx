@@ -18,6 +18,8 @@ import OneTimeProgram from './View/OneTimeService/OneTimeProgram'
 import AvailableFacilitor from './View/OneTimeService/AvailableFacilitor'
 import ServiceDate from './View/OneTimeService/ServiceDate'
 import ConfirmBooking from './View/OneTimeService/ConfirmBooking/ConfirmBooking'
+import DashboardLayout from './View/Dashboard/DashboardLayout'
+import Dashboard from './View/Dashboard/DashboardLayout'
 function App() {
   return (
     <>
@@ -40,7 +42,12 @@ function App() {
             <Route path='/onetime-service/:id' element={<OneTimeProgram />} />
             <Route path='/available-facilitor' element={<AvailableFacilitor />} />
             <Route path='/service-date' element={<ServiceDate />} />
-            <Route path='/confirm-booking' element={<ConfirmBooking/>}/>
+            <Route path='/confirm-booking' element={<ConfirmBooking />} />
+
+            {/* Dashboard Routes */}
+            <Route path='/dashboard' element={<DashboardLayout />}>
+              <Route element={<Dashboard />} />
+            </Route>
           </Route>
         </Routes>
       </BrowserRouter>
