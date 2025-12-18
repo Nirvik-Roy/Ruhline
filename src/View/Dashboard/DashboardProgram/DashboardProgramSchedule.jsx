@@ -26,37 +26,50 @@ const DashboardProgramSchedule = () => {
           <h3>Program Schedule</h3>
           <div className='program_schedule_grid_wrapper'>
             <div className='all_program_card'>
-              <p className='booked_class'>Booked</p>
+              {id == 1 ? <p className='booked_class'>Booked</p> : <p style={{
+                background: 'rgba(36, 159, 50, 1)'
+              }}>Completed</p>}
               <img src={img} />
               <h6>Session 1 </h6>
               <span>25/05/2025: 09:30 PM</span>
-              <small onClick={(() => navigate('/dashboard/programs/session/2'))}>Reschedule</small>
+              {id == 1 && <small onClick={(() => navigate('/dashboard/programs/session/2'))}>Reschedule</small>}
             </div>
 
 
 
             <div className='all_program_card'>
-              <p>Pending</p>
+              {id == 1 ? <p>Pending</p> : <p style={{
+                background: 'rgba(36, 159, 50, 1)'
+              }}>Completed</p>}
               <img src={img} />
               <h6>Session 2 </h6>
-              <small onClick={(() => navigate('/dashboard/programs/session/2'))}>Select Time slots</small>
+              {id == 2 && <span>25/05/2025: 09:30 PM</span>}
+              {id == 1 && <small onClick={(() => navigate('/dashboard/programs/session/2'))}>Select Time slots</small>}
             </div>
 
 
 
             <div className='all_program_card'>
-              <p>Pending</p>
+              {id == 1 ? <p>Pending</p> : <p style={{
+                background: 'rgba(36, 159, 50, 1)'
+              }}>Completed</p>}
               <img src={img} />
               <h6>Session 3 </h6>
-              <small onClick={(() => navigate('/dashboard/programs/session/2'))}>Select Time slots</small>
+              {id == 2 && <span>25/05/2025: 09:30 PM</span>}
+
+              {id == 1 && <small onClick={(() => navigate('/dashboard/programs/session/2'))}>Select Time slots</small>}
             </div>
 
 
             <div className='all_program_card'>
-              <p>Pending</p>
+              {id == 1 ? <p>Pending</p> : <p style={{
+                background: 'rgba(36, 159, 50, 1)'
+              }}>Completed</p>}
               <img src={img} />
               <h6>Session 4 </h6>
-              <small onClick={(() => navigate('/dashboard/programs/session/2'))}>Select Time slots</small>
+              {id ==2 && <span>25/05/2025: 09:30 PM</span>}
+
+              {id == 1 && <small onClick={(() => navigate('/dashboard/programs/session/2'))}>Select Time slots</small>}
             </div>
 
           </div>
@@ -66,10 +79,10 @@ const DashboardProgramSchedule = () => {
           {id != 2 ? <>
             <button className='cancel_btn'>Cancel Program</button>
             <button className='dispute_btn'>Raise a dispute</button>
-          </> : 
-          <>          
-           <button onClick={(()=>setModal(true))} className='dispute_btn'>Write a review</button>
-          </>}
+          </> :
+            <>
+              <button onClick={(() => setModal(true))} className='dispute_btn'>Write a review</button>
+            </>}
         </div>
       </div>
     </>

@@ -120,7 +120,7 @@
 
 .program_schedule_grid_wrapper {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 20px;
     border-bottom: 1px solid rgba(217, 217, 217, 1);
     padding-bottom: 40px;
@@ -259,7 +259,7 @@
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     z-index: 999;
     width: 500px;
     display: flex;
@@ -268,23 +268,28 @@
     justify-content: center;
     align-items: center;
 }
-.ratings{
+
+.ratings {
     margin-inline: auto;
     width: fit-content !important;
 }
-.feed_back_modal h1{
+
+.feed_back_modal h1 {
     color: var(--text-color);
     margin-bottom: 10px;
 }
-.feed_back_modal p{
+
+.feed_back_modal p {
     font-weight: 600;
     font-size: 15px;
     margin-bottom: 10px;
 }
-.ratings{
+
+.ratings {
     margin-bottom: 10px;
 }
-.feed_back_modal i{
+
+.feed_back_modal i {
     position: absolute;
     top: 20px;
     right: 20px;
