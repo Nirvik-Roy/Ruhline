@@ -1,5 +1,10 @@
-.dashboard_layout_wrapper{
+.dashboard_layout_wrapper {
+    padding: 50px 0 70px 0;
+}
+
+.dashboard_layout_content_wrapper {
     display: flex;
     justify-content: space-between;
     gap: 20px;
 }
+

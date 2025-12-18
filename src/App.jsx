@@ -19,7 +19,10 @@ import AvailableFacilitor from './View/OneTimeService/AvailableFacilitor'
 import ServiceDate from './View/OneTimeService/ServiceDate'
 import ConfirmBooking from './View/OneTimeService/ConfirmBooking/ConfirmBooking'
 import DashboardLayout from './View/Dashboard/DashboardLayout'
-import Dashboard from './View/Dashboard/DashboardLayout'
+import Dashboard from './View/Dashboard/Dashboard/Dashboard.jsx'
+import DashboardProgram from './View/Dashboard/DashboardProgram/DashboardProgram.jsx'
+import DashboardProgramSchedule from './View/Dashboard/DashboardProgram/DashboardProgramSchedule.jsx'
+import DashboardSession from './View/Dashboard/DashboardProgram/DashboardSession.jsx'
 function App() {
   return (
     <>
@@ -46,7 +49,10 @@ function App() {
 
             {/* Dashboard Routes */}
             <Route path='/dashboard' element={<DashboardLayout />}>
-              <Route element={<Dashboard />} />
+              <Route path='' element={<Dashboard />} />
+              <Route path='programs' element={<DashboardProgram />} ></Route>
+              <Route path='programs/schedule/:id' element={<DashboardProgramSchedule />} />
+              <Route path='programs/session/:id' element={<DashboardSession />} />
             </Route>
           </Route>
         </Routes>

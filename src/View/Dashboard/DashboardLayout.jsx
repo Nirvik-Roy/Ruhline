@@ -8,9 +8,12 @@ const Dashboard = () => {
     <>
       <BannerLayout title={'Dashboard'} />
       <div className='dashboard_layout_wrapper'>
-        <DashboardSidebar />
-        <Outlet />
+        <div className='all_Container dashboard_layout_content_wrapper'>
+          <DashboardSidebar />
+          <Outlet />
+        </div>
       </div>
+
     </>
   )
 }
