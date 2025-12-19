@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import arrow from '../../../assets/Images/Vector (4).svg'
 import download from '../../../assets/Images/Layer_1 (1).svg'
 import video from '../../../assets/Images/Group 1597882967.png'
@@ -16,6 +16,7 @@ import WheelLife from './WheelLife/WheelLife'
 import GoalSetting from './GoalSetting'
 import FindMotivation from './FindMotivation'
 import WhoAmI from './WhoAmI'
+import WaitingModal from './WaitingModal'
 const LiveProgram = () => {
   const [id, setId] = useState();
   const [completed, setCompleted] = useState([])
@@ -45,6 +46,9 @@ const LiveProgram = () => {
     })
     setId(id)
   }
+
+  const [modalIsopen, setmodalIsopen] = useState(false);
+
   const programModules = [
     {
       id: 1,
@@ -84,6 +88,7 @@ const LiveProgram = () => {
   ]
   return (
     <>
+      {modalIsopen && <WaitingModal setmodalIsopen={setmodalIsopen} />}
       <div className='dashboard_content_wrapper'>
         <div className='live_program_head_wrapper'>
           <div className='live_program_head'>
@@ -112,7 +117,9 @@ const LiveProgram = () => {
             {programModules.map((e, i) => (
               <div style={e.id === id ? {
                 border: '2px solid var(--primary-color)'
-              } : {}} onClick={(() => tabsFunction(e.id))} className='program_tab'>
+              } : {}} onClick={(() => {
+                tabsFunction(e.id)
+              })} className='program_tab'>
                 <img src={e.icon} />
                 <p>{e.title}</p>
                 {completed.includes(e.id) && <span style={{
