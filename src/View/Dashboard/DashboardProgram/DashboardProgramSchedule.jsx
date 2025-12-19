@@ -33,6 +33,8 @@ const DashboardProgramSchedule = () => {
               <h6>Session 1 </h6>
               <span>25/05/2025: 09:30 PM</span>
               {id == 1 && <small onClick={(() => navigate('/dashboard/programs/session/2'))}>Reschedule</small>}
+              {id == 1 && <small onClick={(() => navigate('/dashboard/programs/live-programs/1'))}>Join Now</small>}
+
             </div>
 
 
@@ -67,7 +69,7 @@ const DashboardProgramSchedule = () => {
               }}>Completed</p>}
               <img src={img} />
               <h6>Session 4 </h6>
-              {id ==2 && <span>25/05/2025: 09:30 PM</span>}
+              {id == 2 && <span>25/05/2025: 09:30 PM</span>}
 
               {id == 1 && <small onClick={(() => navigate('/dashboard/programs/session/2'))}>Select Time slots</small>}
             </div>
