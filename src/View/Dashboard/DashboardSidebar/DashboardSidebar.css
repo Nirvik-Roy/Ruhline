@@ -14,7 +14,7 @@
     justify-content: flex-start;
     align-items: center;
     gap: 10px;
-  padding: 10px 0px 10px 20px;
+    padding: 10px 0px 10px 20px;
     text-decoration: none;
     border-radius: 5px;
 }
@@ -38,9 +38,8 @@
     fill: rgba(144, 155, 109, 1);
 }
 
-@media(max-width:999px){
-    .dashboard_sidebar{
-        position: absolute;
-        left: -100%;
-    }
+@media(max-width:799px) {
+  .dashboard_sidebar{
+    width: 100%;
+  }
 }

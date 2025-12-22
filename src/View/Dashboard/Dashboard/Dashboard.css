@@ -71,9 +71,20 @@
     }
 }
 
-@media(max-width:999px) {
+@media(max-width:799px) {
     .dashboard_content_wrapper {
         width: 100%;
         margin-top: 10px;
     }
+}
+
+@media(max-width:699px) {
+    .dashboard_card img {
+        width: 50px;
+    }
+    .dashboard_card h4 {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text-color);
+}
 }

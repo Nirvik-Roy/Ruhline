@@ -4,6 +4,8 @@
     align-items: center;
     gap: 30px;
     margin-top: 40px;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 .dasboard_programs_tabs_wrapper p {
@@ -13,6 +15,7 @@
     position: relative;
     cursor: pointer;
     transition: 0.2s linear all;
+    text-wrap: nowrap;
 }
 
 .dasboard_programs_tabs_wrapper .active {
@@ -86,6 +89,8 @@
     border-bottom: 1px solid rgba(217, 217, 217, 1);
     padding-bottom: 20px;
     padding-left: 10px;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .schedule_program_back_wrapper {
@@ -111,6 +116,7 @@
 .schedule_program_head_wrapper a {
     color: var(--primary-color);
     font-weight: 600;
+    margin-left: auto;
 }
 
 .program_schdule_wrapper {
@@ -227,7 +233,8 @@
 }
 
 .dashboard_session_right .time_gird_wrapper {
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    width: 90%;
 }
 
 .dashboard_session_right h4 {
@@ -300,6 +307,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-left: 15px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid rgba(217, 217, 217, 1);
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 .live_program_head {
@@ -325,6 +337,7 @@
     justify-content: flex-start;
     align-items: center;
     gap: 15px;
+    margin-left: auto;
 }
 
 .download_resources_head h3 {
@@ -334,11 +347,7 @@
     margin-bottom: 0px;
 }
 
-.live_program_head_wrapper {
-    padding-left: 15px;
-    padding-bottom: 30px;
-    border-bottom: 1px solid rgba(217, 217, 217, 1);
-}
+
 
 .live_program_video_wrapper {
     width: 100%;
@@ -556,7 +565,7 @@
 
 .wheel_life_grid_wrapper {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
     column-gap: 20px;
     row-gap: 20px;
 }
@@ -581,6 +590,7 @@
     justify-content: flex-start;
     align-items: center;
     gap: 10px;
+    flex-wrap: wrap;
 }
 
 .rate_life_elements_wrapper p {
@@ -623,6 +633,7 @@
     justify-content: flex-start;
     align-items: center;
     gap: 10px;
+    overflow-x: auto;
 }
 
 .motivation_input_wrapper h1 {
@@ -646,7 +657,8 @@
     justify-content: center;
     align-items: center;
 }
-.waiting_modal_div{
+
+.waiting_modal_div {
     padding: 40px;
     width: 500px;
     border-radius: 10px;
@@ -655,20 +667,103 @@
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     display: flex;
     flex-direction: column;
     row-gap: 15px;
     justify-content: center;
     align-items: center;
 }
-.waiting_modal_div h1{
+
+.waiting_modal_div h1 {
     color: var(--text-color);
     font-weight: 600;
 }
-.waiting_modal_div i{
+
+.waiting_modal_div i {
     position: absolute;
     top: 20px;
     right: 20px;
     cursor: pointer;
+}
+
+@media(max-width:1099px) {
+    .dashboard_session_wrapper {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .dashboard_session_left {
+        width: 100%;
+        border-bottom: 1px solid rgba(217, 217, 217, 1);
+        border-right: 0;
+        padding-bottom: 20px;
+        border-radius: 0;
+        border-top: 0;
+        border-left: 0;
+    }
+
+    .dashboard_session_right {
+        width: 100%;
+    }
+
+    .dashboard_session_right .time_gird_wrapper {
+        width: 100%;
+    }
+}
+@media(max-width:768px){
+    .wheel_life_grid_wrapper .star-svg{
+    width: 30px !important;
+    height: 30px !important;
+}
+}
+
+@media(max-width:480px) {
+    .program_schdule_wrapper {
+        padding-left: 0px;
+    }
+
+    .schedule_program_head h3 {
+        margin-bottom: 5px;
+        font-size: 15px;
+    }
+
+    .schedule_program_head p {
+        font-size: 11px;
+    }
+
+    .schedule_program_head_wrapper a {
+        font-size: 11px;
+    }
+
+    .dashboard_session_wrapper {
+        padding: 15px;
+    }
+    .download_resources_head h3 {
+        font-size: 15px;
+    }
+    .live_program_head h3 {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 0px;
+}
+.wheel_life_grid_wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    column-gap: 20px;
+    row-gap: 20px;
+}
+.wheel_life_grid_wrapper .star-svg{
+    width: 20px !important;
+    height: 20px !important;
+}
+.motivation_input_wrapper input{
+    width: 30px !important;
+    min-width: 30px !important;
+    font-size: 11px;
+}
+.motivation_input_wrapper h1{
+    font-size: 15px;
+}
 }

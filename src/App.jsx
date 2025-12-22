@@ -24,6 +24,7 @@ import DashboardProgram from './View/Dashboard/DashboardProgram/DashboardProgram
 import DashboardProgramSchedule from './View/Dashboard/DashboardProgram/DashboardProgramSchedule.jsx'
 import DashboardSession from './View/Dashboard/DashboardProgram/DashboardSession.jsx'
 import LiveProgram from './View/Dashboard/DashboardProgram/LiveProgram.jsx'
+import DashboardCalendar from './View/Dashboard/DashboardCalendar/DashboardCalendar.jsx'
 function App() {
   return (
     <>
@@ -55,6 +56,7 @@ function App() {
               <Route path='programs/schedule/:id' element={<DashboardProgramSchedule />} />
               <Route path='programs/session/:id' element={<DashboardSession />} />
               <Route path='programs/live-programs/:id' element={<LiveProgram/>}/>
+              <Route path='calendar' element={<DashboardCalendar/>}/>
             </Route>
           </Route>
         </Routes>

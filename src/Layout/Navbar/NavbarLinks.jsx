@@ -8,6 +8,7 @@ import Input from '../../Components/Inputs/Input'
 import eye from '../../assets/Images/Union (3).png'
 import tick from '../../assets/Images/Union (4).png'
 import GoogleAppleLogin from '../../Components/GoogleAppleLogin/GoogleAppleLogin'
+import ResponsiveNavbar from './ResponsiveNavbar'
 const NavbarLinks = () => {
     const [modalToggle, setmodalToggle] = useState({
         signUp: false,
@@ -15,6 +16,7 @@ const NavbarLinks = () => {
         forGotPassword: false,
         newPassword: false,
     })
+    const [showNavbar, setShowNavbar] = useState(false)
     const navigate = useNavigate()
     const location = useLocation()
 
@@ -216,9 +218,9 @@ const NavbarLinks = () => {
         )
     }
 
-    useEffect(()=>{
-     setDropdown(false)
-    },[location.pathname])
+    useEffect(() => {
+        setDropdown(false)
+    }, [location.pathname])
     return (
         <>
             {modalToggle.signUp && <Modal children={SignUpmodalData()} handleModal={handleModal} />}
@@ -228,13 +230,13 @@ const NavbarLinks = () => {
             <div className='nav_links_wrapper'>
                 <NavLink to={'/'}>Home</NavLink>
                 <NavLink to={'/about'}>About Us</NavLink>
-                <div className={'programs_link'} onClick={(()=>setDropdown(!dropdown))}>
+                <div className={'programs_link'} onClick={(() => setDropdown(!dropdown))}>
 
                     Programs <img src={down} />
-                    {dropdown && <div onClick={((e)=>e.stopPropagation())} className='program_dropdown'>
-                        <p onClick={(()=>navigate('/program/yoga'))}>Yoga</p>
-                        <p onClick={(()=>navigate('/program/life-coaching'))}>Life Coaching</p>
-                        <p  onClick={(()=>navigate('/program/coaches'))}>Coaches</p>
+                    {dropdown && <div onClick={((e) => e.stopPropagation())} className='program_dropdown'>
+                        <p onClick={(() => navigate('/program/yoga'))}>Yoga</p>
+                        <p onClick={(() => navigate('/program/life-coaching'))}>Life Coaching</p>
+                        <p onClick={(() => navigate('/program/coaches'))}>Coaches</p>
                     </div>}
 
                 </div>
@@ -243,8 +245,10 @@ const NavbarLinks = () => {
                 <div onClick={(() => handleModal(1))}>
                     <Button children={'Login/Sign Up'} />
                 </div>
-                <i class="fa-solid fa-bars"></i>
+                <i onClick={(() => { setShowNavbar(!showNavbar) })} class="fa-solid fa-bars"></i>
             </div>
+
+            {showNavbar && <ResponsiveNavbar handleModal={handleModal} setShowNavbar={setShowNavbar} />}
         </>
     )
 }

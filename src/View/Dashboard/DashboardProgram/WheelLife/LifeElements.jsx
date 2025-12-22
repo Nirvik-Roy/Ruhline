@@ -18,17 +18,21 @@ const LifeElements = ({toggleFunction}) => {
                             <div style={{
                                 display: 'flex',
                                 justifyContent: 'flex-start',
-                                alignItems: 'center'
+                                alignItems: 'center',
+                                overflowX:'auto',
+                                overflowY:'hidden'
                             }}>
                                 <Rating
+                                 
                                     className='ratings'
                                     size={25}
                                     fillColor="gold"
 
                                 />
                                 <Rating
+                                  
                                     className='ratings'
-                                    size={25}
+                                      size={25}
                                     fillColor="gold"
                                 />
                             </div>
