@@ -6,9 +6,10 @@ import arrow from '../../../assets/Images/Vector (4).svg'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
 import Button from '../../../Components/Button/Button'
+import { useNavigate } from 'react-router-dom'
 const DashboardSession = () => {
     const [active, setActive] = useState()
-
+   const navigate = useNavigate()
     return (
         <>
             <div className='dashboard_content_wrapper'>
@@ -72,7 +73,7 @@ const DashboardSession = () => {
                         <div className='cancel_select_button_wrapper'>
 
                             <button>Cancel</button>
-                            <div onClick={(() => navigate('/confirm-booking'))}>
+                            <div onClick={(() => navigate('/dashboard/programs/schedule/1'))}>
 
                                 <Button children={'Select'} />
                             </div>

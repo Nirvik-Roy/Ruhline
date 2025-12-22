@@ -37,3 +37,10 @@
 .dashboard_sidebar .active svg {
     fill: rgba(144, 155, 109, 1);
 }
+
+@media(max-width:999px){
+    .dashboard_sidebar{
+        position: absolute;
+        left: -100%;
+    }
+}

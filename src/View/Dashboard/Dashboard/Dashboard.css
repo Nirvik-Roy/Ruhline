@@ -2,6 +2,7 @@
     width: calc(100% - 290px);
     margin-top: 10px;
 }
+
 .dashboard_content_wrapper h3 {
     color: var(--text-color);
     font-weight: 600;
@@ -11,7 +12,7 @@
 
 .dashboard_cards_wrapper {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
     width: 80%;
     margin-bottom: 30px;
@@ -45,7 +46,7 @@
 .quick_actions_buttons_wrapper {
     width: 80%;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 15px;
 }
 
@@ -58,4 +59,21 @@
     border-radius: 5px;
     background-color: transparent;
     text-align: center;
+}
+
+@media(max-width:1099px) {
+    .dashboard_cards_wrapper {
+        width: 100%;
+    }
+
+    .quick_actions_buttons_wrapper {
+        width: 100%;
+    }
+}
+
+@media(max-width:999px) {
+    .dashboard_content_wrapper {
+        width: 100%;
+        margin-top: 10px;
+    }
 }
