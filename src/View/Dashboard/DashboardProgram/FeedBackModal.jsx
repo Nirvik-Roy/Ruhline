@@ -2,12 +2,17 @@ import React from 'react'
 import { Rating } from 'react-simple-star-rating'
 import Textarea from '../../../Components/Inputs/Textarea'
 import Button from '../../../Components/Button/Button'
-const FeedBackModal = ({ setModal }) => {
+const FeedBackModal = ({ setModal, setfeedBackModal }) => {
     return (
         <>
             <div className='modal_wrapper'></div>
             <div className='feed_back_modal'>
-                <i class="fa-solid fa-xmark" onClick={(() => setModal(false))}></i>
+                <i class="fa-solid fa-xmark" onClick={(() => {
+                    if (setfeedBackModal) {
+                        setfeedBackModal(false)
+                    }
+                    setModal(false)
+                })}></i>
                 <h1>We’d love your feedback</h1>
                 <p>Based on your experience, how easy or difficult was it to interact with our company</p>
                 <Rating
