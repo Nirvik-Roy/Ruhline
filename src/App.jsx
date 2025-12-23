@@ -26,6 +26,12 @@ import DashboardSession from './View/Dashboard/DashboardProgram/DashboardSession
 import LiveProgram from './View/Dashboard/DashboardProgram/LiveProgram.jsx'
 import DashboardCalendar from './View/Dashboard/DashboardCalendar/DashboardCalendar.jsx'
 import CalendarDatesPrograms from './View/Dashboard/DashboardCalendar/CalendarDatesPrograms.jsx'
+import DashboardSupport from './View/Dashboard/DashboardSupport/DashboardSupport.jsx'
+import AddNewTicket from './View/Dashboard/DashboardSupport/AddNewTicket.jsx'
+import ViewTicket from './View/Dashboard/DashboardSupport/ViewTicket.jsx'
+import DashboardProfile from './View/Dashboard/DashboardProfile/DashboardProfile.jsx'
+import EditProfile from './View/Dashboard/DashboardProfile/EditProfile.jsx'
+import ProfilePassword from './View/Dashboard/DashboardProfile/ProfilePassword.jsx'
 function App() {
   return (
     <>
@@ -59,6 +65,12 @@ function App() {
               <Route path='programs/live-programs/:id' element={<LiveProgram/>}/>
               <Route path='calendar' element={<DashboardCalendar/>}/>
               <Route path='calendar/programs/:id' element={<CalendarDatesPrograms/>}/>
+              <Route path='support' element={<DashboardSupport/>}/>
+              <Route path='support/add-ticket/:id' element={<AddNewTicket/>} />
+              <Route path='support/view-ticket/:id' element={<ViewTicket/>}/>
+              <Route path='profile/' element={<DashboardProfile/>}/>
+              <Route path='edit-profile/:id' element={<EditProfile/>}/>
+              <Route path='change-password/:id' element={<ProfilePassword/>}/>
             </Route>
           </Route>
         </Routes>

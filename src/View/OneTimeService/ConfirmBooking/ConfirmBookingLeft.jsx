@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import img from '../../../assets/Images/Frame 20.png'
 import Input from '../../../Components/Inputs/Input'
 import arrow from '../../../assets/Images/Vector75.svg'
+import countryData from '../../../../countries.json'
 const ConfirmBookingLeft = () => {
   const [paymentDropdown, setPaymentDropdown] = useState(true)
   return (
@@ -25,7 +26,19 @@ const ConfirmBookingLeft = () => {
             <Input label={'First Name'} type={'text'} required={true} placeholder={'Bidisha'} />
             <Input label={'Last Name'} type={'text'} required={true} placeholder={'Bhowmick'} />
             <Input label={'Email'} type={'email'} required={true} placeholder={'bidishab@gmail.com'} />
-            <Input label={'Phone'} required={true} placeholder={'Bhowmick'} />
+            <div className='input_form confirm_input_form'>
+              <label>Phone <span>*</span></label>
+              <div className='phone_input_Wrapper656'>
+                <select>
+                  {countryData.map((e, i) => (
+                    <option key={e.code}>{e.code}</option>
+                  ))}
+
+                </select>
+                <input placeholder='1234567890'/>
+              </div>
+
+            </div>
           </div>
 
 

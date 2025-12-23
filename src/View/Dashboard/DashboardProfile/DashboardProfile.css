@@ -1,0 +1,26 @@
+.profile_dashboard_Wrapper {
+    border: 1px solid rgba(217, 217, 217, 1);
+    border-radius: 15px;
+    padding: 20px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 25px;
+}
+
+.profile_dashboard_Wrapper img {
+    width: 250px;
+    border-radius: 15px;
+    object-fit: cover;
+}
+.profile_details_wrapper{
+    width: calc(100% - 250px);
+}
+
+.profile_details_wrapper h1 {
+    font-size: 22px;
+    border-bottom: 1px solid rgba(70, 35, 7, 0.42);
+    padding-bottom: 20px;
+}
+.profile_dashboard_Wrapper .ticket_details_list_wrapper{
+    padding-left: 0px ;
+}
