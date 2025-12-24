@@ -68,7 +68,7 @@ const SingleArticle = () => {
                     <div className='single_article_right'>
                         <div className='single_article_search_input'>
                             <img src={searchIcon} />
-                            <input />
+                            <input placeholder='Search' />
                         </div>
 
                         <h4>Recents Posts</h4>

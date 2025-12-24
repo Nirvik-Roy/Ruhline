@@ -5,7 +5,9 @@ import img1 from '../../assets/Images/image (28).png'
 import img2 from '../../assets/Images/image (30).png'
 import img3 from '../../assets/Images/image (31).png'
 import Pagination from '../../Components/Pagination/Pagination'
+import { useNavigate } from 'react-router-dom'
 const Articles = () => {
+    const navigate = useNavigate()
     const SliderData = [
         {
             category: 'Yoga',
@@ -59,7 +61,7 @@ const Articles = () => {
                 <div className='articles_content_wrapper all_Container'>
                     {SliderData.map((e, i) => (
 
-                        <div className='home_blog_slide'>
+                        <div onClick={(()=>navigate('/single-articles/2'))} className='home_blog_slide'>
                             <img src={e.img} />
                             <div className='category_wrapper'>
                                 <p>{e.category}</p>

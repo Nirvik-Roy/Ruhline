@@ -5,7 +5,9 @@ import img3 from '../../../assets/Images/image (3).svg'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from 'react-slick'
+import { useNavigate } from 'react-router-dom';
 const HomeBlogSlider = () => {
+    const navigate = useNavigate()
     var settings = {
         dots: false,
         infinite: true,
@@ -92,7 +94,7 @@ const HomeBlogSlider = () => {
 
                     {SliderData.map((e, i) => (
 
-                        <div className='home_blog_slide'>
+                        <div onClick={(()=>navigate('/single-articles/2'))} className='home_blog_slide'>
                             <img src={e.img} />
                             <div className='category_wrapper'>
                                 <p>{e.category}</p>
