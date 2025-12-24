@@ -32,6 +32,7 @@ import ViewTicket from './View/Dashboard/DashboardSupport/ViewTicket.jsx'
 import DashboardProfile from './View/Dashboard/DashboardProfile/DashboardProfile.jsx'
 import EditProfile from './View/Dashboard/DashboardProfile/EditProfile.jsx'
 import ProfilePassword from './View/Dashboard/DashboardProfile/ProfilePassword.jsx'
+import SingleArticle from './View/Articles/SingleArticle.jsx'
 function App() {
   return (
     <>
@@ -46,6 +47,7 @@ function App() {
             <Route path='/terms-conditions' element={<TermsConditions />} />
             <Route path='/refund-policy' element={<RefundPolicy />} />
             <Route path='/articles' element={<Articles />} />
+            <Route path='/single-articles/:id' element={<SingleArticle/>}/>
             <Route path='/program'>
               <Route path='yoga' element={<Yoga />} />
               <Route path='life-coaching' element={<LifeCoaching />} />

@@ -6,14 +6,17 @@
 }
 
 .claendar_wrappr553 {
-    height: 100vh;
-    overflow: auto;
+    /* height: 100vh; */
+    width: 100% !important;
+    overflow-x: auto;
     padding: 20px 0;
 }
-
-.fc-scroller {
-    overflow: hidden hidden !important;
+.fc .fc-view-harness{
+    overflow-x: auto;
 }
+/* .fc-scroller {
+    overflow: hidden hidden !important;
+} */
 
 .fc .fc-daygrid-day-frame {
     display: flex;
@@ -121,6 +124,8 @@
     padding: 20px;
     border: 1px solid rgba(217, 217, 217, 1);
     border-radius: 15px;
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
 .calendar_program_details_wrapper {
@@ -168,6 +173,7 @@
     align-items: center;
     gap: 15px;
     width: 240px;
+    margin-left: auto;
 }
 
 .calendar_program_links h6 {
@@ -197,4 +203,24 @@
     font-weight: 500;
     color: var(--primary-color);
     display: block;
+}
+@media(max-width:1099px){
+    .calendar_program_details_wrapper{
+        order: -1;
+    }
+}
+@media(max-width:576px){
+    .fc .fc-toolbar-title{
+        font-size: 20px;
+    }
+    .fc .fc-button-primary{
+        width: 30px !important;
+        height: 30px !important;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .claendar_wrappr553{
+        padding: 0 0;
+    }
 }

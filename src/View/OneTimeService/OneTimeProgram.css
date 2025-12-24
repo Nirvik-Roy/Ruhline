@@ -519,6 +519,7 @@
     border: none;
     border-right: 2px solid #000;
     width: fit-content;
+    height: fit-content;
 }
 
 .phone_input_Wrapper656 {
@@ -529,6 +530,9 @@
     border-radius: 10px;
     outline: none;
     font-size: 14px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 .edit_profile_input_wrapper select {
