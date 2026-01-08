@@ -33,6 +33,8 @@ import DashboardProfile from './View/Dashboard/DashboardProfile/DashboardProfile
 import EditProfile from './View/Dashboard/DashboardProfile/EditProfile.jsx'
 import ProfilePassword from './View/Dashboard/DashboardProfile/ProfilePassword.jsx'
 import SingleArticle from './View/Articles/SingleArticle.jsx'
+import DashboardPurchaseHistory from './View/Dashboard/DashboardPurchaseHistory/DashboardPurchaseHistory.jsx'
+import SinglePurchaseHistory from './View/Dashboard/DashboardPurchaseHistory/SinglePurchaseHistory.jsx'
 function App() {
   return (
     <>
@@ -73,6 +75,8 @@ function App() {
               <Route path='profile/' element={<DashboardProfile/>}/>
               <Route path='edit-profile/:id' element={<EditProfile/>}/>
               <Route path='change-password/:id' element={<ProfilePassword/>}/>
+              <Route path='purchase' element={<DashboardPurchaseHistory/>}/>
+              <Route path='purchase/single-purchase/:id' element={<SinglePurchaseHistory/>}/>
             </Route>
           </Route>
         </Routes>

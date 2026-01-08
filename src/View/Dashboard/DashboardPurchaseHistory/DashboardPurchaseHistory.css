@@ -1,0 +1,120 @@
+.single_purchase_details_wrapper {
+    border: 1px solid rgba(217, 217, 217, 1);
+    padding: 25px;
+    border-radius: 10px;
+}
+
+.single_purchase_head_details_wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}
+
+.single_purchase_head_wrappper {
+    background-color: rgba(206, 115, 86, 0.15);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.single_purchase_address {
+    width: 260px;
+}
+
+.single_purchase_address p {
+    color: var(--text-color);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 22px;
+}
+
+.single_id_wrapper h1 {
+    font-size: 25px;
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.single_id_wrapper {
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+}
+
+.single_id_wrapper p {
+    color: var(--text-color);
+    font-size: 14px;
+}
+
+.single_purchase_invoice_wrapper {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    margin-top: 20px;
+}
+
+.single_purchase_invoice_wrapper h3 {
+    color: var(--text-color);
+    font-size: 15px;
+    margin-bottom: 0px;
+}
+
+.single_purchase_invoice_wrapper ul li {
+    list-style: none;
+    font-size: 14px;
+}
+
+.table_container {
+    overflow-x: auto;
+    margin: 30px 0;
+}
+
+.total_table_order_wrapper {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 500px;
+    box-shadow: 0px 0px 5px #ccc;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
+.total_table_order_wrapper th {
+    text-align: center;
+    padding: 20px 20px;
+    background-color: #8f9b6d;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.total_table_order_wrapper th:first-child {
+    border-radius: 10px 0 0 0;
+}
+
+.total_table_order_wrapper th:last-child {
+    border-radius: 0px 10px 0 0;
+}
+
+.total_table_order_wrapper td {
+    text-align: left;
+    padding: 10px 20px;
+    color: var(--text-color);
+    font-size: 14px;
+}
+.total_wrapper_46662{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 50px 0 20px 0; 
+    border-top: 1px solid rgba(38, 43, 67, 0.12);
+    padding-top: 10px;
+    padding-bottom: 30px;
+    border-bottom: 2px dashed rgba(38, 43, 67, 0.12);
+}
+.total_wrapper_46662 p{
+    font-size: 15px;
+    color: var(--text-color);
+}
+.total_wrapper_46662 h4{
+    color: var(--text-color);
+    font-size: 16px;
+    font-weight: 600;
+}

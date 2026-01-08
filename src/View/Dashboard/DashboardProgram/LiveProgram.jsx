@@ -17,6 +17,7 @@ import GoalSetting from './GoalSetting'
 import FindMotivation from './FindMotivation'
 import WhoAmI from './WhoAmI'
 import WaitingModal from './WaitingModal'
+import HabitTracker from './HabitTracker'
 const LiveProgram = () => {
   const [id, setId] = useState();
   const [completed, setCompleted] = useState([])
@@ -142,6 +143,7 @@ const LiveProgram = () => {
           {tabs.goal && <GoalSetting completedFunction={completedFunction} />}
           {tabs.motivation && <FindMotivation completedFunction={completedFunction} />}
           {tabs.whoAmI && <WhoAmI completedFunction={completedFunction} />}
+          {tabs.habit && <HabitTracker completedFunction={completedFunction} />}
         </div>
       </div>
     </>

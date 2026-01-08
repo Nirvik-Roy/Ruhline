@@ -1,11 +1,11 @@
+import './DashboardPurchaseHistory.css'
 import React, { useState } from 'react'
-import './DashboardSupport.css'
 import Button from '../../../Components/Button/Button'
 import Pagination from '../../../Components/Pagination/Pagination'
 import { useNavigate } from 'react-router-dom'
-const DashboardSupport = () => {
+const DashboardPurchaseHistory = () => {
     const [dropdown, setdropdown] = useState(false);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const dashboardSupport = [
         {
             id: '#3492',
@@ -39,26 +39,18 @@ const DashboardSupport = () => {
                             <h3 style={{
                                 marginBottom: '0px',
                                 fontSize: '25px'
-                            }}>Support</h3>
-
+                            }}>Purchase History</h3>
                         </div>
-                        <div onClick={(() => navigate('/dashboard/support/add-ticket/2'))}>
-                            <Button children={'Add New Ticket'} />
-                        </div>
-
                     </div>
                 </div>
-
-
                 <div className='dashboard_support_list_Wrapper'>
                     {dashboardSupport.map((e, i) => (
                         <div className='dashboard_support'>
                             <div className='dashboard_support_header'>
                                 <h2>{e.id} <span>Apr 5, 2025, 10:07 AM</span></h2>
-                                <div className='dashboard_support_status'>
-                                    <p style={{
-                                        background: `${e.color}`
-                                    }}>{e.status}</p>
+                                <div className='dashboard_support_status' style={{
+                                    position: 'relative'
+                                }}>
                                     <i onClick={(() => {
                                         if (dropdown === e.id) {
                                             setdropdown('')
@@ -67,9 +59,10 @@ const DashboardSupport = () => {
                                         }
                                     })} class="fa-solid fa-ellipsis"></i>
 
-                                    {dropdown === e.id && <div className='dashboard_actions_wrapper'>
-                                        <p onClick={(() => navigate(`/dashboard/support/view-ticket/2`))}>View</p>
-                                        <p>Edit</p>
+                                    {dropdown === e.id && <div className='dashboard_actions_wrapper' style={{
+                                        bottom: '-80px'
+                                    }}>
+                                        <p onClick={(() => navigate(`/dashboard/purchase/single-purchase/2`))}>View</p>
                                         <p>Delete</p>
                                     </div>}
                                 </div>
@@ -83,11 +76,10 @@ const DashboardSupport = () => {
 
                 </div>
 
-
-                <Pagination />
+                <Pagination/>
             </div>
         </>
     )
 }
 
-export default DashboardSupport
+export default DashboardPurchaseHistory
