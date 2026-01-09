@@ -1,0 +1,135 @@
+.add_note_wrapper {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(224, 173, 34, 1);
+    box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.17);
+    position: absolute;
+    right: 50px;
+    bottom: -30%;
+    z-index: 99;
+}
+
+.note_list_wrapper {
+    width: 330px;
+    padding: 10px;
+    box-shadow: -8px 4px 14px 0px rgba(0, 0, 0, 0.04);
+    border-radius: 10px;
+    background-color: #fff;
+    position: absolute;
+    right: 90px;
+    bottom: -20%;
+}
+
+.note_list_head_wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+}
+
+.note_list_head_wrapper i {
+    color: var(--primary-color);
+    cursor: pointer;
+
+}
+
+.note_list_head_wrapper h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+.note_list {
+    height: 50vh;
+    overflow-y: auto;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+
+.add_note_form_wrapper {
+    height: 50vh;
+    overflow-y: auto;
+    padding: 10px 10px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+}
+
+.add_note_form_head {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+}
+
+.add_note_form_head p {
+    color: var(--text-color);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.add_note_form_head i {
+    font-size: 13px;
+}
+
+.note_head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.note_head p {
+    font-weight: 400;
+    color: var(--text-color);
+    font-size: 11px
+}
+
+.note_edit_delete_icon_wrapper {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+}
+
+.note13 {
+    background-color: rgba(144, 155, 109, 0.15);
+    border-radius: 15px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+
+.note13 h3 {
+    font-size: 12px;
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.add_note_button_wrapper {
+    display: flex;
+    justify-content: end;
+    padding: 10px 0 5px 0;
+    border-top: 1px solid rgba(217, 217, 217, 0.2)
+}
+
+.add_note_form_wrapper label {
+    font-size: 13px;
+}
+
+.add_note_form_wrapper input {
+    font-size: 12px;
+    height: 41px;
+}
+
+.add_note_form_wrapper textarea {
+    height: 180px;
+    font-size: 12px;
+}

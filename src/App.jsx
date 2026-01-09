@@ -35,6 +35,7 @@ import ProfilePassword from './View/Dashboard/DashboardProfile/ProfilePassword.j
 import SingleArticle from './View/Articles/SingleArticle.jsx'
 import DashboardPurchaseHistory from './View/Dashboard/DashboardPurchaseHistory/DashboardPurchaseHistory.jsx'
 import SinglePurchaseHistory from './View/Dashboard/DashboardPurchaseHistory/SinglePurchaseHistory.jsx'
+import AddNote from './Components/AddNote/AddNote.jsx'
 function App() {
   return (
     <>

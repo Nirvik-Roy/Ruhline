@@ -2,10 +2,12 @@ import React from 'react'
 import './Dashboard.css'
 import img from '../../../assets/Images/Group.png'
 import { useNavigate } from 'react-router-dom'
+import AddNote from '../../../Components/AddNote/AddNote'
 const Dashboard = () => {
     const navigate = useNavigate()
     return (
         <>
+        <AddNote/>
             <div className='dashboard_content_wrapper'>
                 <h3>Dashboard</h3>
                 <div className='dashboard_cards_wrapper'>
