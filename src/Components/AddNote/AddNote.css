@@ -100,7 +100,7 @@
 
 .note13 {
     background-color: rgba(144, 155, 109, 0.15);
-    border-radius: 15px;
+    border-radius: 8px;
     padding: 10px;
     display: flex;
     flex-direction: column;
