@@ -24,7 +24,13 @@
     min-width: 90%;
     margin-inline: auto;
 }
-
+@media(min-width:1567px){
+    .all_Container{
+        width: 1334px;
+        min-width: 1334px;
+        margin-inline: auto;
+    }
+}
 @media(max-width:480px) {
     .all_heading {
         font-size: 17px
