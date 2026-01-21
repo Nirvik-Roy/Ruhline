@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import './App.css'
 import MainLayout from './MainLayout/MainLayout'
 import HomePage from './View/HomePage/HomePage'
