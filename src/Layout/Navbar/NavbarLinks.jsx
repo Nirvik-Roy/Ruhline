@@ -20,6 +20,9 @@ const NavbarLinks = () => {
     const [emailErrormessage, setEmailerrorMessage] = useState('');
     const [passwordMsg, setPasswordMsg] = useState("");
     const [confirmPasswordMsg, setConfirmPasswordMsg] = useState("");
+    const [type, setType] = useState(false);
+    const [type2, setType2] = useState(false);
+    const [type3, setType3] = useState(false);
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const ValidateEmail = (email) => {
         if (!email) {
@@ -183,14 +186,22 @@ const NavbarLinks = () => {
                             <label>Password <span>*</span></label>
                             <input value={registerFormData.password} name='password' onChange={handleChange} style={{
                                 padding: '0 40px 0 15px '
-                            }} type='password' placeholder='*********' />
-                            <img style={{
+                            }} type={type ? 'text' : 'password'} placeholder='*********' />
+                            {type && <i style={{
                                 position: 'absolute',
                                 top: '47px',
                                 right: '10px',
                                 width: '20px',
                                 cursor: 'pointer'
-                            }} src={eye} />
+                            }} class="fa-regular fa-eye" onClick={(() => setType(!type))}></i>}
+
+                            {!type && <i style={{
+                                position: 'absolute',
+                                top: '47px',
+                                right: '10px',
+                                width: '20px',
+                                cursor: 'pointer'
+                            }} class="fa-regular fa-eye-slash" onClick={(() => setType(!type))}></i>}
 
                             {/* <img style={{
                                 position: 'absolute',
@@ -217,14 +228,22 @@ const NavbarLinks = () => {
                             <label>Confirm Password <span>*</span></label>
                             <input value={registerFormData.password_confirmation} name='password_confirmation' onChange={handleChange} style={{
                                 padding: '0 40px 0 15px '
-                            }} type='password' placeholder='*********' />
-                            <img style={{
+                            }} type={type2 ? 'text' : 'password'} placeholder='*********' />
+                            {type2 && <i style={{
                                 position: 'absolute',
                                 top: '47px',
                                 right: '10px',
                                 width: '20px',
                                 cursor: 'pointer'
-                            }} src={eye} />
+                            }} class="fa-regular fa-eye" onClick={(() => setType2(!type2))}></i>}
+
+                            {!type2 && <i style={{
+                                position: 'absolute',
+                                top: '47px',
+                                right: '10px',
+                                width: '20px',
+                                cursor: 'pointer'
+                            }} class="fa-regular fa-eye-slash" onClick={(() => setType2(!type2))}></i>}
 
                             <small style={{
                                 marginLeft: '15px',
@@ -281,14 +300,22 @@ const NavbarLinks = () => {
                             <label>Password <span>*</span></label>
                             <input onChange={handleLoginChange} name={'password'} value={loginFormData.password} style={{
                                 padding: '0 40px 0 15px '
-                            }} type='password' placeholder='*********' />
-                            <img style={{
+                            }} type={type3 ? 'text' : 'password'} placeholder='*********' />
+                            {type3 && <i style={{
                                 position: 'absolute',
                                 top: '47px',
                                 right: '10px',
                                 width: '20px',
                                 cursor: 'pointer'
-                            }} src={eye} />
+                            }} class="fa-regular fa-eye" onClick={(() => setType3(!type3))}></i>}
+
+                            {!type3 && <i style={{
+                                position: 'absolute',
+                                top: '47px',
+                                right: '10px',
+                                width: '20px',
+                                cursor: 'pointer'
+                            }} class="fa-regular fa-eye-slash" onClick={(() => setType3(!type3))}></i>}
 
                             <small onClick={(() => handleModal(3))} style={{
                                 fontSize: '11px',

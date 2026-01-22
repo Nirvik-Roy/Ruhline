@@ -108,7 +108,9 @@ const DashboardSidebar = () => {
 
 
 
-                <div onClick={(()=>dispatch(AuthlogOut()))}  className={'sidebar_link'}>
+                <div  style={{
+                    cursor:'pointer'
+                }} onClick={(()=>dispatch(AuthlogOut()))}  className={'sidebar_link'}>
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_2779_11437)">
                             <path d="M17.8745 14.796C18.7273 13.3988 19.2188 11.7568 19.2188 10C19.2188 4.90863 15.0914 0.78125 10 0.78125C4.90863 0.78125 0.78125 4.90863 0.78125 10C0.78125 15.0914 4.90863 19.2188 10 19.2188C11.9207 19.2188 13.7042 18.6314 15.1807 17.6264" stroke="white" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
