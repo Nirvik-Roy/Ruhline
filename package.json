@@ -17,13 +17,17 @@
     "@fullcalendar/resource": "^6.1.19",
     "@fullcalendar/resource-timegrid": "^6.1.19",
     "@fullcalendar/timegrid": "^6.1.19",
+    "@reduxjs/toolkit": "^2.11.2",
     "axios": "^1.13.2",
     "react": "^19.2.0",
     "react-calendar": "^6.0.0",
     "react-dom": "^19.2.0",
+    "react-hot-toast": "^2.6.0",
+    "react-redux": "^9.2.0",
     "react-router-dom": "^7.10.1",
     "react-simple-star-rating": "^5.1.7",
     "react-slick": "^0.30.3",
+    "redux-thunk": "^3.1.0",
     "slick-carousel": "^1.8.1"
   },
   "devDependencies": {

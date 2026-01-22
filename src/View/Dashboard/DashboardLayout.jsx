@@ -1,9 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './DashboardLayout.css'
 import BannerLayout from '../BannerLayout/BannerLayout'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import DashboardSidebar from './DashboardSidebar/DashboardSidebar'
+import { useSelector } from 'react-redux'
 const Dashboard = () => {
+  const { isLogin } = useSelector(state => state.auth);
+  const navigate = useNavigate()
+  useEffect(() => {
+    if (!isLogin) {
+      navigate('/')
+    }
+  }, [isLogin])
   return (
     <>
       <BannerLayout title={'Dashboard'} />

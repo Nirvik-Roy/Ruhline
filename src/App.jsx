@@ -35,48 +35,57 @@ import SingleArticle from './View/Articles/SingleArticle.jsx'
 import DashboardPurchaseHistory from './View/Dashboard/DashboardPurchaseHistory/DashboardPurchaseHistory.jsx'
 import SinglePurchaseHistory from './View/Dashboard/DashboardPurchaseHistory/SinglePurchaseHistory.jsx'
 import AddNote from './Components/AddNote/AddNote.jsx'
+import { Toaster } from 'react-hot-toast'
+import PrivateRoute from './PrivateRoute/PrivateRoute.jsx'
+import PublicRoute from './PublicRoute/PublicRoute.jsx'
 function App() {
   return (
     <>
       <BrowserRouter>
+        <Toaster position='top-right' />
         <ScrollToTop />
         <Routes>
           <Route path='' element={<MainLayout />}>
-            <Route path='/' element={<HomePage />} />
-            <Route path='/about' element={<AboutUs />} />
-            <Route path='/contact' element={<ContactUs />} />
-            <Route path='/privacy-policy' element={<PrivacyPolicy />} />
-            <Route path='/terms-conditions' element={<TermsConditions />} />
-            <Route path='/refund-policy' element={<RefundPolicy />} />
-            <Route path='/articles' element={<Articles />} />
-            <Route path='/single-articles/:id' element={<SingleArticle/>}/>
-            <Route path='/program'>
-              <Route path='yoga' element={<Yoga />} />
-              <Route path='life-coaching' element={<LifeCoaching />} />
-              <Route path='coaches' element={<Coaches />} />
+            <Route path='' element={<PublicRoute />}>
+              <Route path='/verify-email' element={<HomePage />} />
+              <Route path='/' element={<HomePage />} />
+              <Route path='/about' element={<AboutUs />} />
+              <Route path='/contact' element={<ContactUs />} />
+              <Route path='/privacy-policy' element={<PrivacyPolicy />} />
+              <Route path='/terms-conditions' element={<TermsConditions />} />
+              <Route path='/refund-policy' element={<RefundPolicy />} />
+              <Route path='/articles' element={<Articles />} />
+              <Route path='/single-articles/:id' element={<SingleArticle />} />
+              <Route path='/program'>
+                <Route path='yoga' element={<Yoga />} />
+                <Route path='life-coaching' element={<LifeCoaching />} />
+                <Route path='coaches' element={<Coaches />} />
+              </Route>
+              <Route path='/onetime-service/:id' element={<OneTimeProgram />} />
+              <Route path='/available-facilitor' element={<AvailableFacilitor />} />
+              <Route path='/service-date' element={<ServiceDate />} />
+              <Route path='/confirm-booking' element={<ConfirmBooking />} />
             </Route>
-            <Route path='/onetime-service/:id' element={<OneTimeProgram />} />
-            <Route path='/available-facilitor' element={<AvailableFacilitor />} />
-            <Route path='/service-date' element={<ServiceDate />} />
-            <Route path='/confirm-booking' element={<ConfirmBooking />} />
 
             {/* Dashboard Routes */}
-            <Route path='/dashboard' element={<DashboardLayout />}>
-              <Route path='' element={<Dashboard />} />
-              <Route path='programs' element={<DashboardProgram />} ></Route>
-              <Route path='programs/schedule/:id' element={<DashboardProgramSchedule />} />
-              <Route path='programs/session/:id' element={<DashboardSession />} />
-              <Route path='programs/live-programs/:id' element={<LiveProgram/>}/>
-              <Route path='calendar' element={<DashboardCalendar/>}/>
-              <Route path='calendar/programs/:id' element={<CalendarDatesPrograms/>}/>
-              <Route path='support' element={<DashboardSupport/>}/>
-              <Route path='support/add-ticket/:id' element={<AddNewTicket/>} />
-              <Route path='support/view-ticket/:id' element={<ViewTicket/>}/>
-              <Route path='profile/' element={<DashboardProfile/>}/>
-              <Route path='edit-profile/:id' element={<EditProfile/>}/>
-              <Route path='change-password/:id' element={<ProfilePassword/>}/>
-              <Route path='purchase' element={<DashboardPurchaseHistory/>}/>
-              <Route path='purchase/single-purchase/:id' element={<SinglePurchaseHistory/>}/>
+            <Route path='/dashboard' element={<PrivateRoute />}>
+              <Route path='/dashboard' element={<DashboardLayout />}>
+                <Route path='' element={<Dashboard />} />
+                <Route path='programs' element={<DashboardProgram />} ></Route>
+                <Route path='programs/schedule/:id' element={<DashboardProgramSchedule />} />
+                <Route path='programs/session/:id' element={<DashboardSession />} />
+                <Route path='programs/live-programs/:id' element={<LiveProgram />} />
+                <Route path='calendar' element={<DashboardCalendar />} />
+                <Route path='calendar/programs/:id' element={<CalendarDatesPrograms />} />
+                <Route path='support' element={<DashboardSupport />} />
+                <Route path='support/add-ticket/:id' element={<AddNewTicket />} />
+                <Route path='support/view-ticket/:id' element={<ViewTicket />} />
+                <Route path='profile/' element={<DashboardProfile />} />
+                <Route path='edit-profile/:id' element={<EditProfile />} />
+                <Route path='change-password' element={<ProfilePassword />} />
+                <Route path='purchase' element={<DashboardPurchaseHistory />} />
+                <Route path='purchase/single-purchase/:id' element={<SinglePurchaseHistory />} />
+              </Route>
             </Route>
           </Route>
         </Routes>

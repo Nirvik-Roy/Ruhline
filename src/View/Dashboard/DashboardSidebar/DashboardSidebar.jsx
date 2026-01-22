@@ -2,7 +2,10 @@ import React from 'react'
 import './DashboardSidebar.css'
 import dashboardlogo from '../../../assets/Images/dashboard.svg'
 import { NavLink } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { AuthlogOut } from '../../../../Store/Slices/Loginslice/AuthSlice'
 const DashboardSidebar = () => {
+    const dispatch = useDispatch()
     return (
         <>
             <div className='dashboard_sidebar'>
@@ -105,11 +108,11 @@ const DashboardSidebar = () => {
 
 
 
-                <NavLink to={'/dashboard/calendar44'} className={'sidebar_link'}>
+                <div onClick={(()=>dispatch(AuthlogOut()))}  className={'sidebar_link'}>
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_2779_11437)">
                             <path d="M17.8745 14.796C18.7273 13.3988 19.2188 11.7568 19.2188 10C19.2188 4.90863 15.0914 0.78125 10 0.78125C4.90863 0.78125 0.78125 4.90863 0.78125 10C0.78125 15.0914 4.90863 19.2188 10 19.2188C11.9207 19.2188 13.7042 18.6314 15.1807 17.6264" stroke="white" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M6.80875 6.18066C5.6882 7.10258 4.97363 8.49996 4.97363 10.0643C4.97363 12.8404 7.2241 15.0909 10.0002 15.0909C12.7764 15.0909 15.0268 12.8404 15.0268 10.0643C15.0268 8.49996 14.3123 7.10258 13.1917 6.18066" stroke="white" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M6.80875 6.180div66C5.6882 7.10258 4.97363 8.49996 4.97363 10.0643C4.97363 12.8404 7.2241 15.0909 10.0002 15.0909C12.7764 15.0909 15.0268 12.8404 15.0268 10.0643C15.0268 8.49996 14.3123 7.10258 13.1917 6.18066" stroke="white" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
                             <path d="M10.0002 4.9082V7.84203" stroke="white" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
                         </g>
                         <defs>
@@ -118,7 +121,7 @@ const DashboardSidebar = () => {
                             </clipPath>
                         </defs>
                     </svg>              <p>Logout</p>
-                </NavLink>
+                </div>
 
 
 
