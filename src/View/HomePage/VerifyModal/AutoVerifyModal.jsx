@@ -11,7 +11,7 @@ const AutoVerifyModal = () => {
                 <p style={{
                     marginTop: '-15px'
                 }}>Plz be patient...</p>
-                <p>Don't get the link? <Link>Click to resend email</Link></p>
+                {/* <p>Don't get the link? <Link>Click to resend email</Link></p> */}
             </div>
         </>
     )

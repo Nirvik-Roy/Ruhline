@@ -10,7 +10,7 @@ const VerifiedModal = ({handleModal,setverifiedModal}) => {
                 <h1>Email Verified Succes</h1>
                 <p style={{
                     marginTop: '-15px'
-                }}>Plz check your inbox and verify your email</p>
+                }}>You can now procced to login</p>
                 <p><Link onClick={(()=>{handleModal(2)})}>Click to login</Link></p>
             </div>
         </>

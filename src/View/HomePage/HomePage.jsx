@@ -33,10 +33,10 @@ const HomePage = () => {
     }
   }, [location, dispatch]);
 
-  const isChecking = localStorage.getItem('isChecking');
+  // const isChecking = localStorage.getItem('isChecking');
   return (
     <>
-      {( isChecking && !isVerified && !isVerifyChecking) && <VerifyModal />}
+      {( isRegistration && !isVerified && !isVerifyChecking) && <VerifyModal />}
       {(isVerifyChecking && !isVerified) && <AutoVerifyModal />}
       <HomeBanner />
       <HomeAbout />

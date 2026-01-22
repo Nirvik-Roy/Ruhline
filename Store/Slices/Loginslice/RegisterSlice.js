@@ -11,7 +11,7 @@ export const Authregister = createAsyncThunk('Authregister', async (profileData,
         if (res?.data.success) {
             // toast.success('User Profile Added Successfully');
             localStorage.setItem('userEmail',`${res.data?.data?.user?.email}`);
-            localStorage.setItem('isChecking',true)
+            // localStorage.setItem('isChecking',true)
             return res.data.data;
         }
     } catch (err) {
