@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
-import eye from '../../../assets/Images/Union (3).png'
-import tick from '../../../assets/Images/Union (4).png'
 import Button from '../../../Components/Button/Button'
 import { Changeuserpassword } from '../../../utils/user'
 import toast from 'react-hot-toast'
 import { useDispatch } from 'react-redux'
 import { AuthlogOut } from '../../../../Store/Slices/Loginslice/AuthSlice'
+import Loaders from '../../../Components/Loaders/Loaders'
 const ProfilePassword = () => {
     const dispatch = useDispatch();
-    const [passwordErrors, setpasswordErrors] = useState()
+    const [passwordErrors, setpasswordErrors] = useState();
+    const [passwordLoading, setpasswordLoading] = useState(false)
     const [formData, setformData] = useState({
         current_password: '',
         password: '',
@@ -36,6 +36,7 @@ const ProfilePassword = () => {
     };
     const handleSubmitPassword = async () => {
         if (formData.current_password != '' && formData.password != '' && formData.password_confirmation != "") {
+            setpasswordLoading(true)
             try {
                 const result = await Changeuserpassword(formData);
                 setpasswordErrors(result)
@@ -44,9 +45,12 @@ const ProfilePassword = () => {
                 }
             } catch (err) {
                 console.log(err)
+            } finally {
+                setpasswordLoading(false)
             }
         } else {
             toast.error('Plz enter all the fields')
+            setpasswordLoading(false)
         }
 
     }
@@ -72,6 +76,7 @@ const ProfilePassword = () => {
     }
     return (
         <>
+            {passwordLoading && <Loaders />}
             <div className='dashboard_content_wrapper'>
                 <div className='schedule_program_head_wrapper' style={{
                     marginBottom: '30px'
@@ -194,7 +199,7 @@ const ProfilePassword = () => {
                             marginTop: '0px',
                             color: 'rgba(255, 0, 0, 1)',
                             cursor: 'pointer'
-                        }}>{ passwordErrors?.password_confirmation ? passwordErrors?.password_confirmation[0] : confirmPasswordMsg}</small>
+                        }}>{passwordErrors?.password_confirmation ? passwordErrors?.password_confirmation[0] : confirmPasswordMsg}</small>
                     </div>
 
                     <div className='cancel_select_button_wrapper' style={{

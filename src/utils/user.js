@@ -19,3 +19,18 @@ export const Changeuserpassword = async (data) => {
         }
     }
 }
+
+export const userForgetPassword = async (data) => {
+    if ( data) {
+        try {
+            const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/auth/customer/forgot-password`, data);
+            if (res.data.success == true) {
+                toast.success(res.data?.message || 'Password Update Successfully');
+                return res.data.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err.response.data.errors
+        }
+    }
+}

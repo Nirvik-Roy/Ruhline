@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom'
 import tick from '../../../assets/Images/Layer_1.png'
 import { useDispatch } from 'react-redux'
 import { Resendmail } from '../../../../Store/Slices/Loginslice/ResendMail'
-const VerifyModal = () => {
+const VerifyModal = ({ setverificationModal }) => {
     const dispatch = useDispatch();
     const resendEmail = () => {
         const userEmail = localStorage.getItem('userEmail');
         if (userEmail) {
             const data = {
-                email:userEmail
+                email: userEmail
             }
             dispatch(Resendmail(data))
         }
@@ -18,6 +18,11 @@ const VerifyModal = () => {
         <>
             <div className='payment_succesful_modal_wrapper'></div>
             <div className='payment_succesful_modal'>
+                <i class="fa-solid fa-xmark" onClick={(() => setverificationModal(false))} style={{
+                    position: 'absolute',
+                    top: '10px',
+                    right: '10px'
+                }}></i>
                 <img src={tick} />
                 <h1>Registration Successful</h1>
                 <p style={{

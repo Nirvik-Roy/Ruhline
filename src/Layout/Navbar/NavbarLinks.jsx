@@ -13,8 +13,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Authregister } from '../../../Store/Slices/Loginslice/RegisterSlice'
 import VerifiedModal from '../../View/HomePage/VerifyModal/VerifiedModal.jsx'
 import { Auth, AuthlogOut, verifyToken } from '../../../Store/Slices/Loginslice/AuthSlice.js'
+import Loaders from '../../Components/Loaders/Loaders.jsx'
+import toast from 'react-hot-toast'
+import { userForgetPassword } from '../../utils/user.js'
 const NavbarLinks = () => {
-    const { isVerified, errors, isLogin, loginerrors } = useSelector(state => state.auth);
+    const { isVerified, errors, isLogin, loginerrors, isLoading, isRegistration } = useSelector(state => state.auth);
     const navigate = useNavigate()
     const dispatch = useDispatch();
     const [emailErrormessage, setEmailerrorMessage] = useState('');
@@ -23,6 +26,8 @@ const NavbarLinks = () => {
     const [type, setType] = useState(false);
     const [type2, setType2] = useState(false);
     const [type3, setType3] = useState(false);
+    const [forgotPasswordLoading, setforgotPasswordLoading] = useState(false);
+    const [forgotPasswordErrors, setforgotPasswordErrorrs] = useState()
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const ValidateEmail = (email) => {
         if (!email) {
@@ -49,7 +54,7 @@ const NavbarLinks = () => {
         return "";
     };
 
-    const [verifiedModal, setverifiedModal] = useState(true)
+    const [verifiedModal, setverifiedModal] = useState(false)
     const [modalToggle, setmodalToggle] = useState({
         signUp: false,
         signIn: false,
@@ -143,8 +148,54 @@ const NavbarLinks = () => {
     }
 
     const handleSubmit = async () => {
-        dispatch(Authregister(registerFormData))
+        dispatch(Authregister(registerFormData));
     }
+
+    useEffect(() => {
+        if (isRegistration) {
+            handleModal(0)
+        }
+    }, [isRegistration])
+
+
+    const [email, setEmail] = useState({
+        email: ''
+    })
+
+    const forgotPasswordHandle = (e) => {
+        const { name, value } = e.target;
+        if (name === 'email') {
+            ValidateEmail(value)
+        }
+        setEmail({
+            ...email,
+            [name]: value
+        })
+    }
+
+    const forGotPasswordSubmit = async () => {
+        if (email != '') {
+            setforgotPasswordLoading(true)
+            try {
+                const result = await userForgetPassword(email)
+                setforgotPasswordErrorrs(result)
+            } catch (err) {
+                console.log(err)
+            } finally {
+                setforgotPasswordLoading(false)
+            }
+        } else {
+            toast.error("plz fill the required filed..")
+            setforgotPasswordLoading(false)
+        }
+    }
+
+    useEffect(() => {
+        setConfirmPasswordMsg("");
+        setEmailerrorMessage("");
+        setPasswordMsg("")
+    }, [modalToggle])
+
 
     const SignUpmodalData = () => {
         return (
@@ -178,7 +229,7 @@ const NavbarLinks = () => {
                                 marginLeft: '15px',
                                 fontSize: '11px',
                                 color: 'red'
-                            }}>{errors.email && errors.email[0]}</small>
+                            }}>{errors.email ? errors.email[0] : emailErrormessage}</small>
                         </div>
                         <div className='input_form' style={{
                             position: 'relative'
@@ -336,6 +387,7 @@ const NavbarLinks = () => {
 
 
     const ForgotPassword = () => {
+
         return (
             <>
                 <div className='sign_up_wrapper' style={{
@@ -347,10 +399,17 @@ const NavbarLinks = () => {
                         </span></p>
 
                     <form className='modal_form'>
-                        <Input type={'text'} label={'Email Address'} required={true} placeholder={'example@mail.com'} />
-                        <div onClick={(() => handleModal(4))}>
+                        <Input name={'email'} onChange={forgotPasswordHandle} value={email.email} type={'text'} label={'Email Address'} required={true} placeholder={'example@mail.com'} />
+                        <small style={{
+                            marginLeft: '15px',
+                            fontSize: '11px',
+                            color: 'red',
+                            marginTop:'-10px'
+                        }}>{forgotPasswordErrors?.email ? forgotPasswordErrors.email[0] : emailErrormessage}</small>
+                        <div onClick={(() => {
+                            forGotPasswordSubmit()
+                        })}>
                             <Button children={'Send Link'} styles={{ width: '100%', padding: '17px 0px' }} />
-
                         </div>
                     </form>
                 </div>
@@ -422,13 +481,23 @@ const NavbarLinks = () => {
     useEffect(() => {
         setDropdown(false)
     }, [location.pathname])
+
+    useEffect(() => {
+        if (isVerified) {
+            setverifiedModal(true)
+        } else {
+            setverifiedModal(false)
+        }
+    }, [isVerified])
+
     return (
         <>
+            {(isLoading || forgotPasswordLoading) && <Loaders />}
             {modalToggle.signUp && <Modal children={SignUpmodalData()} handleModal={handleModal} />}
             {modalToggle.signIn && <Modal children={SignInmodalData()} handleModal={handleModal} />}
             {modalToggle.forGotPassword && <Modal children={ForgotPassword()} handleModal={handleModal} />}
             {modalToggle.newPassword && <Modal children={newPassword()} handleModal={handleModal} />}
-            {(isVerified && !modalToggle.signIn) && <VerifiedModal setverifiedModal={setverifiedModal} handleModal={handleModal} />}
+            {verifiedModal && <VerifiedModal setverifiedModal={setverifiedModal} handleModal={handleModal} />}
             <div className='nav_links_wrapper'>
                 <NavLink to={'/'}>Home</NavLink>
                 <NavLink to={'/about'}>About Us</NavLink>

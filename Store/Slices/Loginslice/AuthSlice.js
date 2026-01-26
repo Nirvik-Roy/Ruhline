@@ -103,16 +103,17 @@ const AuthSlice = createSlice({
 
         builder.addCase(Autoverify.pending, (state) => {
             state.isVerified = false,
-                state.isVerifyChecking = true
+            state.isVerifyChecking = true
         })
 
         builder.addCase(Autoverify.fulfilled, (state) => {
             state.isVerified = true,
-                state.isVerifyChecking = false
+            state.isVerifyChecking = false,
+            state.isRegistration = false
         })
         builder.addCase(Autoverify.rejected, (state) => {
             state.isVerified = false,
-                state.isVerifyChecking = false
+            state.isVerifyChecking = false
         })
 
         builder.addCase(Auth.fulfilled, (state, action) => {

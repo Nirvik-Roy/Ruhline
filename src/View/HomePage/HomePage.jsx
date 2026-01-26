@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import HomeBanner from './HomeBanner/HomeBanner'
 import HomeAbout from './HomeAbout/HomeAbout'
 import HomePrograms from './HomePrograms/HomePrograms'
@@ -14,6 +14,7 @@ const HomePage = () => {
   const { isVerified, isRegistration, isVerifyChecking } = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const location = useLocation();
+  const [verificationModal,setverificationModal] = useState(false)
   useEffect(() => {
     // Check path
     if (location.pathname.startsWith("/verify-email")) {
@@ -33,10 +34,17 @@ const HomePage = () => {
     }
   }, [location, dispatch]);
 
+
+  useEffect(()=>{
+     if(isRegistration){
+      setverificationModal(true)
+     }
+  }, [isRegistration])
+
   // const isChecking = localStorage.getItem('isChecking');
   return (
     <>
-      {( isRegistration && !isVerified && !isVerifyChecking) && <VerifyModal />}
+      {verificationModal && <VerifyModal setverificationModal={setverificationModal}/>}
       {(isVerifyChecking && !isVerified) && <AutoVerifyModal />}
       <HomeBanner />
       <HomeAbout />
