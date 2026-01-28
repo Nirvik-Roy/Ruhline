@@ -45,8 +45,6 @@ export const getCities = async (id) => {
 
 
 export const getPhoneCountryCode = async () => {
-    const Token = localStorage.getItem('token');
-    if (Token) {
         try {
             const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/location/phone-country-codes`);
             if (res.data.success == true) {
@@ -56,5 +54,5 @@ export const getPhoneCountryCode = async () => {
             toast.error(err.response?.data?.message);
             return err.response.data.errors
         }
-    }
+    
 }
