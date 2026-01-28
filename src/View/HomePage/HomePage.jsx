@@ -10,11 +10,13 @@ import VerifyModal from './VerifyModal/VerifyModal'
 import AutoVerifyModal from './VerifyModal/AutoVerifyModal'
 import { useLocation } from 'react-router-dom'
 import { Autoverify } from '../../../Store/Slices/Loginslice/AutoVerfiySlice'
+import ResendLinkModal from '../ResendLinkModal/ResendLinkModal'
 const HomePage = () => {
   const { isVerified, isRegistration, isVerifyChecking } = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const location = useLocation();
-  const [verificationModal,setverificationModal] = useState(false)
+  const [verificationModal,setverificationModal] = useState(false);
+  const [reSendModal,setreSendModal] = useState(false)
   useEffect(() => {
     // Check path
     if (location.pathname.startsWith("/verify-email")) {
@@ -44,7 +46,8 @@ const HomePage = () => {
   // const isChecking = localStorage.getItem('isChecking');
   return (
     <>
-      {verificationModal && <VerifyModal setverificationModal={setverificationModal}/>}
+      {verificationModal && <VerifyModal setreSendModal={setreSendModal} setverificationModal={setverificationModal}/>}
+      {reSendModal && <ResendLinkModal setreSendModal={setreSendModal}/>}
       {(isVerifyChecking && !isVerified) && <AutoVerifyModal />}
       <HomeBanner />
       <HomeAbout />

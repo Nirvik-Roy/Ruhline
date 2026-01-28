@@ -3,6 +3,7 @@ import { toast } from "react-hot-toast";
 import { Authregister } from './RegisterSlice'
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { Autoverify } from "./AutoVerfiySlice";
+import { Resendmail } from "./ResendMail";
 export const Auth = createAsyncThunk('Auth', async (loginParams, { rejectWithValue }) => {
     if (loginParams) {
         try {
@@ -57,7 +58,10 @@ const AuthSlice = createSlice({
         isRegistration: false,
         isVerified: false,
         isVerifyChecking: false,
-        loginerrors: ''
+        loginerrors: '',
+        isResend: false,
+        resendErrors: '',
+        resendLoading: false
     },
     reducers: {
         verifyToken(state,) {
@@ -71,16 +75,26 @@ const AuthSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(Auth.pending, (state) => {
             state.isLoading = true;
-            state.isLogin = false
+            state.isLogin = false;
+            state.errors = '';
+            state.loginerrors = '';
+            state.resendErrors = '';
+
         })
         builder.addCase(Authregister.pending, (state) => {
             state.isLoading = true;
-            state.isRegistration = false
+            state.isRegistration = false,
+                state.errors = '';
+            state.loginerrors = '';
+            state.resendErrors = '';
         })
         builder.addCase(Authregister.fulfilled, (state) => {
             state.isLoading = false;
             state.isRegistration = true;
             state.errors = ''
+            state.errors = '';
+            state.loginerrors = '';
+            state.resendErrors = '';
         })
         builder.addCase(Authregister.rejected, (state, action) => {
             state.isLoading = false;
@@ -91,10 +105,16 @@ const AuthSlice = createSlice({
         builder.addCase(AuthlogOut.pending, (state) => {
             state.isLoading = true;
             state.isLogin = true;
+            state.errors = '';
+            state.loginerrors = '';
+            state.resendErrors = '';
         })
         builder.addCase(AuthlogOut.fulfilled, (state) => {
             state.isLoading = false;
             state.isLogin = false;
+            state.errors = '';
+            state.loginerrors = '';
+            state.resendErrors = '';
         })
         builder.addCase(AuthlogOut.rejected, (state) => {
             state.isLoading = false;
@@ -103,17 +123,23 @@ const AuthSlice = createSlice({
 
         builder.addCase(Autoverify.pending, (state) => {
             state.isVerified = false,
-            state.isVerifyChecking = true
+                state.isVerifyChecking = true
+            state.errors = '';
+            state.loginerrors = '';
+            state.resendErrors = '';
         })
 
         builder.addCase(Autoverify.fulfilled, (state) => {
             state.isVerified = true,
-            state.isVerifyChecking = false,
-            state.isRegistration = false
+                state.isVerifyChecking = false,
+                state.isRegistration = false,
+                state.errors = '';
+            state.loginerrors = '';
+            state.resendErrors = '';
         })
         builder.addCase(Autoverify.rejected, (state) => {
             state.isVerified = false,
-            state.isVerifyChecking = false
+                state.isVerifyChecking = false
         })
 
         builder.addCase(Auth.fulfilled, (state, action) => {
@@ -121,6 +147,9 @@ const AuthSlice = createSlice({
                 state.isLogin = true;
                 state.isLoading = false;
                 state.loginerrors = '';
+                state.errors = '';
+                state.loginerrors = '';
+                state.resendErrors = '';
                 localStorage.setItem('token', action.payload.token)
 
             }
@@ -131,7 +160,27 @@ const AuthSlice = createSlice({
             state.loginerrors = action.payload
         })
 
-
+        builder.addCase(Resendmail.pending, (state) => {
+            state.resendErrors = '',
+                state.resendLoading = true,
+                state.isResend = false
+            state.errors = '';
+            state.loginerrors = '';
+            state.resendErrors = '';
+        })
+        builder.addCase(Resendmail.fulfilled, (state) => {
+            state.resendErrors = '',
+                state.resendLoading = false,
+                state.isResend = true,
+                state.errors = '';
+            state.loginerrors = '';
+            state.resendErrors = '';
+        })
+        builder.addCase(Resendmail.rejected, (state, action) => {
+            state.resendErrors = action.payload,
+                state.resendLoading = false,
+                state.isResend = false
+        })
     }
 })
 export const { verifyToken } = AuthSlice.actions

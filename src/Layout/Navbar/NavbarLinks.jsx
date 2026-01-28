@@ -16,6 +16,7 @@ import { Auth, AuthlogOut, verifyToken } from '../../../Store/Slices/Loginslice/
 import Loaders from '../../Components/Loaders/Loaders.jsx'
 import toast from 'react-hot-toast'
 import { userForgetPassword } from '../../utils/user.js'
+import ResendLinkModal from '../../View/ResendLinkModal/ResendLinkModal.jsx'
 const NavbarLinks = () => {
     const { isVerified, errors, isLogin, loginerrors, isLoading, isRegistration } = useSelector(state => state.auth);
     const navigate = useNavigate()
@@ -29,6 +30,7 @@ const NavbarLinks = () => {
     const [forgotPasswordLoading, setforgotPasswordLoading] = useState(false);
     const [forgotPasswordErrors, setforgotPasswordErrorrs] = useState()
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const [reSendModal, setResendModal] = useState(false)
     const ValidateEmail = (email) => {
         if (!email) {
             return setEmailerrorMessage('* Email is Required')
@@ -174,7 +176,7 @@ const NavbarLinks = () => {
     }
 
     const forGotPasswordSubmit = async () => {
-        if (email != '') {
+        if (email.email != '') {
             setforgotPasswordLoading(true)
             try {
                 const result = await userForgetPassword(email)
@@ -193,7 +195,7 @@ const NavbarLinks = () => {
     useEffect(() => {
         setConfirmPasswordMsg("");
         setEmailerrorMessage("");
-        setPasswordMsg("")
+        setPasswordMsg("");
     }, [modalToggle])
 
 
@@ -230,6 +232,8 @@ const NavbarLinks = () => {
                                 fontSize: '11px',
                                 color: 'red'
                             }}>{errors.email ? errors.email[0] : emailErrormessage}</small>
+
+
                         </div>
                         <div className='input_form' style={{
                             position: 'relative'
@@ -305,7 +309,19 @@ const NavbarLinks = () => {
                             }}>{errors?.password_confirmation ? errors?.password_confirmation[0] : confirmPasswordMsg}</small>
 
                         </div>
+                        {(errors.email && errors.email[0] == 'This email address is already registered.') && <small style={{
+                            marginLeft: 'auto',
+                            fontSize: '11px',
+                            color: 'red',
+                            fontWeight: '800',
 
+                        }}> Didn't get the link ? <span onClick={(() => {
+                            handleModal(0);
+                            setResendModal(true)
+                        })} style={{
+                            textDecoration: 'underline',
+                            cursor: 'pointer',
+                        }}>Click to resend link</span></small>}
                         <div className='checkbox_wrapper'>
                             <input onChange={handleTermsCondition} name='terms_accepted' type='checkbox' />
                             <p>By continuing I agree with the Terms & Conditions, Privacy Policy</p>
@@ -344,6 +360,8 @@ const NavbarLinks = () => {
                                 color: 'rgba(255, 0, 0, 1)',
                                 cursor: 'pointer'
                             }}>{loginerrors?.email ? loginerrors?.email[0] : emailErrormessage}</small>
+
+
                         </div>
                         <div className='input_form' style={{
                             position: 'relative'
@@ -374,6 +392,18 @@ const NavbarLinks = () => {
                                 color: 'rgba(255, 0, 0, 1)',
                                 cursor: 'pointer'
                             }}>Forget Password?</small>
+
+                            {<small style={{
+                                fontSize: '12px',
+                                marginLeft: 'auto',
+                                color: 'rgba(255, 0, 0, 1)',
+                                cursor: 'pointer'
+                            }} onClick={(() => {
+                                handleModal(0);
+                                setResendModal(true)
+                            })}>Didn't get the link ? <span style={{
+                                fontWeight: '700',
+                            }}>Resend Link</span></small>}
                         </div>
                         <div onClick={(() => handleSignIn())}>
                             <Button children={'Login'} styles={{ width: '100%', padding: '17px 0px' }} />
@@ -404,7 +434,7 @@ const NavbarLinks = () => {
                             marginLeft: '15px',
                             fontSize: '11px',
                             color: 'red',
-                            marginTop:'-10px'
+                            marginTop: '-10px'
                         }}>{forgotPasswordErrors?.email ? forgotPasswordErrors.email[0] : emailErrormessage}</small>
                         <div onClick={(() => {
                             forGotPasswordSubmit()
@@ -493,6 +523,7 @@ const NavbarLinks = () => {
     return (
         <>
             {(isLoading || forgotPasswordLoading) && <Loaders />}
+            {reSendModal && <ResendLinkModal setreSendModal={setResendModal} />}
             {modalToggle.signUp && <Modal children={SignUpmodalData()} handleModal={handleModal} />}
             {modalToggle.signIn && <Modal children={SignInmodalData()} handleModal={handleModal} />}
             {modalToggle.forGotPassword && <Modal children={ForgotPassword()} handleModal={handleModal} />}

@@ -1,19 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import tick from '../../../assets/Images/Layer_1.png'
-import { useDispatch } from 'react-redux'
-import { Resendmail } from '../../../../Store/Slices/Loginslice/ResendMail'
-const VerifyModal = ({ setverificationModal }) => {
-    const dispatch = useDispatch();
-    const resendEmail = () => {
-        const userEmail = localStorage.getItem('userEmail');
-        if (userEmail) {
-            const data = {
-                email: userEmail
-            }
-            dispatch(Resendmail(data))
-        }
-    }
+const VerifyModal = ({ setverificationModal, setreSendModal }) => {
     return (
         <>
             <div className='payment_succesful_modal_wrapper'></div>
@@ -28,7 +16,10 @@ const VerifyModal = ({ setverificationModal }) => {
                 <p style={{
                     marginTop: '-15px'
                 }}>Plz check your inbox and verify your email</p>
-                <p>Don't get the link? <Link onClick={(() => resendEmail())}>Click to resend email</Link></p>
+                <p>Don't get the link? <Link onClick={(() => {
+                    setverificationModal(false)
+                    setreSendModal(true)
+                })}>Click to resend email</Link></p>
             </div>
         </>
     )
