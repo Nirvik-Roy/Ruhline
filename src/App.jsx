@@ -81,7 +81,7 @@ function App() {
                 <Route path='support/add-ticket/:id' element={<AddNewTicket />} />
                 <Route path='support/view-ticket/:id' element={<ViewTicket />} />
                 <Route path='profile/' element={<DashboardProfile />} />
-                <Route path='edit-profile/:id' element={<EditProfile />} />
+                <Route path='edit-profile/' element={<EditProfile />} />
                 <Route path='change-password' element={<ProfilePassword />} />
                 <Route path='purchase' element={<DashboardPurchaseHistory />} />
                 <Route path='purchase/single-purchase/:id' element={<SinglePurchaseHistory />} />
