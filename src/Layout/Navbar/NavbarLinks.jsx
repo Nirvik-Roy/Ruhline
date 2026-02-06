@@ -103,9 +103,9 @@ const NavbarLinks = () => {
 
     const handleLoginChange = (e) => {
         const { name, value } = e.target;
-        if (name == 'email') {
-            ValidateEmail(value)
-        }
+        // if (name == 'email') {
+        //     ValidateEmail(value)
+        // }
         setloginFormdata({
             ...loginFormData,
             [name]: value
@@ -122,9 +122,9 @@ const NavbarLinks = () => {
     })
     const handleChange = (e) => {
         const { name, value } = e.target;
-        if (name === 'email') {
-            ValidateEmail(value)
-        }
+        // if (name === 'email') {
+        //     ValidateEmail(value)
+        // }
         if (name === "password") {
             setPasswordMsg(validatePasswordMsg(value));
             setConfirmPasswordMsg(
@@ -166,9 +166,9 @@ const NavbarLinks = () => {
 
     const forgotPasswordHandle = (e) => {
         const { name, value } = e.target;
-        if (name === 'email') {
-            ValidateEmail(value)
-        }
+        // if (name === 'email') {
+        //     ValidateEmail(value)
+        // }
         setEmail({
             ...email,
             [name]: value

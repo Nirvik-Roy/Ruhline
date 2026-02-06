@@ -41,9 +41,9 @@ const ResendLinkModal = ({ setreSendModal }) => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        if(name === 'email'){
-            ValidateEmail(email)
-        }
+        // if(name === 'email'){
+        //     ValidateEmail(email)
+        // }
         setEmail({
             [name]: value
         })
