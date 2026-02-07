@@ -10,6 +10,7 @@ const Articles = () => {
     const navigate = useNavigate()
     const SliderData = [
         {
+            id:1,
             category: 'Yoga',
             title: 'How Yoga is useful',
             details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor...',
@@ -17,6 +18,7 @@ const Articles = () => {
             img: img1
         },
         {
+            id:2,
             category: 'Life Coaching',
             title: 'How Life Coaching is useful',
             details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor...',
@@ -24,6 +26,7 @@ const Articles = () => {
             time: '10 Days ago',
         },
         {
+            id:3,
             category: 'Yoga',
             title: 'How Yoga is useful',
             details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor...',
@@ -31,6 +34,7 @@ const Articles = () => {
             time: '10 Days ago',
         },
         {
+            id:4,
             category: 'Yoga',
             title: 'How Yoga is useful',
             details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor...',
@@ -38,6 +42,7 @@ const Articles = () => {
             img: img1
         },
         {
+            id:5,
             category: 'Life Coaching',
             title: 'How Life Coaching is useful',
             details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor...',
@@ -45,6 +50,7 @@ const Articles = () => {
             time: '10 Days ago',
         },
         {
+            id:6,
             category: 'Yoga',
             title: 'How Yoga is useful',
             details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor...',
@@ -59,9 +65,8 @@ const Articles = () => {
             <BannerLayout title={'Articles'} />
             <div className='articles_wrapper'>
                 <div className='articles_content_wrapper all_Container'>
-                    {SliderData.map((e, i) => (
-
-                        <div onClick={(()=>navigate('/single-articles/2'))} className='home_blog_slide'>
+                    {SliderData.map((e) => (
+                        <div onClick={(() => navigate(`/single-articles/${e?.id}`))} className='home_blog_slide'>
                             <img src={e.img} />
                             <div className='category_wrapper'>
                                 <p>{e.category}</p>
@@ -73,7 +78,7 @@ const Articles = () => {
                     ))}
                 </div>
 
-              <Pagination/>
+                <Pagination />
             </div>
         </>
     )
