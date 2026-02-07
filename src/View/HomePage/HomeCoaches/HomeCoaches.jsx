@@ -3,7 +3,7 @@ import './HomeCoaches.css'
 import Button from '../../../Components/Button/Button'
 import HomeCoachesSlider from './HomeCoachesSlider'
 import { useNavigate } from 'react-router-dom'
-const HomeCoaches = () => {
+const HomeCoaches = ({data}) => {
     const navigate = useNavigate()
     return (
         <>
@@ -11,8 +11,12 @@ const HomeCoaches = () => {
                 <div className='all_Container'>
                     <div className='home_coaches_head_wrapper'>
                         <div className='home_coaches_head'>
-                            <h2 className='all_heading'>Coaches</h2>
-                            <h1 className='all_heading2'>Guidance That Feels Personal</h1>
+                            <h2 className='all_heading' dangerouslySetInnerHTML={{
+                                __html: data?.headline || "Coaches"
+                            }}></h2>
+                            <h1 className='all_heading2' dangerouslySetInnerHTML={{
+                                __html: data?.secondary_headline || "Guidance That Feels Personal"
+                            }}></h1>
                         </div>
                         <div onClick={(()=>navigate('/program/coaches'))}>
                         <Button styles={{ padding: '15px 50px', }} children={'View All'} />
