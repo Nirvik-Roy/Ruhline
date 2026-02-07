@@ -12,8 +12,8 @@ const MainLayout = () => {
         try {
             setloading(true);
             const res = await getAllCmsData('/site-setting');
-            console.log(res)
             setData(res?.data)
+            console.log(res?.data)
         } catch (err) {
             console.log(err)
         } finally {
@@ -23,9 +23,16 @@ const MainLayout = () => {
     useEffect(() => {
         fetchData()
     }, [])
+
+    useEffect(() => {
+        const favicon = document.getElementById('favicon');
+        if (favicon) {
+            favicon.href = data?.favicon || '/logo.svg'
+        }
+    }, [data])
     return (
         <>
-            {loading && <Loaders/>}
+            {loading && <Loaders />}
             <Navbar navbarData={data} />
             <Outlet />
             <Footer footerData={data} />
