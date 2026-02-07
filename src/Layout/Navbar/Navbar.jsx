@@ -10,7 +10,7 @@ const Navbar = ({ navbarData }) => {
         <>
             <div className='navbar_wrapper_main'>
                 <div className='navbar_content_wrapper all_Container'>
-                    <img onClick={(() => navigate('/'))} className='nav_logo' src={navbarData?.header_logo || logo} />
+                    <img onClick={(() => navigate('/'))} className='nav_logo'  src={navbarData?.header_logo || logo} />
                     <NavbarLinks/>
                 </div>
 
