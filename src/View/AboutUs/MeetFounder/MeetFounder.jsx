@@ -2,14 +2,14 @@ import React from 'react'
 import './MeetFounder.css'
 import img from '../../../assets/Images/Rectangle 447.png'
 import MeetFounderContent from './MeetFounderContent'
-const MeetFounder = () => {
+const MeetFounder = ({data}) => {
     return (
         <>
             <div className='about_us_wrapper'>
                 <div className='all_Container  meet_founder_wrapper'>
-                    <MeetFounderContent />
+                    <MeetFounderContent data={data} />
                     <div className='about_us_image'>
-                        <img src={img} />
+                        <img src={data?.image || img} />
                     </div>
                 </div>
             </div>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import down from '../../../assets/Images/Chevron.svg'
 import right from '../../../assets/Images/Chevron Right.svg'
-const FAQAccordion = () => {
+const FAQAccordion = ({ faqMentor, faqMentee }) => {
     const [faqIndex, setfaqIndex] = useState([]);
 
     const setIndex = (i) => {
@@ -47,10 +47,13 @@ const FAQAccordion = () => {
     return (
         <>
             <div className='faq_accordion_wrapper'>
-                {faqData.map((e, i) => (
+                {faqMentor?.length <= 0 && <p style={{
+                    textAlign: 'center',
+                }}>No faq for mentor is available...</p>}
+                {faqMentor?.map((e) => (
                     <div className='faq_accordion' onClick={(() => { setIndex(e.id) })}>
                         <div className='faq_head_wrapper'>
-                            <h3>{e.title}</h3>
+                            <h3>{e?.heading}</h3>
                             {faqIndex.includes(e.id) && <div className='down_img56'>
                                 <img src={down} />
                             </div>}
@@ -59,7 +62,29 @@ const FAQAccordion = () => {
                                 <img src={right} />
                             </div>}
                         </div>
-                        {faqIndex.includes(e.id) && <p>{e.details}</p>}
+                        {faqIndex.includes(e.id) && <p dangerouslySetInnerHTML={{
+                            __html: e?.description || "Meet our Founder"
+                        }}></p>}
+                    </div>
+                ))}
+                {faqMentee?.length <=0 && <p style={{
+                    textAlign:'center',
+                }}>No faq for mentee is available...</p>}
+                {faqMentee?.map((e) => (
+                    <div className='faq_accordion' onClick={(() => { setIndex(e.id) })}>
+                        <div className='faq_head_wrapper'>
+                            <h3>{e?.heading}</h3>
+                            {faqIndex.includes(e.id) && <div className='down_img56'>
+                                <img src={down} />
+                            </div>}
+
+                            {!faqIndex.includes(e.id) && <div className='down_img57'>
+                                <img src={right} />
+                            </div>}
+                        </div>
+                        {faqIndex.includes(e.id) && <p dangerouslySetInnerHTML={{
+                            __html: e?.description || "Meet our Founder"
+                        }}></p>}
                     </div>
                 ))}
             </div>

@@ -3,12 +3,13 @@ import './HomeAbout.css'
 import aboutImg from '../../../assets/Images/Rectangle 445.svg'
 import HomeAboutContent from './HomeAboutContent'
 const HomeAbout = ({ data }) => {
+  console.log(data)
   return (
     <>
       <div className='about_us_wrapper'>
         <div className='all_Container about_us_content_wrapper'>
           <div className='about_us_image'>
-            <img src={data?.about_us_section_image || aboutImg} />
+            <img src={data?.about_us_section_image || data?.about_us_image || aboutImg} />
           </div>
           <HomeAboutContent data={data}/>
         </div>
