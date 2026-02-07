@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import './Footer.css'
 import logo from '../../assets/Images/Frame 1984078480 (1).svg'
 import { Link } from 'react-router-dom'
@@ -7,16 +7,20 @@ import message from '../../assets/Images/icon (1).svg'
 import facebook from '../../assets/Images/social (2).svg'
 import telegram from '../../assets/Images/social (1).svg'
 import instagram from '../../assets/Images/social (3).svg'
-const Footer = () => {
+import Loaders from '../../Components/Loaders/Loaders'
+import { getAllCmsData } from '../../utils/cms'
+const Footer = ({ footerData }) => {
+ 
   return (
     <>
       <div className='footer_wrapper'>
         <div className='all_Container footer_content_wrapper'>
 
           <div className='footer_1'>
-            <img src={logo} />
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Phasellus euismod, justo in porttitor dignissim, urna lacus vehicula</p>
+            <img src={footerData?.footer_logo || logo} />
+            <p dangerouslySetInnerHTML={{
+              __html: footerData?.description || "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Phasellus euismod, justo in porttitor dignissim, urna lacus vehicula"
+            }}></p>
           </div>
           <div className='footer_2'>
             <h3>Company</h3>
@@ -39,10 +43,20 @@ const Footer = () => {
           </div>
           <div className='footer_3'>
             <h3>Contact Us</h3>
-            <div className='footer_location'>
+            <div className='footer_location' >
               <img src={location} />
-              <p>Wisconsin Ave, Suite 700 <br />
-                Chevy Chase, Lorem 20815</p>
+              <div>
+                <p dangerouslySetInnerHTML={{
+                  __html: footerData?.address.address_line_1
+                    || "Wisconsin Ave, Suite 700"
+                }}></p>
+
+                <p dangerouslySetInnerHTML={{
+                  __html: footerData?.address.address_line_2
+                    || "Chevy Chase, Lorem 20815"
+                }}></p>
+              </div>
+       
             </div>
 
             <div className='footer_location'>
@@ -54,15 +68,15 @@ const Footer = () => {
               <h5>Follow Us</h5>
               <div className='footer_img_wrapper'>
                 <div className='footer_icon'>
-                  <img src={facebook} />
+                  <img onClick={(() => window.open(`${footerData?.social_media.facebook_url || 'https://www.facebook.com/'}`))} src={facebook} />
                 </div>
 
                 <div className='footer_icon'>
-                  <img src={telegram} />
+                  <img onClick={(() => window.open(`${footerData?.social_media.linkedin_url || 'https://in.linkedin.com/'}`))} src={telegram} />
                 </div>
 
                 <div className='footer_icon'>
-                  <img src={instagram} />
+                  <img onClick={(() => window.open(`${footerData?.social_media.instagram_url || 'https://www.instagram.com/'}`))} src={instagram} />
                 </div>
               </div>
             </div>
@@ -71,8 +85,9 @@ const Footer = () => {
       </div>
       <div className='copyright_wrapper'>
         <div className='all_Container'>
-          <p>© 2025 All Rights Reserved  |  Designed and Developed by Web Prism Dynamics</p>
-
+          <p dangerouslySetInnerHTML={{
+            __html: footerData?.copyright || "© 2025 All Rights Reserved  |  Designed and Developed by Web Prism Dynamics"
+          }}></p>
         </div>
       </div>
     </>
