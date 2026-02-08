@@ -24,7 +24,7 @@ const HomeBlog = ({ data }) => {
     return (
         <>
             {loading && <Loaders />}
-            {articleData?.length > 0 &&     <div className='home_blog_wrapper'>
+            {<div className='home_blog_wrapper'>
                 <div className='home_blog_content_wrapper all_Container'>
                     <h2 className='all_heading' dangerouslySetInnerHTML={{
                         __html: data?.headline || "Our Blogs"
@@ -34,7 +34,11 @@ const HomeBlog = ({ data }) => {
                     }}></h1>
                     <HomeBlogSlider data={articleData} />
                 </div>
-
+                {articleData?.length <=0 && <p style={{
+                    textAlign:'center',
+                    color:'var(--primary-color)',
+                    fontWeight:'600'
+                }}>No articles are available...</p>}
             </div>}
         </>
     )

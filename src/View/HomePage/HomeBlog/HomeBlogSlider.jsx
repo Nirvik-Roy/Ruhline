@@ -6,6 +6,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from 'react-slick'
 import { useNavigate } from 'react-router-dom';
+import TimeAgo from 'react-timeago';
 const HomeBlogSlider = ({ data }) => {
     const navigate = useNavigate()
     var settings = {
@@ -91,30 +92,16 @@ const HomeBlogSlider = ({ data }) => {
         <>
             <div className='home_blog_slider_wrapper'>
                 <Slider {...settings}>
-
                     {data?.length > 0 && data?.map((e, i) => (
-
                         i == 2 && <div onClick={(() => navigate(`/single-articles/${e?.id}`))} className='home_blog_slide'>
-                            <img src={e.img} />
+                            <img src={e?.thumbnail_image} />
                             <div className='category_wrapper'>
-                                <p>{e.category}</p>
-                                <span>{e.time}</span>
+                                <p>{e?.article_category?.name}</p>
+                                <span>  <TimeAgo date={e?.created_at} />
+                                </span>
                             </div>
-                            <h3>{e.title}</h3>
-                            <p>{e.details}</p>
-                        </div>
-                    ))}
-
-                    {data?.length <= 0 && SliderData?.map((e,) => (
-
-                         <div onClick={(() => navigate('/single-articles/2'))} className='home_blog_slide'>
-                            <img src={e.img} />
-                            <div className='category_wrapper'>
-                                <p>{e.category}</p>
-                                <span>{e.time}</span>
-                            </div>
-                            <h3>{e.title}</h3>
-                            <p>{e.details}</p>
+                            <h3>{e?.name}</h3>
+                            <p>{e?.description}</p>
                         </div>
                     ))}
                 </Slider>
