@@ -29,7 +29,7 @@ const SingleArticle = () => {
         if (id) {
             fetchData()
         }
-    }, [])
+    }, [id])
     return (
         <>
             {loading && <Loaders />}
