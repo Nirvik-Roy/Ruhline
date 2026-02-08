@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import bigImg from '../../assets/Images/Rectangle 6737.png'
 import BannerLayout from '../BannerLayout/BannerLayout'
 import calendarLogo from '../../assets/Images/calendar_month.svg'
@@ -7,9 +7,32 @@ import smallImg2 from '../../assets/Images/Rectangle 6739.png'
 import checkIcon from '../../assets/Images/Vector (8).svg'
 import searchIcon from '../../assets/Images/Search (1).svg'
 import recentPosts from '../../assets/Images/image (2).png'
+import { getSingleCmsData } from '../../utils/cms'
+import Loaders from '../../Components/Loaders/Loaders'
+import { useParams } from 'react-router-dom'
 const SingleArticle = () => {
+    const [loading, setloading] = useState(false);
+    const { id } = useParams()
+    const [singleArticleData, setsingleArticleData] = useState()
+    const fetchData = async () => {
+        try {
+            setloading(true);
+            const res = await getSingleCmsData('/article/article', id);
+            setsingleArticleData(res?.data?.data)
+        } catch (err) {
+            console.log(err)
+        } finally {
+            setloading(false)
+        }
+    }
+    useEffect(() => {
+        if (id) {
+            fetchData()
+        }
+    }, [])
     return (
         <>
+            {loading && <Loaders />}
             <BannerLayout title={'How Yoga is useful'} />
             <div className='single_article_wrapper'>
                 <div className='all_Container single_article_content_wrapper'>
