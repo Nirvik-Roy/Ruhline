@@ -173,6 +173,7 @@
 .recent_post img {
     width: 100px;
     border-radius: 15px;
+    height: 90px;
     object-fit: cover;
 }
 
@@ -234,6 +235,11 @@
     .articles_content_wrapper {
         grid-template-columns: 1fr;
         gap: 30px;
+    }
+    .single_article_grid_img .single_article_section_img{
+        width: 80% !important;
+        min-width: 80% !important;
+        border-radius: 15px;
     }
 }
 

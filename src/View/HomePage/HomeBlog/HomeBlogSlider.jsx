@@ -88,12 +88,14 @@ const HomeBlogSlider = ({ data }) => {
 
 
     ]
+
+    console.log(data)
     return (
         <>
             <div className='home_blog_slider_wrapper'>
                 <Slider {...settings}>
-                    {data?.length > 0 && data?.map((e, i) => (
-                        i == 2 && <div onClick={(() => navigate(`/single-articles/${e?.id}`))} className='home_blog_slide'>
+                    { data?.map((e) => (
+                     <div onClick={(() => navigate(`/single-articles/${e?.id}`))} className='home_blog_slide'>
                             <img src={e?.thumbnail_image} />
                             <div className='category_wrapper'>
                                 <p>{e?.article_category?.name}</p>
