@@ -10,7 +10,6 @@ import instagram from '../../assets/Images/social (3).svg'
 import Loaders from '../../Components/Loaders/Loaders'
 import { getAllCmsData } from '../../utils/cms'
 const Footer = ({ footerData }) => {
- 
   return (
     <>
       <div className='footer_wrapper'>
@@ -19,7 +18,7 @@ const Footer = ({ footerData }) => {
           <div className='footer_1'>
             <img src={footerData?.footer_logo || logo} />
             <p dangerouslySetInnerHTML={{
-              __html: footerData?.description || "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Phasellus euismod, justo in porttitor dignissim, urna lacus vehicula"
+              __html: footerData?.footer_description || "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Phasellus euismod, justo in porttitor dignissim, urna lacus vehicula"
             }}></p>
           </div>
           <div className='footer_2'>
