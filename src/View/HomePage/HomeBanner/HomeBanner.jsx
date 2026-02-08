@@ -1,25 +1,15 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './HomeBanner.css'
 import fallbackImg from "../../../assets/Images/WhatsApp Image 2025-11-03 at 18.52.46_1d39b650 1.svg";
-import Loaders from '../../../Components/Loaders/Loaders.jsx'
+
 import { useNavigate } from 'react-router-dom'
 const HomeBanner = ({ data }) => {
   const navigate = useNavigate()
-  const [isLoading, setIsLoading] = useState(true);
   return (
     <>
-      {isLoading && <Loaders/>}
       <div className='home_banner_Wrappper' style={{
-        position:'relative'
+        backgroundImage: `url(${data?.hero_section_image || fallbackImg})`
       }}>
-        <img onLoad={() => setIsLoading(false)} style={{
-          position:'absolute',
-          zIndex:'-1',
-          top:'0',
-          left:'0',
-          width:'100%',
-          height:'100%'
-        }} src={data?.hero_section_image || fallbackImg}/>
         <div className='home_banner_content_wrapper'>
           <h1 dangerouslySetInnerHTML={{
             __html: data?.hero_headline || "Find Your Inner Balance"
