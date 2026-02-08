@@ -1,6 +1,7 @@
 import React from 'react'
 import Button from '../../../Components/Button/Button.jsx'
 const HomeAboutContent = ({ data }) => {
+    console.log(data)
     return (
         <>
             <div className='home_about_right'>

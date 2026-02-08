@@ -1,6 +1,7 @@
 import React from 'react'
 
 const HomeChooseContent = ({ data }) => {
+    console.log(data)
     return (
         <>
             <div className='home_choose_us_right'>
@@ -31,9 +32,9 @@ const HomeChooseContent = ({ data }) => {
                         </div>
                     </>}
 
-                    {data?.options.length > 0 && data?.options.map((e,i)=>(
+                    {data?.options.length > 0 && data?.options.map((e, i) => (
                         <div className='home_choose_points'>
-                            <h3>{i+1}</h3>
+                            {e?.title || e?.description && <h3>{i + 1}</h3>}
                             <h4>{e?.title}</h4>
                             <p>{e?.description}</p>
                         </div>

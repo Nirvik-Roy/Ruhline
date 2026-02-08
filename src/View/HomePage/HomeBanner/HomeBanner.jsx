@@ -1,16 +1,19 @@
 import React from 'react'
 import './HomeBanner.css'
-import text from '../../../assets/Images/Find Your Inner Balance.svg'
+import fallbackImg from "../../../assets/Images/WhatsApp Image 2025-11-03 at 18.52.46_1d39b650 1.svg";
+
 import { useNavigate } from 'react-router-dom'
 const HomeBanner = ({ data }) => {
   const navigate = useNavigate()
   return (
     <>
-      <div className='home_banner_Wrappper'>
+      <div className='home_banner_Wrappper' style={{
+        backgroundImage: `url(${data?.hero_section_image || fallbackImg})`
+      }}>
         <div className='home_banner_content_wrapper'>
           <h1 dangerouslySetInnerHTML={{
             __html: data?.hero_headline || "Find Your Inner Balance"
-          }}> 
+          }}>
           </h1>
           <div className='banner_para'>
             <p

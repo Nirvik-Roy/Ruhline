@@ -61,18 +61,24 @@ const SingleArticle = () => {
                     <div className='single_article_img_content'>
                         <img className='big_article_img' src={singleArticleData?.thumbnail_image} />
                         <div className='single_article_title_wrapper'>
-                            <p style={{
+                            <p dangerouslySetInnerHTML={{
+                                __html: singleArticleData?.article_category?.name || "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Phasellus euismod, justo in porttitor dignissim, urna lacus vehicula"
+                            }} style={{
                                 background: '#fcf3ea'
-                            }}>{singleArticleData?.article_category?.name}</p>
+                            }}>{ }</p>
                             <div className='single_article_Date_Wrapper'>
                                 <img src={calendarLogo} />
                                 <p><TimeAgo date={singleArticleData?.created_at} /></p>
                             </div>
                         </div>
 
-                        {singleArticleData?.sections?.length <= 0 && <h1>{singleArticleData?.name}</h1>}
+                        {singleArticleData?.sections?.length <= 0 && <h1 dangerouslySetInnerHTML={{
+                            __html: singleArticleData?.name || "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Phasellus euismod, justo in porttitor dignissim, urna lacus vehicula"
+                        }}></h1>}
 
-                        {singleArticleData?.sections?.length <= 0 && <p>{singleArticleData?.description}</p>}
+                        {singleArticleData?.sections?.length <= 0 && <p dangerouslySetInnerHTML={{
+                            __html: singleArticleData?.description || "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Phasellus euismod, justo in porttitor dignissim, urna lacus vehicula"
+                        }}></p>}
 
                         {singleArticleData?.sections?.map((e) => (
                             <>
@@ -90,8 +96,12 @@ const SingleArticle = () => {
                                     </div>
                                 </div>}
 
-                                {e?.heading && <h1>{e?.heading}</h1>}
-                                {e?.description && <p>{e?.description}</p>}
+                                {e?.heading && <h1 dangerouslySetInnerHTML={{
+                                    __html: e?.heading || "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Phasellus euismod, justo in porttitor dignissim, urna lacus vehicula"
+                                }}></h1>}
+                                {e?.description && <p dangerouslySetInnerHTML={{
+                                    __html: e?.description || "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Phasellus euismod, justo in porttitor dignissim, urna lacus vehicula"
+                                }}></p>}
 
                                 {e?.button && <div onClick={(() => { e?.button_url && window.open(e?.button_url) })} style={{
                                     marginTop: '40px'
@@ -145,10 +155,17 @@ const SingleArticle = () => {
                                         <p>{e?.article_category?.name}</p>
 
                                         <small><TimeAgo date={e?.created_at} /></small>
-                                        <h6>  {e?.description
-                                            ?.split(" ")
-                                            .slice(0, 8)
-                                            .join(" ") + (e?.description?.split(" ").length > 15 ? "…" : "")}</h6>
+                                        <h6
+                                            dangerouslySetInnerHTML={{
+                                                __html:
+                                                    (e?.description
+                                                        ?.split(" ")
+                                                        .slice(0, 8)
+                                                        .join(" ") +
+                                                        (e?.description?.split(" ").length > 15 ? "…" : "")) ||
+                                                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus euismod, justo in porttitor dignissim, urna lacus vehicula"
+                                            }}
+                                        ></h6>
                                     </div>
                                 </div>
                             ))}
