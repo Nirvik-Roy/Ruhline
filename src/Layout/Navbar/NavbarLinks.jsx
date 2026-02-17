@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './Navbar.css'
-import { NavLink, useLocation, useNavigate } from 'react-router-dom'
+import { data, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import Button from '../../Components/Button/Button'
 import down from '../../assets/Images/arrow-right.svg'
 import Modal from '../../Components/Modal/Modal'
@@ -198,7 +198,6 @@ const NavbarLinks = () => {
         setPasswordMsg("");
     }, [modalToggle])
 
-
     const SignUpmodalData = () => {
         return (
             <>
@@ -323,7 +322,7 @@ const NavbarLinks = () => {
                             cursor: 'pointer',
                         }}>Click to resend link</span></small>}
                         <div className='checkbox_wrapper'>
-                            <input onChange={handleTermsCondition} name='terms_accepted' type='checkbox' />
+                            <input onChange={handleTermsCondition} name='terms_accepted' type='checkbox' checked={registerFormData.terms_accepted} />
                             <p>By continuing I agree with the Terms & Conditions, Privacy Policy</p>
                         </div>
                         <small style={{
