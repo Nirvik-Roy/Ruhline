@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './Navbar.css'
-import { data, NavLink, useLocation, useNavigate } from 'react-router-dom'
+import { data, Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import Button from '../../Components/Button/Button'
 import down from '../../assets/Images/arrow-right.svg'
 import Modal from '../../Components/Modal/Modal'
@@ -89,7 +89,9 @@ const NavbarLinks = () => {
             newPassword: i === 4 ? true : false
         })
     }
-
+    useEffect(()=>{
+        handleModal(0)
+    },[location.pathname])
     const [loginFormData, setloginFormdata] = useState({
         email: '',
         password: ''
@@ -323,7 +325,7 @@ const NavbarLinks = () => {
                         }}>Click to resend link</span></small>}
                         <div className='checkbox_wrapper'>
                             <input onChange={handleTermsCondition} name='terms_accepted' type='checkbox' checked={registerFormData.terms_accepted} />
-                            <p>By continuing I agree with the Terms & Conditions, Privacy Policy</p>
+                            <p>By continuing I agree with the <Link to={'/terms-conditions'}>Terms & Conditions</Link>, <Link to={'/privacy-policy'}>Privacy Policy</Link></p>
                         </div>
                         <small style={{
                             marginLeft: '15px',
