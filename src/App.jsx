@@ -38,6 +38,7 @@ import AddNote from './Components/AddNote/AddNote.jsx'
 import { Toaster } from 'react-hot-toast'
 import PrivateRoute from './PrivateRoute/PrivateRoute.jsx'
 import PublicRoute from './PublicRoute/PublicRoute.jsx'
+import DashboardHabit from './View/Dashboard/DashboardHabit/DashboardHabit.jsx'
 function App() {
   return (
     <>
@@ -85,6 +86,7 @@ function App() {
                 <Route path='change-password' element={<ProfilePassword />} />
                 <Route path='purchase' element={<DashboardPurchaseHistory />} />
                 <Route path='purchase/single-purchase/:id' element={<SinglePurchaseHistory />} />
+                <Route path='habits' element={<DashboardHabit/>}/>
               </Route>
             </Route>
           </Route>

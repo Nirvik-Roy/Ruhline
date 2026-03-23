@@ -1,0 +1,213 @@
+.hcalx91_calendar_page_shell {
+  width: 100%;
+  padding: 24px 0;
+  box-sizing: border-box;
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+}
+
+.hcalx91_calendar_card_wrap {
+  margin: 0 auto;
+  border: 1px solid #e5dfd8;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(80, 60, 30, 0.05);
+  padding: 18px 20px 20px;
+  box-sizing: border-box;
+}
+
+.hcalx91_calendar_topbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 8px;
+}
+
+.hcalx91_calendar_legend_wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  align-items: center;
+}
+
+.hcalx91_legend_item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #7b5d3f;
+  font-weight: 500;
+}
+
+.hcalx91_legend_color {
+  width: 14px;
+  height: 14px;
+  display: inline-block;
+  border-radius: 2px;
+}
+
+.hcalx91_legend_upcoming {
+  background-color: #eab308;
+}
+
+.hcalx91_legend_completed {
+  background-color: #28a745;
+}
+
+.hcalx91_legend_partial {
+  background-color: #ff7a21;
+}
+
+.hcalx91_legend_not_complete {
+  background-color: #ff4d4d;
+}
+
+.hcalx91_calendar_header_nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.hcalx91_nav_btn_circle {
+  width: 46px;
+  height: 46px;
+  border: none;
+  border-radius: 50%;
+  background-color: #ffffff;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+  color: #334155;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.hcalx91_calendar_title {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.2;
+  font-weight: 700;
+  color: #2f3441;
+}
+
+.hcalx91_calendar_main_wrap {
+  border-top: 1px solid #eadfce;
+  padding-top: 12px;
+}
+
+/* FullCalendar overrides */
+.hcalx91_calendar_main_wrap .fc {
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+}
+
+.hcalx91_calendar_main_wrap .fc-theme-standard td,
+.hcalx91_calendar_main_wrap .fc-theme-standard th,
+.hcalx91_calendar_main_wrap .fc-theme-standard .fc-scrollgrid {
+  border: none;
+}
+
+.hcalx91_calendar_main_wrap .fc-col-header-cell {
+  padding: 10px 0;
+}
+
+.hcalx91_calendar_main_wrap .fc-col-header-cell-cushion {
+  color: #7b5d3f;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 8px 0;
+}
+
+.hcalx91_calendar_main_wrap .fc-daygrid-day {
+  padding: 4px;
+}
+
+.hcalx91_calendar_main_wrap .fc-daygrid-day-frame {
+  min-height: 76px;
+  border: 1px solid #eadfce;
+  border-radius: 8px;
+  background-color: #ffffff;
+  padding: 6px 6px 4px;
+  box-sizing: border-box;
+}
+
+.hcalx91_calendar_main_wrap .fc-daygrid-day-number {
+  color: #6b4e32;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 0;
+}
+
+.hcalx91_calendar_main_wrap .fc-day-today .fc-daygrid-day-frame {
+  border: 2px solid #e97b45;
+}
+
+.hcalx91_calendar_main_wrap .fc-daygrid-event {
+  border: none;
+  border-radius: 2px;
+  padding: 2px 6px;
+  margin-top: 6px;
+}
+
+.hcalx91_calendar_main_wrap .fc-event-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: #ffffff;
+  text-align: right;
+  display: block;
+}
+
+.hcalx91_calendar_main_wrap .hcalx91_evt_upcoming {
+  background-color: #eab308 !important;
+}
+
+.hcalx91_calendar_main_wrap .hcalx91_evt_completed {
+  background-color: #28a745 !important;
+}
+
+.hcalx91_calendar_main_wrap .hcalx91_evt_partial {
+  background-color: #ff7a21 !important;
+}
+
+.hcalx91_calendar_main_wrap .hcalx91_evt_not_complete {
+  background-color: #ff4d4d !important;
+}
+
+.hcalx91_calendar_main_wrap .fc-daygrid-day-events {
+  margin-top: 8px;
+}
+
+.hcalx91_calendar_main_wrap .fc-day-other .fc-daygrid-day-frame {
+  opacity: 0.65;
+}
+
+@media (max-width: 768px) {
+  .hcalx91_calendar_card_wrap {
+    padding: 16px;
+    margin: 0 12px;
+  }
+
+  .hcalx91_calendar_topbar {
+    justify-content: flex-start;
+  }
+
+  .hcalx91_calendar_legend_wrap {
+    gap: 12px;
+  }
+
+  .hcalx91_calendar_title {
+    font-size: 20px;
+  }
+
+  .hcalx91_nav_btn_circle {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .hcalx91_calendar_main_wrap .fc-daygrid-day-number {
+    font-size: 14px;
+  }
+
+  .hcalx91_calendar_main_wrap .fc-event-title {
+    font-size: 10px;
+  }
+}

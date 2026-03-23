@@ -37,6 +37,16 @@ const DashboardSidebar = () => {
                 </NavLink>
 
 
+                <NavLink to={'/dashboard/habits'} className={'sidebar_link'}>
+
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M23.5312 13.6473V10.3527H21.7465C21.4945 8.85098 20.9046 7.46391 20.0565 6.27309L21.3186 5.01103L18.989 2.68139L17.7269 3.94345C16.5361 3.09544 15.149 2.50552 13.6473 2.25352V0.46875H10.3527V2.25352C8.85098 2.50547 7.46391 3.09544 6.27309 3.94345L5.01103 2.68139L2.68139 5.01103L3.94345 6.27309C3.09544 7.46391 2.50552 8.85098 2.25352 10.3527H0.46875V13.6473H2.25352C2.50547 15.149 3.09544 16.5361 3.94345 17.7269L2.68139 18.989L5.01103 21.3186L6.27309 20.0565C7.46391 20.9046 8.85098 21.4945 10.3527 21.7465V23.5312H13.6473V21.7465C15.149 21.4945 16.5361 20.9046 17.7269 20.0565L18.989 21.3186L21.3186 18.989L20.0565 17.7269C20.9046 16.5361 21.4945 15.149 21.7465 13.6473H23.5312Z" stroke="white" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M13.4121 12.9686C14.4871 12.4447 15.2283 11.342 15.2283 10.0656C15.2283 8.69688 14.3765 7.52726 13.174 7.05766V9.77215C13.174 10.4205 12.6485 10.946 12.0001 10.946C11.3518 10.946 10.8262 10.4205 10.8262 9.77215V7.05762C9.61307 7.53143 8.75676 8.71788 8.77218 10.1024C8.78615 11.3561 9.52551 12.4451 10.5881 12.9664V16.4709V19.6371C11.046 19.7212 11.5179 19.7655 12.0001 19.7655C12.4824 19.7655 12.9542 19.7212 13.4121 19.6371V16.4709V12.9686Z" stroke="white" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M11.9998 19.7662C16.2888 19.7662 19.7657 16.2893 19.7657 12.0003C19.7657 7.7113 16.2888 4.23438 11.9998 4.23438C7.71081 4.23438 4.23389 7.7113 4.23389 12.0003C4.23389 16.2893 7.71081 19.7662 11.9998 19.7662Z" stroke="white" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>                <p>Habits</p>
+                </NavLink>
+
+
 
                 <NavLink to={'/dashboard/purchase'} className={'sidebar_link'}>
 
@@ -108,9 +118,9 @@ const DashboardSidebar = () => {
 
 
 
-                <div  style={{
-                    cursor:'pointer'
-                }} onClick={(()=>dispatch(AuthlogOut()))}  className={'sidebar_link'}>
+                <div style={{
+                    cursor: 'pointer'
+                }} onClick={(() => dispatch(AuthlogOut()))} className={'sidebar_link'}>
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_2779_11437)">
                             <path d="M17.8745 14.796C18.7273 13.3988 19.2188 11.7568 19.2188 10C19.2188 4.90863 15.0914 0.78125 10 0.78125C4.90863 0.78125 0.78125 4.90863 0.78125 10C0.78125 15.0914 4.90863 19.2188 10 19.2188C11.9207 19.2188 13.7042 18.6314 15.1807 17.6264" stroke="white" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
