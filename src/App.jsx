@@ -10,7 +10,7 @@ import TermsConditions from './View/TermsConditions/TermsConditions'
 import RefundPolicy from './View/RefundPolicy/RefundPolicy'
 import ScrollToTop from './Components/ScrollToTop/ScrollToTop'
 import Articles from './View/Articles/Articles'
-import Yoga from './View/Programs/Yoga/Yoga'
+import Yoga from './View/Programs/Yoga/SingleProgramCategory.jsx'
 import LifeCoaching from './View/Programs/LifeCoaching/LifeCoaching'
 import Coaches from './View/Programs/Coaches/Coaches'
 import OneTimeProgram from './View/OneTimeService/OneTimeProgram'
@@ -39,6 +39,7 @@ import { Toaster } from 'react-hot-toast'
 import PrivateRoute from './PrivateRoute/PrivateRoute.jsx'
 import PublicRoute from './PublicRoute/PublicRoute.jsx'
 import DashboardHabit from './View/Dashboard/DashboardHabit/DashboardHabit.jsx'
+import SingleProgramCategory from './View/Programs/Yoga/SingleProgramCategory.jsx'
 function App() {
   return (
     <>
@@ -47,7 +48,7 @@ function App() {
         <ScrollToTop />
         <Routes>
           <Route path='' element={<MainLayout />}>
-            <Route path='' element={<PublicRoute />}>
+            {/* <Route path='' element={<PublicRoute />}> */}
               <Route path='/verify-email' element={<HomePage />} />
               <Route path='/' element={<HomePage />} />
               <Route path='/about' element={<AboutUs />} />
@@ -58,7 +59,7 @@ function App() {
               <Route path='/articles' element={<Articles />} />
               <Route path='/single-articles/:id' element={<SingleArticle />} />
               <Route path='/program'>
-                <Route path='yoga' element={<Yoga />} />
+                <Route path='category/:id' element={<SingleProgramCategory />} />
                 <Route path='life-coaching' element={<LifeCoaching />} />
                 <Route path='coaches' element={<Coaches />} />
               </Route>
@@ -66,7 +67,7 @@ function App() {
               <Route path='/available-facilitor' element={<AvailableFacilitor />} />
               <Route path='/service-date' element={<ServiceDate />} />
               <Route path='/confirm-booking' element={<ConfirmBooking />} />
-            </Route>
+            {/* </Route> */}
 
             {/* Dashboard Routes */}
             <Route path='/dashboard' element={<PrivateRoute />}>

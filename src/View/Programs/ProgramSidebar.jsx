@@ -2,12 +2,12 @@ import React from 'react'
 import './ProgramSidebar.css'
 import search from '../../assets/Images/Search.svg'
 import Button from '../../Components/Button/Button'
-const ProgramSidebar = ({ Category, Enrollment, Coaches, Gender }) => {
+const ProgramSidebar = ({ Category, Enrollment, Coaches, Gender, setSearchTerm }) => {
     return (
         <>
             <div className='program_sidebar_wrapper'>
                 <div className='search_sidebar_wrapper'>
-                    <input type='text' placeholder='Search' />
+                    <input onChange={((e) => setSearchTerm(e.target.value))} type='text' placeholder='Search' />
                     <img src={search} />
                 </div>
 
@@ -17,7 +17,7 @@ const ProgramSidebar = ({ Category, Enrollment, Coaches, Gender }) => {
                         <i class="fa-solid fa-angle-down"></i>
                     </div>
                     <ul className='dropdown_list'>
-                        {[1, 2, 3, 4, 5].map((e, i) => {
+                        {[1, 2, 3, 4, 5].map((e) => {
                             return (
                                 <>
                                     <li key={e}>Category {e} </li>
@@ -28,7 +28,7 @@ const ProgramSidebar = ({ Category, Enrollment, Coaches, Gender }) => {
                     </ul>
                 </div>}
 
-                {Enrollment && <div className='dropown_wrapper'>
+                {/* {Enrollment && <div className='dropown_wrapper'>
                     <div className='dropdown_head'>
                         <h3>Enrollment Type</h3>
                         <i class="fa-solid fa-angle-down"></i>
@@ -43,7 +43,7 @@ const ProgramSidebar = ({ Category, Enrollment, Coaches, Gender }) => {
                             <p>Free</p>
                         </div>
                     </ul>
-                </div>}
+                </div>} */}
 
 
                 {Coaches &&

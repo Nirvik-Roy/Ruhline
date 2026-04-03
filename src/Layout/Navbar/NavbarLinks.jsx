@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './Navbar.css'
-import { data, Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import Button from '../../Components/Button/Button'
 import down from '../../assets/Images/arrow-right.svg'
 import Modal from '../../Components/Modal/Modal'
@@ -17,13 +17,16 @@ import Loaders from '../../Components/Loaders/Loaders.jsx'
 import toast from 'react-hot-toast'
 import { userForgetPassword } from '../../utils/user.js'
 import ResendLinkModal from '../../View/ResendLinkModal/ResendLinkModal.jsx'
+import { getProgramCategory } from '../../utils/program'
 const NavbarLinks = () => {
     const { isVerified, errors, isLogin, loginerrors, isLoading, isRegistration } = useSelector(state => state.auth);
     const navigate = useNavigate()
     const dispatch = useDispatch();
     const [emailErrormessage, setEmailerrorMessage] = useState('');
     const [passwordMsg, setPasswordMsg] = useState("");
+    const [programCategories, setprogramCategories] = useState()
     const [confirmPasswordMsg, setConfirmPasswordMsg] = useState("");
+    const [programCategoryLoading, setprogramCategoryLoading] = useState(false)
     const [type, setType] = useState(false);
     const [type2, setType2] = useState(false);
     const [type3, setType3] = useState(false);
@@ -89,9 +92,9 @@ const NavbarLinks = () => {
             newPassword: i === 4 ? true : false
         })
     }
-    useEffect(()=>{
+    useEffect(() => {
         handleModal(0)
-    },[location.pathname])
+    }, [location.pathname])
     const [loginFormData, setloginFormdata] = useState({
         email: '',
         password: ''
@@ -521,6 +524,22 @@ const NavbarLinks = () => {
         }
     }, [isVerified])
 
+    const getAllProgramsFunc = async () => {
+        try {
+            setprogramCategoryLoading(true)
+            const res = await getProgramCategory()
+            setprogramCategories(res)
+        } catch (err) {
+            console.log(err)
+        } finally {
+            setprogramCategoryLoading(false)
+        }
+    }
+
+    useEffect(() => {
+        getAllProgramsFunc()
+    }, [])
+
     return (
         <>
             {(isLoading || forgotPasswordLoading) && <Loaders />}
@@ -537,9 +556,9 @@ const NavbarLinks = () => {
 
                     Programs <img src={down} />
                     {dropdown && <div onClick={((e) => e.stopPropagation())} className='program_dropdown'>
-                        <p onClick={(() => navigate('/program/yoga'))}>Yoga</p>
-                        <p onClick={(() => navigate('/program/life-coaching'))}>Life Coaching</p>
-                        <p onClick={(() => navigate('/program/coaches'))}>Coaches</p>
+                        {programCategories?.length > 0 && programCategories?.map((e) => (
+                            <p onClick={(()=>navigate(`/program/category/${e?.id}`))}>{e?.name}</p>
+                        ))}
                     </div>}
 
                 </div>
