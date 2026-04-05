@@ -10,10 +10,9 @@ import TermsConditions from './View/TermsConditions/TermsConditions'
 import RefundPolicy from './View/RefundPolicy/RefundPolicy'
 import ScrollToTop from './Components/ScrollToTop/ScrollToTop'
 import Articles from './View/Articles/Articles'
-import Yoga from './View/Programs/Yoga/SingleProgramCategory.jsx'
+import Yoga from './View/Programs/SingleCategory/SingleProgramCategory.jsx'
 import LifeCoaching from './View/Programs/LifeCoaching/LifeCoaching'
 import Coaches from './View/Programs/Coaches/Coaches'
-import OneTimeProgram from './View/OneTimeService/OneTimeProgram'
 import AvailableFacilitor from './View/OneTimeService/AvailableFacilitor'
 import ServiceDate from './View/OneTimeService/ServiceDate'
 import ConfirmBooking from './View/OneTimeService/ConfirmBooking/ConfirmBooking'
@@ -39,7 +38,8 @@ import { Toaster } from 'react-hot-toast'
 import PrivateRoute from './PrivateRoute/PrivateRoute.jsx'
 import PublicRoute from './PublicRoute/PublicRoute.jsx'
 import DashboardHabit from './View/Dashboard/DashboardHabit/DashboardHabit.jsx'
-import SingleProgramCategory from './View/Programs/Yoga/SingleProgramCategory.jsx'
+import SingleProgramCategory from './View/Programs/SingleCategory/SingleProgramCategory.jsx'
+import SingleProgram from './View/OneTimeService/SingleProgram.jsx'
 function App() {
   return (
     <>
@@ -63,7 +63,7 @@ function App() {
                 <Route path='life-coaching' element={<LifeCoaching />} />
                 <Route path='coaches' element={<Coaches />} />
               </Route>
-              <Route path='/onetime-service/:id' element={<OneTimeProgram />} />
+              <Route path='/single-program/:id' element={<SingleProgram />} />
               <Route path='/available-facilitor' element={<AvailableFacilitor />} />
               <Route path='/service-date' element={<ServiceDate />} />
               <Route path='/confirm-booking' element={<ConfirmBooking />} />

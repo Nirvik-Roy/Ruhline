@@ -18,8 +18,11 @@ import toast from 'react-hot-toast'
 import { userForgetPassword } from '../../utils/user.js'
 import ResendLinkModal from '../../View/ResendLinkModal/ResendLinkModal.jsx'
 import { getProgramCategory } from '../../utils/program'
+import { closeGlobalLogin } from '../../../Store/Slices/Loginslice/GlobalLoginSlice.js'
 const NavbarLinks = () => {
     const { isVerified, errors, isLogin, loginerrors, isLoading, isRegistration } = useSelector(state => state.auth);
+
+    const { isLoginModal } = useSelector(state => state.globalLogin)
     const navigate = useNavigate()
     const dispatch = useDispatch();
     const [emailErrormessage, setEmailerrorMessage] = useState('');
@@ -352,7 +355,10 @@ const NavbarLinks = () => {
             <>
                 <div className='sign_up_wrapper sign_in_wrapper'>
                     <h3>Log in</h3>
-                    <p>Don't have an account yet? <span onClick={(() => handleModal(1))}>Sign up </span>for free</p>
+                    <p>Don't have an account yet? <span onClick={(() => {
+                        dispatch(closeGlobalLogin())
+                        handleModal(1)
+                    })}>Sign up </span>for free</p>
 
                     <form className='modal_form'>
                         <div>
@@ -364,8 +370,6 @@ const NavbarLinks = () => {
                                 color: 'rgba(255, 0, 0, 1)',
                                 cursor: 'pointer'
                             }}>{loginerrors?.email ? loginerrors?.email[0] : emailErrormessage}</small>
-
-
                         </div>
                         <div className='input_form' style={{
                             position: 'relative'
@@ -390,7 +394,10 @@ const NavbarLinks = () => {
                                 cursor: 'pointer'
                             }} class="fa-regular fa-eye-slash" onClick={(() => setType3(!type3))}></i>}
 
-                            <small onClick={(() => handleModal(3))} style={{
+                            <small onClick={(() => {
+                                dispatch(closeGlobalLogin())
+                                handleModal(3)
+                            })} style={{
                                 fontSize: '11px',
                                 marginLeft: 'auto',
                                 color: 'rgba(255, 0, 0, 1)',
@@ -404,6 +411,7 @@ const NavbarLinks = () => {
                                 cursor: 'pointer'
                             }} onClick={(() => {
                                 handleModal(0);
+                                dispatch(closeGlobalLogin())
                                 setResendModal(true)
                             })}>Didn't get the link ? <span style={{
                                 fontWeight: '700',
@@ -545,7 +553,7 @@ const NavbarLinks = () => {
             {(isLoading || forgotPasswordLoading) && <Loaders />}
             {reSendModal && <ResendLinkModal setreSendModal={setResendModal} />}
             {modalToggle.signUp && <Modal children={SignUpmodalData()} handleModal={handleModal} />}
-            {modalToggle.signIn && <Modal children={SignInmodalData()} handleModal={handleModal} />}
+            {(modalToggle.signIn || isLoginModal) && <Modal closeGlobalLoginflag={true} children={SignInmodalData()} handleModal={handleModal} />}
             {modalToggle.forGotPassword && <Modal children={ForgotPassword()} handleModal={handleModal} />}
             {modalToggle.newPassword && <Modal children={newPassword()} handleModal={handleModal} />}
             {verifiedModal && <VerifiedModal setverifiedModal={setverifiedModal} handleModal={handleModal} />}
@@ -553,11 +561,10 @@ const NavbarLinks = () => {
                 <NavLink to={'/'}>Home</NavLink>
                 <NavLink to={'/about'}>About Us</NavLink>
                 <div className={'programs_link'} onClick={(() => setDropdown(!dropdown))}>
-
                     Programs <img src={down} />
                     {dropdown && <div onClick={((e) => e.stopPropagation())} className='program_dropdown'>
                         {programCategories?.length > 0 && programCategories?.map((e) => (
-                            <p onClick={(()=>navigate(`/program/category/${e?.id}`))}>{e?.name}</p>
+                            <p onClick={(() => navigate(`/program/category/${e?.id}`))}>{e?.name}</p>
                         ))}
                     </div>}
 

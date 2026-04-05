@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import ServiceExpect from './ServiceExpect'
+import ServiceExpect from './Benefits'
 import HowServiceWork from './HowServiceWork'
 import ServiceFAQ from './ServiceFAQ'
 import ServiceReviews from './ServiceReviews'
+import Benefits from './Benefits'
 
-const ServiceTabs = () => {
+const ServiceTabs = ({ singleProgramData }) => {
     const [toggle, setToggle] = useState({
         toggle1: true,
         toggle2: false,
@@ -25,21 +26,21 @@ const ServiceTabs = () => {
             <div className='service_tabs_wrapper'>
                 <p className={toggle.toggle1 && 'service_active'} onClick={(() => {
                     toggleFunc(1)
-                })}>What to Expect</p>
+                })}>Benefits</p>
                 <p className={toggle.toggle2 && 'service_active'} onClick={(() => {
                     toggleFunc(2)
                 })}>How it works</p>
                 <p className={toggle.toggle3 && 'service_active'} onClick={(() => {
                     toggleFunc(3)
                 })}>FAQs</p>
-                <p className={toggle.toggle4 && 'service_active'} onClick={(() => {
+                {/* <p className={toggle.toggle4 && 'service_active'} onClick={(() => {
                     toggleFunc(4)
-                })}>Reviews</p>
+                })}>Reviews</p> */}
             </div>
-            {toggle.toggle1 && <ServiceExpect />}
-            {toggle.toggle2 && <HowServiceWork />}
-            {toggle.toggle3 && <ServiceFAQ />}
-            {toggle.toggle4 && <ServiceReviews />}
+            {toggle.toggle1 && <Benefits singleProgramData={singleProgramData} />}
+            {toggle.toggle2 && <HowServiceWork singleProgramData={singleProgramData} />}
+            {toggle.toggle3 && <ServiceFAQ singleProgramData={singleProgramData} />}
+            {/* {toggle.toggle4 && <ServiceReviews />} */}
         </>
     )
 }

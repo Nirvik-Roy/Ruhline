@@ -12,7 +12,7 @@ const SingleProgramCategory = () => {
     const navigate = useNavigate();
     const [loading, setloading] = useState(false)
     const [singleCategoriesProgram, setsingleCategoriesProgram] = useState([])
-
+    
     const getProgramByCategories = async () => {
         setloading(true)
         const res = await getProgramsByCategory(id)
@@ -59,7 +59,7 @@ const SingleProgramCategory = () => {
                         <div className='program_content_grid_Wrapper'>
                             {currentItems?.length <= 0 && <p>No Programs Available...</p>}
                             {currentItems?.map((e) => (
-                                <div onClick={(() => navigate('/onetime-service/1'))} className='program_card156' key={e.id}>
+                                <div onClick={(() => navigate(`/single-program/${e?.id}`))} className='program_card156' key={e.id}>
                                     <img src={e?.main_image || img} />
                                     <h3>{e?.name}</h3>
                                 </div>

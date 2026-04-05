@@ -1,42 +1,59 @@
-import React from 'react'
+import React, { useState } from 'react'
 import bigImg from '../../assets/Images/Rectangle 445 (1).svg'
-import smallImg from '../../assets/Images/Rectangle 6614.svg'
-import smallImg1 from '../../assets/Images/Rectangle 6615.svg'
+import LoginRequiredModal from '../LoginRequiredModal/LoginRequiredModal.jsx'
 import './OneTimeProgram.css'
 import Button from '../../Components/Button/Button'
 import { useNavigate } from 'react-router-dom'
-const OneTimeServiceDetails = () => {
-    const navigate = useNavigate()
+import { useSelector } from 'react-redux'
+const OneTimeServiceDetails = ({ singleProgramData }) => {
+    const navigate = useNavigate();
+    const { isLogin } = useSelector(state => state.auth);
+    const [loginRequiredModal, setloginRequiredModal] = useState(false)
+    const openModal = () => {
+        if (isLogin) {
+            navigate('/available-facilitor')
+        } else {
+            setloginRequiredModal(true)
+        }
+    }
+
     return (
         <>
+            {loginRequiredModal && <LoginRequiredModal setloginRequiredModal={setloginRequiredModal} />}
             <div className='one_time_service_details_wrapper'>
                 <div className='left_one_time_service'>
                     <div className='service_big_img'>
-                        <img src={bigImg} />
+                        <img src={singleProgramData?.main_image || bigImg} />
                     </div>
                     <div className='service_small_img_wrapper'>
-                        {[smallImg, smallImg1, smallImg, smallImg1].map((e, i) => (
+                        {singleProgramData?.gallery_images?.map((e, i) => (
                             <div key={i} className='service_small_img'>
-                                <img src={e} />
+                                <img src={e?.image_path} />
                             </div>
                         ))}
 
                     </div>
                 </div>
                 <div className='right_one_time_service_details'>
-                    <small>Best Selling</small>
+                    {singleProgramData?.tag && <small>{singleProgramData?.tag}</small>}
                     <div>
-                        <del>SAR97</del>
-                        <h1>SAR67</h1>
+                        {singleProgramData?.original_price && <del>SAR{singleProgramData?.original_price}</del>}
+                        {singleProgramData?.sale_price && <h1>SAR{singleProgramData?.sale_price}</h1>}
                     </div>
-                    <span><strong>Categories: </strong>Yoga, Yoga Sub-Category 1</span>
-                    <span><strong>Occurrence: </strong>Recurring</span>
-                    <span><strong>Duration: </strong>32 weeks</span>
+                    {singleProgramData?.program_category?.name && <span><strong>Categories: </strong>{singleProgramData?.program_category?.name}</span>}
+                    <span><strong>Occurrence: </strong>{singleProgramData?.occurrence_type}</span>
+                    {singleProgramData?.session_duration_minutes && <span><strong>Session Duration: </strong>{singleProgramData?.session_duration_minutes} mins</span>}
+                    {singleProgramData?.sessions_per_week && <span><strong>Session Per Week: </strong>{singleProgramData?.sessions_per_week}</span>}
+                    {singleProgramData?.tenure_weeks && <span><strong>Tenure: </strong>{singleProgramData?.tenure_weeks} weeks</span>}
 
-                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. <br /> <br />
-                        Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam.Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam.Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam.
+                    <p style={{
+                        backgroundColor: 'transparent'
+                    }} dangerouslySetInnerHTML={{
+                        __html: singleProgramData?.description
+                    }}>
+
                     </p>
-                    <div onClick={(() => navigate('/available-facilitor'))}>
+                    <div onClick={(() => openModal())}>
                         <Button children={'Book Now'} />
                     </div>
 

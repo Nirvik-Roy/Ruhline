@@ -1,16 +1,16 @@
 import React from 'react'
 import img from '../../assets/Images/Rectangle 446 (1).svg'
-import FAQAccordion from '../ContactUs/FAQ/FAQAccordion'
-const ServiceFAQ = () => {
+import ProgramFaqAccordion from './ProgramFaqAccordion'
+const ServiceFAQ = ({ singleProgramData }) => {
     return (
         <>
             <div className='service_expect_wrapper'>
                 <div className='service_expert_left'>
                     <h1 className='all_heading2'>FAQs</h1>
-                    <FAQAccordion/>
+                    <ProgramFaqAccordion singleData={singleProgramData}/>
                 </div>
                 <div className='service_expert_right service_long_img'>
-                    <img src={img} />
+                    <img src={singleProgramData?.faqs_section_image ||img} />
                 </div>
             </div>
         </>
