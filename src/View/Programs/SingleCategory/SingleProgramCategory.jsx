@@ -12,17 +12,16 @@ const SingleProgramCategory = () => {
     const navigate = useNavigate();
     const [loading, setloading] = useState(false)
     const [singleCategoriesProgram, setsingleCategoriesProgram] = useState([])
-    
-    const getProgramByCategories = async () => {
+
+    const getProgramByCategories = async (id) => {
         setloading(true)
         const res = await getProgramsByCategory(id)
-        console.log(res)
         setloading(false)
         setsingleCategoriesProgram(res?.data)
     }
     useEffect(() => {
         if (id) {
-            getProgramByCategories()
+            getProgramByCategories(id)
         }
     }, [id])
 
@@ -54,7 +53,7 @@ const SingleProgramCategory = () => {
             <BannerLayout title={singleCategoriesProgram[0]?.program_category?.name} />
             <div className='program_wrapper'>
                 <div className='all_Container program_content_wrapper'>
-                    <ProgramSidebar setSearchTerm={setSearchTerm} Category={true} Enrollment={true} />
+                    <ProgramSidebar getProgramByCategories={getProgramByCategories} singleCategoriesProgram={singleCategoriesProgram} setSearchTerm={setSearchTerm} Category={true} Enrollment={true} />
                     <div className='program_content_right'>
                         <div className='program_content_grid_Wrapper'>
                             {currentItems?.length <= 0 && <p>No Programs Available...</p>}
@@ -67,9 +66,9 @@ const SingleProgramCategory = () => {
 
                         </div>
                         <div >
-                        <Pagination pageCount={pageCount}
-                            currentPage={currentPage}
-                            onPageChange={handlePageChange} />
+                            <Pagination pageCount={pageCount}
+                                currentPage={currentPage}
+                                onPageChange={handlePageChange} />
 
                         </div>
                     </div>
