@@ -1,80 +1,106 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import BannerLayout from '../../BannerLayout/BannerLayout'
 import Pagination from '../../../Components/Pagination/Pagination'
 import ProgramSidebar from '../ProgramSidebar'
-import img from '../../../assets/Images/9aa56766fc589aef71a434e396c3b39e7b53e210.jpg'
-import img1 from '../../../assets/Images/a1380e7f99749ba01d9fdc18ec22e32c85fd5a0e.jpg'
-import img2 from '../../../assets/Images/b2d6b1b6bfbe8f8f3eb5ef556d41129707d892e6.jpg'
+import { getAllCoaches } from '../../../utils/coach'
+import Loaders from '../../../Components/Loaders/Loaders'
 const Coaches = () => {
-    const data = [
-        {
-            id: 1,
-            title: 'Olivia Bennett',
-            occupation: 'Health Care Consultant',
-            img: img
-        },
-        {
-            id: 2,
-            title: 'Joseph Pitt',
-            occupation: 'Health Care Consultant',
-            img: img1
-        },
-        {
-            id: 3,
-            title: 'Olivia Bennett',
-            occupation: 'Health Care Consultant',
-            img: img2
-        },
-        {
-            id: 1,
-            title: 'Olivia Bennett',
-            occupation: 'Health Care Consultant',
-            img: img
-        },
-        {
-            id: 2,
-            title: 'Joseph Pitt',
-            occupation: 'Health Care Consultant',
-            img: img1
-        },
-        {
-            id: 3,
-            title: 'Olivia Bennett',
-            occupation: 'Health Care Consultant',
-            img: img2
+    const [coachData, setcoachData] = useState([]);
+    const [coachType, setcoachType] = useState('')
+    const [gender, setGender] = useState('');
+    const [loading, setloading] = useState(false)
+    const getCoachesFunc = async () => {
+        try {
+            setloading(true)
+            const res = await getAllCoaches()
+            setcoachData(res?.data)
+        } catch (err) {
+            console.log(err)
+        } finally {
+            setloading(false)
         }
-    ]
+    }
+    useEffect(() => {
+        getCoachesFunc()
+    }, [])
+
+
+    // Pagination logic & Search Logic...
+    const [searchTerm, setSearchTerm] = useState("");
+    const [debouncedSearch, setDebouncedSearch] = useState("");
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedSearch(searchTerm);
+        }, 500); // 500ms delay
+        return () => clearTimeout(timer); // cleanup
+    }, [searchTerm]);
+    let filteredData = coachData?.filter((item) =>
+        item?.user?.name?.toLowerCase().includes(debouncedSearch.toLowerCase())
+    );
+    const itemsPerPage = 9;
+    const [currentPage, setCurrentPage] = useState(0);
+    let offset = currentPage * itemsPerPage;
+    let currentItems = filteredData?.slice(offset, offset + itemsPerPage);
+    let pageCount = Math.ceil(filteredData?.length / itemsPerPage);
+    const handlePageChange = (selectedItem) => {
+        setCurrentPage(selectedItem.selected);
+    };
+
+    const applyFunction = () => {
+        const filteredData = coachData?.filter((item) =>
+            item?.profile?.gender == gender
+        );
+        const itemsPerPage = 9;
+        offset = currentPage * itemsPerPage;
+        currentItems = filteredData?.slice(offset, offset + itemsPerPage);
+        pageCount = Math.ceil(filteredData?.length / itemsPerPage);
+    }
     return (
         <>
+            {loading && <Loaders />}
             <BannerLayout title={'Coaches'} />
             <div className='program_wrapper'>
                 <div className='all_Container program_content_wrapper'>
-                    <ProgramSidebar Coaches={true} Gender={true} />
+                    <ProgramSidebar applyFunction={applyFunction} getCoachesFunc={getCoachesFunc} setGender={setGender} gender={gender} setcoachType={setcoachType} coachType={coachType} setSearchTerm={setSearchTerm} Coaches={true} Gender={true} />
                     <div className='program_content_right'>
                         <div className='program_content_grid_Wrapper'>
-                            {data.map((e, i) => (
+                            {currentItems?.length <= 0 && <p>No Coaches are available...</p>}
+                            {currentItems?.map((e) => (
 
                                 <div className='program_card156' key={e.id}>
-                                    <img src={e.img} />
+                                    <img src={e?.profile?.profile_image} />
                                     {/* <h3>{e.title}</h3> */}
                                     <div className='overlay' style={{
                                         zIndex: 9
                                     }}></div>
                                     <div className='home_coach_slide_content' style={{
-                                        zIndex: 9
+                                        zIndex: 9,
+                                        background: 'rgba(0,0,0,0.4)',
+                                        backdropFilter: 'blur(5px)',
+                                        width: '100%',
+                                        bottom: '0',
+                                        minHeight: '50px',
+                                        padding: '10px ',
+                                        left: '0'
                                     }}>
                                         <h5 style={{
-                                        zIndex: 9
-                                    }}>{e.title}</h5>
+                                            zIndex: 9,
+                                            fontWeight: '800'
+                                        }}>{e?.user?.name}</h5>
                                         <h6 style={{
-                                        zIndex: 9
-                                    }}>{e.occupation}</h6>
+                                            zIndex: 9
+                                        }}>{e.occupation}</h6>
                                     </div>
                                 </div>
                             ))}
 
                         </div>
-                        <Pagination />
+                        <div >
+                            <Pagination pageCount={pageCount}
+                                currentPage={currentPage}
+                                onPageChange={handlePageChange} />
+
+                        </div>
                     </div>
                 </div>
 

@@ -6,10 +6,10 @@ import { getProgramCategory } from '../../utils/program'
 import Loaders from '../../Components/Loaders/Loaders'
 import { useParams } from 'react-router-dom'
 import toast from 'react-hot-toast'
-const ProgramSidebar = ({ Category, Enrollment, Coaches, Gender, setSearchTerm, getProgramByCategories }) => {
+const ProgramSidebar = ({ Category, Enrollment, Coaches, Gender, setSearchTerm, getProgramByCategories, setcoachType, coachType, setGender, gender, getCoachesFunc, applyFunction }) => {
     const { id } = useParams()
     const [programCategories, setprogramCategories] = useState([])
-    const [categoryId, setcategoryId] = useState()
+    const [categoryId, setcategoryId] = useState('')
     const [filterCategories, setfilterCategories] = useState([])
     const [loading, setloading] = useState(false)
     const getAllProgramsFunc = async () => {
@@ -25,7 +25,7 @@ const ProgramSidebar = ({ Category, Enrollment, Coaches, Gender, setSearchTerm, 
     }
     useEffect(() => {
         getAllProgramsFunc()
-    }, [])
+    }, [id])
 
     useEffect(() => {
         if (programCategories.length > 0) {
@@ -34,7 +34,7 @@ const ProgramSidebar = ({ Category, Enrollment, Coaches, Gender, setSearchTerm, 
         }
     }, [programCategories])
 
-
+    console.log(coachType)
     return (
         <>
             {loading && <Loaders />}
@@ -63,7 +63,7 @@ const ProgramSidebar = ({ Category, Enrollment, Coaches, Gender, setSearchTerm, 
                                                 setcategoryId('')
                                             } else {
                                                 setcategoryId(element?.id)
-                                                
+
                                             }
                                         })} type='checkbox' style={{
                                             width: '20px',
@@ -85,11 +85,17 @@ const ProgramSidebar = ({ Category, Enrollment, Coaches, Gender, setSearchTerm, 
                         </div>
                         <ul className='dropdown_list'>
                             <div className='dropdown_radio_wrapper'>
-                                <input type='radio' />
+                                <input checked={coachType == 'Mentor'} onChange={((e) => {
+                                    setcoachType(e.target.value)
+                                })} value={'Mentor'} type='radio' />
                                 <p>Mentor</p>
                             </div>
                             <div className='dropdown_radio_wrapper'>
-                                <input type='radio' />
+                                <input checked={coachType == 'Yoga Trainer'} onChange={((e) => {
+
+                                    setcoachType(e.target.value)
+
+                                })} value={'Yoga Trainer'} type='radio' />
                                 <p>Yoga Trainer</p>
                             </div>
                         </ul>
@@ -103,29 +109,45 @@ const ProgramSidebar = ({ Category, Enrollment, Coaches, Gender, setSearchTerm, 
                     </div>
                     <ul className='dropdown_list'>
                         <div className='dropdown_radio_wrapper'>
-                            <input type='radio' />
+                            <input checked={gender == 'male'} onChange={(() => {
+                                setGender('male')
+                            })} type='radio' />
                             <p>Male</p>
                         </div>
                         <div className='dropdown_radio_wrapper'>
-                            <input type='radio' />
+                            <input checked={gender == 'female'} onChange={(() => {
+                                setGender('female')
+                            })} type='radio' />
                             <p>Female</p>
                         </div>
                     </ul>
                 </div>}
 
-                <div className='dropdown_btn_wrapper'>
-                    <Button onClick={(()=>{
-                        if(categoryId){
+                {Category && <div className='dropdown_btn_wrapper'>
+                    <Button onClick={(() => {
+                        if (categoryId) {
                             getProgramByCategories(categoryId)
-                        }else{
+                        } else {
                             toast.error('Plz select a category')
                         }
                     })} children={'Apply'} styles={{ width: '48%' }} />
-                    <Button onClick={(()=>{
+                    <Button onClick={(() => {
                         getProgramByCategories(id)
                         setcategoryId('')
                     })} children={'Reset'} styles={{ border: '1px solid var(--primary-color)', background: 'transparent', color: 'var(--primary-color)', width: '48%' }} />
-                </div>
+                </div>}
+
+
+                {(Gender || Coaches) && <div className='dropdown_btn_wrapper'>
+                    <Button onClick={(() => {
+                        applyFunction()
+                    })} children={'Apply'} styles={{ width: '48%' }} />
+                    <Button onClick={(() => {
+                        getCoachesFunc()
+                        setGender('')
+                        setcoachType('')
+                    })} children={'Reset'} styles={{ border: '1px solid var(--primary-color)', background: 'transparent', color: 'var(--primary-color)', width: '48%' }} />
+                </div>}
             </div>
         </>
     )
