@@ -13,7 +13,8 @@ const AvailableFacilitor = () => {
     const { id } = useParams()
     const [coachesData, setcoachesData] = useState([]);
     const [loading, setloading] = useState('');
-    const [selectedCoachid, setselectedCoachId] = useState()
+    const [coachName, setcoachName] = useState('')
+    const [selectedCoachid, setselectedCoachId] = useState();
     const [toggle, setToggle] = useState({
         toggle1: false,
         toggle2: true,
@@ -66,11 +67,9 @@ const AvailableFacilitor = () => {
         setcoachesData(res?.data)
         setloading(false)
     }
-
     useEffect(() => {
         getProgramSpecificCoachesFunc()
     }, [id])
-
     return (
         <>
             {loading && <Loaders />}
@@ -78,7 +77,7 @@ const AvailableFacilitor = () => {
             <div className='available_facilitor_wrapper'>
                 <div className='all_Container'>
                     <div className='available_tabs_wrapper'>
-                        <p className='service_active' >All</p>
+                        <p className='service_active'>All</p>
                         {/* <p className={toggle.toggle2 && 'service_active'}>Early Morning</p>
                         <p>Morning</p>
                         <p>Afternoon</p>
@@ -92,6 +91,7 @@ const AvailableFacilitor = () => {
                             <div onClick={(() => {
                                 setselectedCoachId(e?.id)
                                 setselectedIndex(i)
+                                setcoachName(e?.user?.name)
                             })} className='program_slide available_slider' key={i}>
                                 <div className='home_coach_slide_content' style={i == selectedIndex ? {
                                     width: '95%',
@@ -139,10 +139,10 @@ const AvailableFacilitor = () => {
                             </div>
                         ))}
                     </Slider>
-                    <div onClick={(() =>{
-                        if(selectedCoachid){
-                            navigate(`/service-date/${id}/${selectedCoachid}`)
-                        }else{
+                    <div onClick={(() => {
+                        if (selectedCoachid) {
+                            navigate(`/service-date/${id}/${coachName}/${selectedCoachid}`)
+                        } else {
                             toast.error('Plz select a coach before procceding..')
                         }
                     })}>

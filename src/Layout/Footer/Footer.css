@@ -18,7 +18,7 @@
 }
 
 .footer_1 img {
-    width: 150px;
+    max-width: 350px;
 }
 .footer_icon{
     width: 27px;

@@ -65,8 +65,8 @@ function App() {
               </Route>
               <Route path='/single-program/:id' element={<SingleProgram />} />
               <Route path='/available-facilitor/:id' element={<AvailableFacilitor />} />
-              <Route path='/service-date/:id/:coachId' element={<ServiceDate />} />
-              <Route path='/confirm-booking' element={<ConfirmBooking />} />
+              <Route path='/service-date/:id/:coachName/:coachId' element={<ServiceDate />} />
+              <Route path='/confirm-booking/:id/:coachId' element={<ConfirmBooking />} />
             {/* </Route> */}
 
             {/* Dashboard Routes */}
