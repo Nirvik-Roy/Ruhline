@@ -64,8 +64,8 @@ function App() {
                 <Route path='coaches' element={<Coaches />} />
               </Route>
               <Route path='/single-program/:id' element={<SingleProgram />} />
-              <Route path='/available-facilitor' element={<AvailableFacilitor />} />
-              <Route path='/service-date' element={<ServiceDate />} />
+              <Route path='/available-facilitor/:id' element={<AvailableFacilitor />} />
+              <Route path='/service-date/:id/:coachId' element={<ServiceDate />} />
               <Route path='/confirm-booking' element={<ConfirmBooking />} />
             {/* </Route> */}
 

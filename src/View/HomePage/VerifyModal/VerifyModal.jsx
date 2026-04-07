@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import tick from '../../../assets/Images/Layer_1.png'
-const VerifyModal = ({ setverificationModal, setreSendModal }) => {
+const VerifyModal = ({ setverificationModal, setResendModal }) => {
     return (
         <>
             <div className='payment_succesful_modal_wrapper'></div>
@@ -18,7 +18,7 @@ const VerifyModal = ({ setverificationModal, setreSendModal }) => {
                 }}>Plz check your inbox and verify your email</p>
                 <p>Don't get the link? <Link onClick={(() => {
                     setverificationModal(false)
-                    setreSendModal(true)
+                    setResendModal(true)
                 })}>Click to resend email</Link></p>
             </div>
         </>

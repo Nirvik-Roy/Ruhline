@@ -370,7 +370,10 @@
 }
 
 .available_facilitor_wrapper .available_slider {
-  height: 230px;
+  height: 304px;
+  width: 95% !important;
+  min-width: 308px !important;
+  max-width: 308px !important;
   overflow: visible;
 }
 

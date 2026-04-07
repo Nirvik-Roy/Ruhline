@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './Navbar.css'
-import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useLocation, useNavigate, useParams } from 'react-router-dom'
 import Button from '../../Components/Button/Button'
 import down from '../../assets/Images/arrow-right.svg'
 import Modal from '../../Components/Modal/Modal'
@@ -19,12 +19,16 @@ import { userForgetPassword } from '../../utils/user.js'
 import ResendLinkModal from '../../View/ResendLinkModal/ResendLinkModal.jsx'
 import { getProgramCategory } from '../../utils/program'
 import { closeGlobalLogin } from '../../../Store/Slices/Loginslice/GlobalLoginSlice.js'
+import { Autoverify } from '../../../Store/Slices/Loginslice/AutoVerfiySlice.js'
+import AutoVerifyModal from '../../View/HomePage/VerifyModal/AutoVerifyModal.jsx'
+import VerifyModal from '../../View/HomePage/VerifyModal/VerifyModal.jsx'
 const NavbarLinks = () => {
-    const { isVerified, errors, isLogin, loginerrors, isLoading, isRegistration } = useSelector(state => state.auth);
-
+    const { isVerified, errors, isLogin, loginerrors, isLoading, isRegistration, isVerifyChecking } = useSelector(state => state.auth);
+    const [verificationModal, setverificationModal] = useState(false);
     const { isLoginModal } = useSelector(state => state.globalLogin)
     const navigate = useNavigate()
     const dispatch = useDispatch();
+    const {id} = useParams()
     const [emailErrormessage, setEmailerrorMessage] = useState('');
     const [passwordMsg, setPasswordMsg] = useState("");
     const [programCategories, setprogramCategories] = useState()
@@ -37,6 +41,8 @@ const NavbarLinks = () => {
     const [forgotPasswordErrors, setforgotPasswordErrorrs] = useState()
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const [reSendModal, setResendModal] = useState(false)
+
+
     const ValidateEmail = (email) => {
         if (!email) {
             return setEmailerrorMessage('* Email is Required')
@@ -61,7 +67,11 @@ const NavbarLinks = () => {
         }
         return "";
     };
-
+    useEffect(() => {
+        if (isRegistration) {
+            setverificationModal(true)
+        }
+    }, [isRegistration])
     const [verifiedModal, setverifiedModal] = useState(false)
     const [modalToggle, setmodalToggle] = useState({
         signUp: false,
@@ -76,7 +86,8 @@ const NavbarLinks = () => {
 
     useEffect(() => {
         if (isLogin) {
-            navigate('/dashboard');
+          
+            // navigate('/dashboard');
             setmodalToggle(0)
         }
     }, [isLogin])
@@ -84,6 +95,26 @@ const NavbarLinks = () => {
     const [showNavbar, setShowNavbar] = useState(false)
 
     const location = useLocation()
+
+
+    useEffect(() => {
+        // Check path
+        if (location.pathname.startsWith("/verify-email")) {
+            // Extract query params
+            const params = new URLSearchParams(location.search);
+            const id = params.get("id");
+            const hash = params.get("hash");
+            const expires = params.get("expires");
+            const signature = params.get("signature");
+            // Only dispatch if all present
+            if (id && hash && expires && signature) {
+                const data = { id, hash, expires, signature };
+                if (data.id != '', data.hash != '', data.expires != '', data.signature != '') {
+                    dispatch(Autoverify(data));
+                }
+            }
+        }
+    }, [location, dispatch]);
 
     const [dropdown, setDropdown] = useState(false)
 
@@ -551,11 +582,13 @@ const NavbarLinks = () => {
     return (
         <>
             {(isLoading || forgotPasswordLoading) && <Loaders />}
-            {reSendModal && <ResendLinkModal setreSendModal={setResendModal} />}
+            {reSendModal && <ResendLinkModal setResendModal={setResendModal} />}
             {modalToggle.signUp && <Modal children={SignUpmodalData()} handleModal={handleModal} />}
             {(modalToggle.signIn || isLoginModal) && <Modal closeGlobalLoginflag={true} children={SignInmodalData()} handleModal={handleModal} />}
             {modalToggle.forGotPassword && <Modal children={ForgotPassword()} handleModal={handleModal} />}
             {modalToggle.newPassword && <Modal children={newPassword()} handleModal={handleModal} />}
+            {verificationModal && <VerifyModal setResendModal={setResendModal} setverificationModal={setverificationModal} />}
+            {(isVerifyChecking && !isVerified) && <AutoVerifyModal />}
             {verifiedModal && <VerifiedModal setverifiedModal={setverifiedModal} handleModal={handleModal} />}
             <div className='nav_links_wrapper'>
                 <NavLink to={'/'}>Home</NavLink>
@@ -574,11 +607,25 @@ const NavbarLinks = () => {
                 {!isLogin && <div onClick={(() => handleModal(1))}>
                     <Button children={'Login/Sign Up'} />
                 </div>}
+
+                {isLogin && <i style={{
+                    color:'var(--primary-color)',
+                    fontSize:'20px',
+                    border:'1px solid var(--primary-color)',
+                    width:'35px',
+                    height:'35px',
+                    display:'flex',
+                    justifyContent:'center',
+                    alignItems:'center',
+                    borderRadius:'50%'
+                }} onClick={(() => navigate('/dashboard/profile'))} class="fa-solid fa-user"></i>}
                 {isLogin && <>
                     <div onClick={(() => dispatch(AuthlogOut()))}>
                         <Button children={'Log Out'} />
                     </div>
                 </>}
+
+
                 <i onClick={(() => { setShowNavbar(!showNavbar) })} class="fa-solid fa-bars"></i>
             </div>
 

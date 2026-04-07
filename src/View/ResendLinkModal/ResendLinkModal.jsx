@@ -5,7 +5,7 @@ import toast from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
 import { Resendmail } from '../../../Store/Slices/Loginslice/ResendMail'
 import Loaders from '../../Components/Loaders/Loaders'
-const ResendLinkModal = ({ setreSendModal }) => {
+const ResendLinkModal = ({ setResendModal }) => {
     const [isLoading, setisLoading] = useState(false);
     const { isResend, resendErrors, resendLoading } = useSelector(state => state.auth)
     const dispatch = useDispatch()
@@ -53,7 +53,7 @@ const ResendLinkModal = ({ setreSendModal }) => {
             {isLoading && <Loaders />}
             <div className='modal_wrapper_overlay'></div>
             <div className='modal_wrapper_div'>
-                <i class="fa-solid fa-xmark" onClick={(() => setreSendModal(false))} style={{
+                <i class="fa-solid fa-xmark" onClick={(() => setResendModal(false))} style={{
                     position: 'absolute',
                     top: '10px',
                     right: '10px'

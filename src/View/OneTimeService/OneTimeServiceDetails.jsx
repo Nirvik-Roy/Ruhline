@@ -3,15 +3,16 @@ import bigImg from '../../assets/Images/Rectangle 445 (1).svg'
 import LoginRequiredModal from '../LoginRequiredModal/LoginRequiredModal.jsx'
 import './OneTimeProgram.css'
 import Button from '../../Components/Button/Button'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 const OneTimeServiceDetails = ({ singleProgramData }) => {
     const navigate = useNavigate();
     const { isLogin } = useSelector(state => state.auth);
+    const {id} = useParams()
     const [loginRequiredModal, setloginRequiredModal] = useState(false)
     const openModal = () => {
         if (isLogin) {
-            navigate('/available-facilitor')
+            navigate(`/available-facilitor/${id}`)
         } else {
             setloginRequiredModal(true)
         }
