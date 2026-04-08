@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Button from '../../Components/Button/Button'
 import { useDispatch, useSelector } from 'react-redux'
 import { AuthlogOut } from '../../../Store/Slices/Loginslice/AuthSlice'
@@ -7,7 +7,6 @@ import { getProgramCategory } from '../../utils/program'
 
 const ResponsiveNavbar = ({ handleModal, setShowNavbar }) => {
     const [dropdown, setDropdown] = useState(false)
-    const navigate = useNavigate()
     const { isLogin } = useSelector(state => state.auth);
     const [programCategories, setprogramCategories] = useState()
     const getAllProgramsFunc = async () => {
