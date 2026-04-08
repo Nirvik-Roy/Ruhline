@@ -206,9 +206,11 @@ const ProfilePassword = () => {
                         marginTop: '30px'
                     }}>
 
-                        <button>Cancel</button>
-                        <div onClick={(() => handleSubmitPassword())}>
-                            <Button children={'Change'} />
+                        <button onClick={((e)=>{
+                           e.preventDefault()
+                        })}>Cancel</button>
+                        <div>
+                            <Button onClick={(() => handleSubmitPassword())} children={'Change'} />
                         </div>
                     </div>
                 </form>

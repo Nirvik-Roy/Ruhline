@@ -65,7 +65,6 @@ const ServiceDate = () => {
                     slot_start_at: slotsStartDate
                 })
                 if (res?.success) {
-                    console.log(res?.data)
                     const encrypted = btoa(slotsStartDate);
                     navigate(`/confirm-booking/${id}/${coachId}/?slot=${encodeURIComponent(encrypted)}`)
                     const previewData = localStorage.getItem('previewData')

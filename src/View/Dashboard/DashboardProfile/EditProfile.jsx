@@ -425,7 +425,7 @@ const EditProfile = () => {
                         marginTop: '30px'
                     }}>
 
-                        <button>Cancel</button>
+                        <button onClick={((e)=>e.preventDefault())}>Cancel</button>
                         <div onClick={(() => handleSubmit())}>
 
                             <Button children={'Add'} />

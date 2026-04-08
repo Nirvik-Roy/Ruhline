@@ -183,6 +183,9 @@
 }
 
 @media(max-width:1070px) {
+    .nav_links_wrapper{
+        gap: 10px;
+    }
     .nav_links_wrapper a {
         display: none;
     }
@@ -209,6 +212,6 @@
 
 @media(max-width:480px) {
     .nav_logo {
-        width: 80%;
+        width: 70%;
     }
 }

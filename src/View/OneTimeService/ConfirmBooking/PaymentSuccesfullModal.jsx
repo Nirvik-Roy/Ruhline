@@ -1,7 +1,15 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import tick from '../../../assets/Images/Layer_1.png'
 const PaymentSuccesfullModal = ({setModal}) => {
+  const navigate = useNavigate()
+  useEffect(() => {
+    setTimeout(() => {
+       navigate('/dashboard',{
+        replace:true
+       })
+    }, 3000)
+  }, [])
   return (
     <>
       <div className='payment_succesful_modal_wrapper' onClick={(()=>setModal(false))}></div>

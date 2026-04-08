@@ -1,9 +1,28 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import Button from '../../Components/Button/Button'
+import { useDispatch, useSelector } from 'react-redux'
+import { AuthlogOut } from '../../../Store/Slices/Loginslice/AuthSlice'
+import { getProgramCategory } from '../../utils/program'
 
 const ResponsiveNavbar = ({ handleModal, setShowNavbar }) => {
     const [dropdown, setDropdown] = useState(false)
+    const navigate = useNavigate()
+    const { isLogin } = useSelector(state => state.auth);
+    const [programCategories, setprogramCategories] = useState()
+    const getAllProgramsFunc = async () => {
+        try {
+            const res = await getProgramCategory()
+            setprogramCategories(res)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    useEffect(() => {
+        getAllProgramsFunc()
+    }, [])
+    const dispatch = useDispatch()
     return (
         <>
             <div className='responsive_navbar_wrapper'>
@@ -11,9 +30,9 @@ const ResponsiveNavbar = ({ handleModal, setShowNavbar }) => {
                 <Link onClick={(() => { setShowNavbar(false) })} to={'/about'}>About Us</Link>
                 <Link className='program_links456' onClick={(() => setDropdown(!dropdown))}>Programs <i class="fa-solid fa-angle-down"></i></Link>
                 {dropdown && <div className='program_links_wrapper'>
-                    <Link to={'/program/yoga'}>Yoga</Link>
-                    <Link to={'/program/life-coaching'}>Life Coaching</Link>
-                    <Link to={'/program/coaches'}>Coaches</Link>
+                    {programCategories?.map((e) => (
+                        <Link to={`/program/category/${e?.id}`}>{e?.name}</Link>
+                    ))}
                 </div>}
                 <Link onClick={(() => { setShowNavbar(false) })} to={'/articles'}>Articles</Link>
                 <Link onClick={(() => { setShowNavbar(false) })} to={'/contact'}>Contact Us</Link>
@@ -21,7 +40,8 @@ const ResponsiveNavbar = ({ handleModal, setShowNavbar }) => {
                     handleModal(1)
                     setShowNavbar(false)
                 })}>
-                    <Button children={'Login/SignUp'} />
+                    {!isLogin && <Button children={'Login/SignUp'} />}
+                    {isLogin && <Button onClick={(() => dispatch(AuthlogOut()))} children={'Log out'} />}
                 </div>
 
             </div>
