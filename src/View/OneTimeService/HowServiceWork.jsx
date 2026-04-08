@@ -21,9 +21,9 @@ const HowServiceWork = ({ singleProgramData }) => {
                         ))}
                     </div>
                 </div>
-                <div className='service_expert_right'>
+                {singleProgramData?.how_it_works?.length > 0 && <div className='service_expert_right'>
                     <img src={singleProgramData?.how_it_works_section_image || img} />
-                </div>
+                </div>}
             </div>
         </>
     )

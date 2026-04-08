@@ -29,6 +29,9 @@ const ResponsiveNavbar = ({ handleModal, setShowNavbar }) => {
                 <Link onClick={(() => { setShowNavbar(false) })} to={'/about'}>About Us</Link>
                 <Link className='program_links456' onClick={(() => setDropdown(!dropdown))}>Programs <i class="fa-solid fa-angle-down"></i></Link>
                 {dropdown && <div className='program_links_wrapper'>
+                    {programCategories?.length <= 0 && <p style={{
+                        fontSize: '12px',
+                    }}>No program available</p>}
                     {programCategories?.map((e) => (
                         <Link to={`/program/category/${e?.id}`}>{e?.name}</Link>
                     ))}

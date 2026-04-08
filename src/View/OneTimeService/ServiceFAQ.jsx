@@ -7,11 +7,11 @@ const ServiceFAQ = ({ singleProgramData }) => {
             <div className='service_expect_wrapper'>
                 <div className='service_expert_left'>
                     <h1 className='all_heading2'>FAQs</h1>
-                    <ProgramFaqAccordion singleData={singleProgramData}/>
+                    <ProgramFaqAccordion singleData={singleProgramData} />
                 </div>
-                <div className='service_expert_right service_long_img'>
-                    <img src={singleProgramData?.faqs_section_image ||img} />
-                </div>
+                {singleProgramData?.faqs?.length > 0 && <div className='service_expert_right service_long_img'>
+                    <img src={singleProgramData?.faqs_section_image || img} />
+                </div>}
             </div>
         </>
     )

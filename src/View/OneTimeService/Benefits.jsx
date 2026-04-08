@@ -8,7 +8,7 @@ const Benefits = ({ singleProgramData }) => {
                 <div className='service_expert_left'>
                     <h3>Benefits</h3>
                     <div className='benefits_points_wrapper'>
-                        {singleProgramData?.benefits?.length <=0 && <p>No benefits found...</p> }
+                        {singleProgramData?.benefits?.length <= 0 && <p>No benefits found...</p>}
                         {singleProgramData?.benefits?.map((e) => (
                             <div className='benefits_wrapper'>
                                 <img src={tick} />
@@ -21,9 +21,9 @@ const Benefits = ({ singleProgramData }) => {
                         ))}
                     </div>
                 </div>
-                <div className='service_expert_right '>
+                {singleProgramData?.benefits?.length > 0 && <div className='service_expert_right '>
                     <img src={singleProgramData?.benefits_section_image || img} />
-                </div>
+                </div>}
             </div>
         </>
     )

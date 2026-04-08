@@ -1,16 +1,95 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Input from '../../../Components/Inputs/Input'
 import Textarea from '../../../Components/Inputs/Textarea'
 import upload from '../../../assets/Images/Vector (7).svg'
 import Button from '../../../Components/Button/Button'
+import Loaders from '../../../Components/Loaders/Loaders'
+import { getDisputeformOptions, createDispute } from '../../../utils/dispute'
+import toast from 'react-hot-toast'
 const AddNewTicket = () => {
-    const [ticketIssue, setticketIssue] = useState({
-        programIssue: true,
-        coachIssue: false,
-        paymentsIssue: false
+    const [loading, setloading] = useState(false);
+    const [disputeFormOptions, setdisputeFormOptions] = useState([]);
+    const [disputeCategory, setdisputeCategory] = useState('issue_with_program');
+    const [programId, setprogramId] = useState();
+    const [imgfiles, setimgfiles] = useState([])
+    const [inputData, setinputData] = useState({
+        subject: '',
+        category: '',
+        description: '',
+        coach_id: '',
+        checkout_order_id: '',
     })
+
+    console.log(inputData)
+
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setinputData({
+            ...inputData,
+            [name]: value
+        })
+    }
+
+
+    const callDisputeOptions = async () => {
+        setloading(true)
+        const res = await getDisputeformOptions()
+        setdisputeFormOptions(res)
+        setloading(false)
+    }
+    useEffect(() => {
+        callDisputeOptions()
+    }, [])
+
+
+    const handleDelete = (index) => {
+        setimgfiles((prev) => (
+            prev.filter((e, i) => i != index)
+        ))
+    }
+    const handleUpload = (e) => {
+        const files = e.target.files;
+        if (files.length > 5) {
+            toast.error("Max 5 files allowed");
+            e.target.value = null; // reset input
+            return;
+        }
+        if (imgfiles?.length == 5) {
+            toast.error("Max 5 files can be uploaded")
+        } else {
+            setimgfiles([...imgfiles, ...files])
+        }
+        e.target.value = null
+    }
+    const createDisputeFunc = async () => {
+        setloading(true)
+        const formData = new FormData();
+        formData.append('subject', inputData?.subject)
+        formData.append('category', disputeCategory)
+        if (disputeCategory == 'issue_with_program' || disputeCategory == 'issue_with_coach') {
+            formData.append('program_id', programId)
+        }
+        if (disputeCategory == 'issue_with_payments') {
+            formData.append('checkout_order_id', inputData.checkout_order_id)
+        }
+
+        if (disputeCategory == 'issue_with_coach') {
+            formData.append('coach_id', inputData.coach_id)
+        }
+
+        formData.append('description', inputData.description)
+        if (imgfiles?.length > 0) {
+            imgfiles?.forEach((element, index) => {
+                formData.append(`attachments[${index}]`, element)
+            })
+        }
+        const res = await createDispute(formData)
+        setloading(false)
+    }
     return (
         <>
+            {loading && <Loaders />}
             <div className='dashboard_content_wrapper'>
                 <div className='schedule_program_head_wrapper' style={{
                     marginBottom: '30px'
@@ -30,7 +109,7 @@ const AddNewTicket = () => {
                     </div>
                 </div>
                 <form className='new_ticket_form_Wrapper'>
-                    <Input type={'text'} label={'Subject'} required={true} placeholder={'Lorem ipsum dolor sit amet, consectetur adipiscing elit '} />
+                    <Input onChange={handleChange} name={'subject'} value={inputData?.subject} type={'text'} label={'Subject'} required={true} placeholder={'Enter subject '} />
                     <div className='values_form_input_Wrapper' style={{
                         marginBottom: '30px'
                     }}>
@@ -44,68 +123,68 @@ const AddNewTicket = () => {
                             marginTop: '10px',
                             flexWrap: 'wrap'
                         }}>
+
                             <li className='values_checkbox_wrapper'>
-                                <input type='radio' onClick={(() => setticketIssue({
-                                    programIssue: true,
-                                    coachIssue: false,
-                                    paymentsIssue: false
-                                }))} checked={ticketIssue.programIssue} />
+                                <input onChange={((e) => setdisputeCategory(e.target.value))} type='radio' value={'issue_with_program'} checked={disputeCategory == 'issue_with_program'} />
                                 <p>Issue with program</p>
                             </li>
 
                             <li className='values_checkbox_wrapper'>
-                                <input type='radio' onClick={(() => setticketIssue({
-                                    programIssue: false,
-                                    coachIssue: true,
-                                    paymentsIssue: false
-                                }))} checked={ticketIssue.coachIssue} />
+                                <input onChange={((e) => setdisputeCategory(e.target.value))} value={'issue_with_coach'} type='radio' checked={disputeCategory == 'issue_with_coach'} />
                                 <p>Issue with coach</p>
                             </li>
 
                             <li className='values_checkbox_wrapper'>
-                                <input type='radio' onClick={(() => setticketIssue({
-                                    programIssue: false,
-                                    coachIssue: false,
-                                    paymentsIssue: true
-                                }))} checked={ticketIssue.paymentsIssue} />
+                                <input onChange={((e) => setdisputeCategory(e.target.value))} value={'issue_with_payments'} type='radio' checked={disputeCategory == 'issue_with_payments'} />
                                 <p>Issue with payments</p>
                             </li>
                         </ul>
                     </div>
 
-                    {ticketIssue.programIssue && <div className='values_form_input_Wrapper'>
+                    {disputeCategory == 'issue_with_program' && <div className='values_form_input_Wrapper'>
                         <label>Select the program<span>*</span></label>
-                        <select>
-                            <option>Program 1</option>
+                        <select value={programId} onChange={((e) => setprogramId(Number(e?.target.value)))}>
+                            <option value={''}>--select-program--</option>
+                            {disputeFormOptions?.programs?.map((element) => (
+                                <option value={element?.id} key={element?.id}>{element?.name}</option>
+                            ))}
                         </select>
                     </div>}
 
-                    {ticketIssue.coachIssue && <div className='cofirm_form_grid_wrapper' style={{
+                    {disputeCategory == 'issue_with_coach' && <div className='cofirm_form_grid_wrapper' style={{
                         marginTop: '-15px'
                     }}>
                         <div className='values_form_input_Wrapper'>
                             <label>Select the program<span>*</span></label>
-                            <select>
-                                <option>Program 1</option>
+                            <select value={programId} onChange={((e) => setprogramId(Number(e?.target.value)))}>
+                                <option value={''}>--select-program--</option>
+                                {disputeFormOptions?.programs?.map((element) => (
+                                    <option value={element?.id} key={element?.id}>{element?.name}</option>
+                                ))}
                             </select>
                         </div>
                         <div className='values_form_input_Wrapper'>
                             <label>Associated coach<span>*</span></label>
-                            <select>
-                                <option>Mark John</option>
+                            <select onChange={handleChange} name='coach_id' value={inputData?.coach_id}>
+                                <option value={''}>--select-coach--</option>
+                                {disputeFormOptions?.coaches_by_program[programId]?.map((element) => (
+                                    <option value={element?.id} key={element?.id}>{element?.name}</option>
+                                ))}
                             </select>
                         </div>
                     </div>}
 
-                    {ticketIssue.paymentsIssue && <div className='values_form_input_Wrapper'>
+                    {disputeCategory == 'issue_with_payments' && <div className='values_form_input_Wrapper'>
                         <label>Select transaction<span>*</span></label>
-                        <select>
-                            <option>Order#8975</option>
+                        <select onChange={handleChange} name='checkout_order_id' value={inputData?.checkout_order_id}>
+                            <option value={''}>--select-transcation--</option>
+                            {disputeFormOptions?.orders?.map((element) => (
+                                <option value={element?.id} key={element?.id}>#{element?.id} ({element?.program?.name})</option>
+                            ))}
                         </select>
                     </div>}
                     <div className='values_form_input_Wrapper'>
-                        <Textarea label={'Description'} required={true} placeholder={'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'} />
-
+                        <Textarea onChange={handleChange} value={inputData?.description} name={'description'} label={'Description'} required={true} placeholder={'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'} />
                     </div>
 
                     <div className='values_form_input_Wrapper'>
@@ -117,18 +196,70 @@ const AddNewTicket = () => {
                         <div className='files_upload_wrapper'>
                             <img src={upload} />
                             <p>Drag your files or <span>Browse</span></p>
-                            <h5>Png, Jpg, Jpeg supported | file size: 250 KB</h5>
-                            <input type='file' />
+                            <h5>Png, Jpg, Jpeg supported | file size: 250 KB | max 5 files</h5>
+                            <input onChange={handleUpload} multiple maxLength={5} max={5} type='file' />
+                        </div>
+
+                        <div style={{
+                            display: 'flex',
+                            gap: '10px',
+                            position: 'relative',
+                            marginTop: '10px'
+                        }}>
+
+                            {imgfiles?.map((e, index) => {
+                                if (e instanceof File) {
+                                    return (
+                                        <>
+
+                                            <div style={{
+                                                position: 'relative'
+                                            }}>
+                                                <i onClick={(() => handleDelete(index))} style={{
+                                                    fontSize: '14px',
+                                                    position: 'absolute',
+                                                    top: '-10px',
+                                                    left: '70px',
+                                                    cursor: 'pointer',
+                                                    color: 'var(--primary-color)'
+                                                }} class="fa-solid fa-circle-xmark"></i>
+                                                <img
+
+                                                    style={{
+                                                        width: '80px',
+                                                        height: '80px',
+                                                        borderRadius: '5px',
+                                                        objectFit: 'cover'
+                                                    }}
+                                                    key={index}
+                                                    src={URL.createObjectURL(e)}
+                                                    alt="preview"
+                                                />
+                                            </div>
+
+                                        </>
+
+                                    );
+                                } else {
+                                    return (
+                                        <img key={index} alt="preview" style={{
+                                            width: '80px',
+                                            height: '80px',
+                                            borderRadius: '5px',
+                                            objectFit: 'contain'
+                                        }} src={e} />
+                                    )
+
+                                }
+                            })}
                         </div>
                     </div>
 
                     <div className='cancel_select_button_wrapper' style={{
                         marginTop: '30px'
                     }}>
-
                         <button>Cancel</button>
-                        <div>
-
+                        <div onClick={createDisputeFunc}>
                             <Button children={'Select'} />
                         </div>
                     </div>

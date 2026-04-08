@@ -60,21 +60,33 @@ const DashboardPurchaseHistory = () => {
                         </div>
                     </div>
                 </div>
-                <div className='dashboard_support_list_Wrapper'>
+                <div className='dashboard_support_list_Wrapper' style={{
+                    minHeight: '50vh'
+                }}>
+                    {currentItems.length <= 0 && <p style={{
+                        color: 'var(--primary-color)',
+                        textAlign: 'center',
+                        fontWeight: '600'
+                    }}>No purchases are made...</p>}
                     {currentItems?.map((e) => (
                         <div className='dashboard_support'>
                             <div className='dashboard_support_header'>
                                 <h2>#{e.id} <span style={{
-                                    textTransform:'uppercase'
+                                    textTransform: 'uppercase'
                                 }}>{new Date(e?.created_at)
                                     .toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" })}</span></h2>
                                 <div className='dashboard_support_status' style={{
                                     position: 'relative'
                                 }}>
+                                    {e?.payment_status == 'paid' && <p style={{
+                                        backgroundColor: 'rgba(36, 159, 50, 1)',
+                                        textTransform: 'capitalize'
+                                    }}>{e?.payment_status}</p>}
 
-                                    <p style={{
-                                        backgroundColor:'rgba(36, 159, 50, 1)'
-                                    }}>{'Fulfilled '}</p>
+                                    {e?.payment_status == 'unpaid' && <p style={{
+                                        backgroundColor: 'red',
+                                        textTransform: 'capitalize'
+                                    }}>{e?.payment_status}</p>}
                                     {/* <i onClick={(() => {
                                         if (dropdown === e.id) {
                                             setdropdown('')
@@ -97,9 +109,7 @@ const DashboardPurchaseHistory = () => {
                             </div>
                         </div>
                     ))}
-
                 </div>
-
                 <Pagination pageCount={pageCount}
                     currentPage={currentPage}
                     onPageChange={handlePageChange} />

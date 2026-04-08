@@ -596,6 +596,9 @@ const NavbarLinks = () => {
                 <div className={'programs_link'} onClick={(() => setDropdown(!dropdown))}>
                     Programs <img src={down} />
                     {dropdown && <div onClick={((e) => e.stopPropagation())} className='program_dropdown'>
+                        {programCategories?.length <= 0 && <p style={{
+                            fontSize:'12px',
+                        }}>No program available</p>}
                         {programCategories?.length > 0 && programCategories?.map((e) => (
                             <p onClick={(() => navigate(`/program/category/${e?.id}`))}>{e?.name}</p>
                         ))}

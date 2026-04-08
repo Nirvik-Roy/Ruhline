@@ -1,30 +1,59 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './DashboardSupport.css'
 import Button from '../../../Components/Button/Button'
 import Pagination from '../../../Components/Pagination/Pagination'
 import { useNavigate } from 'react-router-dom'
+import Loaders from '../../../Components/Loaders/Loaders'
+import { deleteDispute, getDisputeList } from '../../../utils/dispute'
+import DeleteModal from '../../../Components/DeleteModal/DeleteModal.jsx'
 const DashboardSupport = () => {
     const [dropdown, setdropdown] = useState(false);
-    const navigate = useNavigate()
-    const dashboardSupport = [
-        {
-            id: '#3492',
-            status: 'Open',
-            color: 'rgba(231, 62, 69, 1)'
-        },
-        {
-            id: '#3493',
-            status: 'Closed',
-            color: 'rgba(36, 159, 50, 1)'
-        },
-        {
-            id: '#3494',
-            status: 'Closed',
-            color: 'rgba(36, 159, 50, 1)'
-        },
-    ]
+    const navigate = useNavigate();
+    const [disputeList, setdisputeList] = useState([]);
+    const [deleteModal, setdeleteModal] = useState(false)
+    const [deletedId, setdeleteId] = useState()
+    const [loading, setloading] = useState(false)
+    const callDisputeList = async () => {
+        setloading(true)
+        const res = await getDisputeList()
+        setdisputeList(res?.data)
+        console.log(res)
+        setloading(false)
+    }
+    useEffect(() => {
+        callDisputeList()
+    }, [])
+    // Pagination logic only
+
+    const itemsPerPage = 3;
+    const [currentPage, setCurrentPage] = useState(0);
+
+    const offset = currentPage * itemsPerPage;
+
+    const currentItems = disputeList?.slice(offset, offset + itemsPerPage);
+
+    const pageCount = Math.ceil(disputeList?.length / itemsPerPage);
+
+    const handlePageChange = (selectedItem) => {
+        setCurrentPage(selectedItem.selected);
+    };
+
+    const handleDelete = async () => {
+        setloading(true)
+        const res = await deleteDispute(deletedId)
+        if(res?.success){
+            setdeleteModal(false)
+            callDisputeList()
+        }
+        setloading(false)
+    }
+
+
+
     return (
         <>
+            {deleteModal && <DeleteModal setdeleteModal={setdeleteModal} onClick={handleDelete} title={'Delete dispute'} details={'Do you really want to delete this dispute?'} />}
+            {loading && <Loaders />}
             <div className='dashboard_content_wrapper'>
                 <div className='schedule_program_head_wrapper' style={{
                     marginBottom: '30px'
@@ -50,14 +79,24 @@ const DashboardSupport = () => {
                 </div>
 
 
-                <div className='dashboard_support_list_Wrapper'>
-                    {dashboardSupport.map((e, i) => (
+                <div className='dashboard_support_list_Wrapper' style={{
+                    minHeight: '60vh'
+                }}>
+                    {currentItems?.length <= 0 && <p style={{
+                        fontWeight: '700',
+                        color: 'var(--primary-color)',
+                        textAlign: 'center'
+                    }}>No dispute data found...</p>}
+                    {currentItems?.map((e) => (
                         <div className='dashboard_support'>
                             <div className='dashboard_support_header'>
-                                <h2>{e.id} <span>Apr 5, 2025, 10:07 AM</span></h2>
+                                <h2>#{e.ticket_number} <span>{new Date(e?.created_at)
+                                    .toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" })}</span></h2>
                                 <div className='dashboard_support_status'>
-                                    <p style={{
-                                        background: `${e.color}`
+                                    <p style={e?.status == 'open' ? {
+                                        background: 'red'
+                                    } : {
+                                        background: 'green'
                                     }}>{e.status}</p>
                                     <i onClick={(() => {
                                         if (dropdown === e.id) {
@@ -68,23 +107,27 @@ const DashboardSupport = () => {
                                     })} class="fa-solid fa-ellipsis"></i>
 
                                     {dropdown === e.id && <div className='dashboard_actions_wrapper'>
-                                        <p onClick={(() => navigate(`/dashboard/support/view-ticket/2`))}>View</p>
+                                        <p onClick={(() => navigate(`/dashboard/support/view-ticket/${e?.id}`))}>View</p>
                                         <p>Edit</p>
-                                        <p>Delete</p>
+                                        <p onClick={(() => {
+                                            setdeleteModal(true)
+                                            setdeleteId(e?.id)
+                                        })}>Delete</p>
                                     </div>}
                                 </div>
                             </div>
                             <div className='dashboard_subject_wrapper'>
-                                <h4>Subject: <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit ...</span></h4>
-                                <h4>Dispute Category: <span>Issue with payments</span></h4>
+                                <h4>Subject: <span>{e?.subject}</span></h4>
+                                <h4>Dispute Category: <span style={{
+                                    textTransform: 'capitalize'
+                                }}> {e?.category}</span></h4>
                             </div>
                         </div>
                     ))}
-
                 </div>
-
-
-                <Pagination />
+                <Pagination pageCount={pageCount}
+                    currentPage={currentPage}
+                    onPageChange={handlePageChange} />
             </div>
         </>
     )

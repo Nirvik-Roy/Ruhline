@@ -47,6 +47,7 @@ const ProgramFaqAccordion = ({ singleData }) => {
     return (
         <>
             <div className='faq_accordion_wrapper'>
+                {singleData?.faqs?.length <= 0 && <p>No faqs found...</p>}
                 {singleData?.faqs?.length > 0 && singleData?.faqs?.map((e, i) => (
                     <div className='faq_accordion' key={i} onClick={(() => { setIndex(e.id) })}>
                         <div className='faq_head_wrapper'>
