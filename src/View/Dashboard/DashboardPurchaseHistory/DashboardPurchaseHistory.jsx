@@ -1,30 +1,47 @@
 import './DashboardPurchaseHistory.css'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from '../../../Components/Button/Button'
 import Pagination from '../../../Components/Pagination/Pagination'
 import { useNavigate } from 'react-router-dom'
+import { getPurchaseHistory } from '../../../utils/purchaseHistory'
+import Loaders from '../../../Components/Loaders/Loaders'
 const DashboardPurchaseHistory = () => {
     const [dropdown, setdropdown] = useState(false);
     const navigate = useNavigate();
-    const dashboardSupport = [
-        {
-            id: '#3492',
-            status: 'Open',
-            color: 'rgba(231, 62, 69, 1)'
-        },
-        {
-            id: '#3493',
-            status: 'Closed',
-            color: 'rgba(36, 159, 50, 1)'
-        },
-        {
-            id: '#3494',
-            status: 'Closed',
-            color: 'rgba(36, 159, 50, 1)'
-        },
-    ]
+    const [loading, setloading] = useState(false)
+    const [purchaseData, setpurchaseData] = useState([])
+
+    const purchaseFunc = async () => {
+        setloading(true)
+        const res = await getPurchaseHistory()
+        if (res?.success) {
+            setpurchaseData(res?.data?.data)
+        }
+        setloading(false)
+    }
+
+    useEffect(() => {
+        purchaseFunc()
+    }, [])
+
+
+    // Pagination logic only
+
+    const itemsPerPage = 3;
+    const [currentPage, setCurrentPage] = useState(0);
+
+    const offset = currentPage * itemsPerPage;
+
+    const currentItems = purchaseData?.slice(offset, offset + itemsPerPage);
+
+    const pageCount = Math.ceil(purchaseData?.length / itemsPerPage);
+
+    const handlePageChange = (selectedItem) => {
+        setCurrentPage(selectedItem.selected);
+    };
     return (
         <>
+            {loading && <Loaders />}
             <div className='dashboard_content_wrapper'>
                 <div className='schedule_program_head_wrapper' style={{
                     marginBottom: '30px'
@@ -44,20 +61,27 @@ const DashboardPurchaseHistory = () => {
                     </div>
                 </div>
                 <div className='dashboard_support_list_Wrapper'>
-                    {dashboardSupport.map((e, i) => (
+                    {currentItems?.map((e) => (
                         <div className='dashboard_support'>
                             <div className='dashboard_support_header'>
-                                <h2>{e.id} <span>Apr 5, 2025, 10:07 AM</span></h2>
+                                <h2>#{e.id} <span style={{
+                                    textTransform:'uppercase'
+                                }}>{new Date(e?.created_at)
+                                    .toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" })}</span></h2>
                                 <div className='dashboard_support_status' style={{
                                     position: 'relative'
                                 }}>
-                                    <i onClick={(() => {
+
+                                    <p style={{
+                                        backgroundColor:'rgba(36, 159, 50, 1)'
+                                    }}>{'Fulfilled '}</p>
+                                    {/* <i onClick={(() => {
                                         if (dropdown === e.id) {
                                             setdropdown('')
                                         } else {
                                             setdropdown(e.id)
                                         }
-                                    })} class="fa-solid fa-ellipsis"></i>
+                                    })} class="fa-solid fa-ellipsis"></i> */}
 
                                     {dropdown === e.id && <div className='dashboard_actions_wrapper' style={{
                                         bottom: '-80px'
@@ -68,15 +92,17 @@ const DashboardPurchaseHistory = () => {
                                 </div>
                             </div>
                             <div className='dashboard_subject_wrapper'>
-                                <h4>Subject: <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit ...</span></h4>
-                                <h4>Dispute Category: <span>Issue with payments</span></h4>
+                                <h4>Service Name: <span>{e?.program?.name}</span></h4>
+                                <h4>Amount: <span>{e?.currency} {e?.total_amount}</span></h4>
                             </div>
                         </div>
                     ))}
 
                 </div>
 
-                <Pagination/>
+                <Pagination pageCount={pageCount}
+                    currentPage={currentPage}
+                    onPageChange={handlePageChange} />
             </div>
         </>
     )

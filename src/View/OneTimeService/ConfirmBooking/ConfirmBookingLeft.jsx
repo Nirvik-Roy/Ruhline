@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import img from '../../../assets/Images/Frame 20.png'
 import Input from '../../../Components/Inputs/Input'
 import DeleteProgramModal from './DeleteProgramModal';
-import { replace, useNavigate, useParams } from 'react-router-dom';
+import {  useNavigate, useParams } from 'react-router-dom';
 const ConfirmBookingLeft = ({ paymentDetails, userData, singleProgramData, phoneCountryCode }) => {
   const [paymentDropdown, setPaymentDropdown] = useState(true);
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ const ConfirmBookingLeft = ({ paymentDetails, userData, singleProgramData, phone
       <div className='confirm_left_wrapper'>
         <div className='booking_details_wrapper4896'>
           <div className='booking_image_wrapper7893'>
-            <img src={img} />
+            <img src={singleProgramData?.main_image || img} />
             <div>
               <h4>{singleProgramData?.name}</h4>
               <h1><del>{paymentDetails?.currency}{singleProgramData?.original_price}</del> {paymentDetails?.currency}{singleProgramData?.sale_price}</h1>

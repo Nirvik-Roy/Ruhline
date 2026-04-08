@@ -54,7 +54,7 @@ const AvailableFacilitor = () => {
             {
                 breakpoint: 480,
                 settings: {
-                    slidesToShow: Math.min(coachesData?.length || 0, 1),
+                    slidesToShow: 1,
 
                 }
             },

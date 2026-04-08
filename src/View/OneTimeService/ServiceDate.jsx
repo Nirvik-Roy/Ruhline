@@ -8,7 +8,7 @@ import 'react-calendar/dist/Calendar.css';
 import Button from '../../Components/Button/Button'
 import { useNavigate, useParams } from 'react-router-dom'
 import Loaders from '../../Components/Loaders/Loaders'
-import { getProgamCoachSlots } from '../../utils/coach'
+import { getProgamCoachSlots, getProgamSpecificCoaches } from '../../utils/coach'
 import { getSingleProgram } from '../../utils/program'
 import { postPreview } from '../../utils/payments'
 import toast from 'react-hot-toast'
@@ -16,7 +16,7 @@ import RedirectingCheckoutModal from './RedirectingCheckoutModal'
 const ServiceDate = () => {
     const [active, setActive] = useState()
     const navigate = useNavigate()
-    const { id, coachId, coachName } = useParams()
+    const { id, coachId } = useParams()
     const [slotsData, setslotsData] = useState({});
     const [timeData, settitmeData] = useState('')
     const [slotsStartDate, setslotsStartDate] = useState('');
@@ -24,6 +24,20 @@ const ServiceDate = () => {
     const [loading, setloading] = useState(false);
     const [previewLoading, setpreviewLoading] = useState(false)
     const [date, setDate] = useState('');
+    const [coachData, setcoachesData] = useState([])
+
+    const getProgramSpecificCoachesFunc = async () => {
+        setloading(true)
+        const res = await getProgamSpecificCoaches(id)
+        setcoachesData(res?.data.filter((e) => e.id == coachId))
+        setloading(false)
+    }
+    useEffect(() => {
+        if(coachId && id){
+            getProgramSpecificCoachesFunc()
+        }
+    }, [id, coachId])
+
 
     const formatDate = (date) => {
         const year = date.getFullYear();
@@ -97,8 +111,8 @@ const ServiceDate = () => {
                             color: 'var(-text-color)'
                         }}>Schedule your first session</p>}
                         <div className='service_date_img'>
-                            <img src={img} />
-                            <p>{coachName.trim()}</p>
+                            <img src={coachData[0]?.profile?.profile_image || img} />
+                            <p>{coachData[0]?.user?.name}</p>
                         </div>
                         {singleProgram?.sessions_per_week && <p style={{
                             fontSize: '15px'
@@ -122,9 +136,6 @@ const ServiceDate = () => {
                             }} />
                             <p>{singleProgram?.name}</p>
                         </div>
-
-
-
 
                     </div>
                     <div className='service_date_center'>
