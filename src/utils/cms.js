@@ -9,7 +9,6 @@ export const getAllCmsData = async (url) => {
             }
         } catch (err) {
             // toast.error(err.response?.data?.message);
-            console.log(err.response.data.errors)
             return err.response.data.errors
         }
     }
