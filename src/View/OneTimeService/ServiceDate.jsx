@@ -92,10 +92,20 @@ const ServiceDate = () => {
             <div className='service_date_wrapper'>
                 <div className='all_Container service_content_date'>
                     <div className='service_date_left'>
+                        {singleProgram?.occurrence_type == 'recurring' && <p style={{
+                            fontWeight: '700',
+                            color: 'var(-text-color)'
+                        }}>Schedule your first session</p>}
                         <div className='service_date_img'>
                             <img src={img} />
                             <p>{coachName.trim()}</p>
                         </div>
+                        {singleProgram?.sessions_per_week && <p style={{
+                            fontSize: '15px'
+                        }}>Total sessions per week : <span style={{
+                            color: 'var(--text-color)',
+                            fontWeight: '700'
+                        }}>{singleProgram?.sessions_per_week}</span></p>}
                         <div className='service_date_img'>
                             <img src={clock} style={{
                                 width: '22px',
@@ -108,9 +118,13 @@ const ServiceDate = () => {
                             <img src={video} style={{
                                 width: '22px',
                                 borderRadius: '0'
+
                             }} />
                             <p>{singleProgram?.name}</p>
                         </div>
+
+
+
 
                     </div>
                     <div className='service_date_center'>
