@@ -131,7 +131,7 @@ const EditTicket = () => {
                             <h3 style={{
                                 marginBottom: '0px',
                                 fontSize: '25px'
-                            }}>Add Ticket</h3>
+                            }}>Update Ticket</h3>
                         </div>
                     </div>
                 </div>

@@ -41,7 +41,7 @@ const DashboardSupport = () => {
     const handleDelete = async () => {
         setloading(true)
         const res = await deleteDispute(deletedId)
-        if(res?.success){
+        if (res?.success) {
             setdeleteModal(false)
             callDisputeList()
         }
@@ -103,9 +103,14 @@ const DashboardSupport = () => {
                                         }
                                     })} class="fa-solid fa-ellipsis"></i>
 
-                                    {dropdown === e.id && <div className='dashboard_actions_wrapper'>
+                                    {dropdown === e.id && <div className='dashboard_actions_wrapper' style={ e?.status == 'closed' ?{
+                                        top:'35px',
+                                        height:'fit-content'
+                                    }:{
+
+                                    }}>
                                         <p onClick={(() => navigate(`/dashboard/support/view-ticket/${e?.id}`))}>View</p>
-                                        <p onClick={(() => { navigate(`/dashboard/support/edit-ticket/${e?.id}`)})}>Edit</p>
+                                        {e?.status != 'closed' && <p onClick={(() => { navigate(`/dashboard/support/edit-ticket/${e?.id}`) })}>Edit</p>}
                                         <p onClick={(() => {
                                             setdeleteModal(true)
                                             setdeleteId(e?.id)
