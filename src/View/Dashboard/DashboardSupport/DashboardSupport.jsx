@@ -105,7 +105,7 @@ const DashboardSupport = () => {
 
                                     {dropdown === e.id && <div className='dashboard_actions_wrapper'>
                                         <p onClick={(() => navigate(`/dashboard/support/view-ticket/${e?.id}`))}>View</p>
-                                        <p>Edit</p>
+                                        <p onClick={(() => { navigate(`/dashboard/support/edit-ticket/${e?.id}`)})}>Edit</p>
                                         <p onClick={(() => {
                                             setdeleteModal(true)
                                             setdeleteId(e?.id)

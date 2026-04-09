@@ -40,6 +40,7 @@ import PublicRoute from './PublicRoute/PublicRoute.jsx'
 import DashboardHabit from './View/Dashboard/DashboardHabit/DashboardHabit.jsx'
 import SingleProgramCategory from './View/Programs/SingleCategory/SingleProgramCategory.jsx'
 import SingleProgram from './View/OneTimeService/SingleProgram.jsx'
+import EditTicket from './View/Dashboard/DashboardSupport/EditTicket.jsx'
 function App() {
   return (
     <>
@@ -82,6 +83,7 @@ function App() {
                 <Route path='support' element={<DashboardSupport />} />
                 <Route path='support/add-ticket/:id' element={<AddNewTicket />} />
                 <Route path='support/view-ticket/:id' element={<ViewTicket />} />
+                <Route path='support/edit-ticket/:id' element={<EditTicket/>}/>
                 <Route path='profile/' element={<DashboardProfile />} />
                 <Route path='edit-profile/' element={<EditProfile />} />
                 <Route path='change-password' element={<ProfilePassword />} />

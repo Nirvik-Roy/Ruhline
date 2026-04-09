@@ -4,15 +4,18 @@ import Textarea from '../../../Components/Inputs/Textarea'
 import upload from '../../../assets/Images/Vector (7).svg'
 import Button from '../../../Components/Button/Button'
 import Loaders from '../../../Components/Loaders/Loaders'
-import { getDisputeformOptions, createDispute } from '../../../utils/dispute'
+import { getDisputeformOptions, createDispute, getSingleDispute, editDispute } from '../../../utils/dispute'
 import toast from 'react-hot-toast'
-const AddNewTicket = () => {
+import { useParams } from 'react-router-dom'
+const EditTicket = () => {
+    const { id } = useParams()
     const [loading, setloading] = useState(false);
     const [disputeFormOptions, setdisputeFormOptions] = useState([]);
     const [disputeCategory, setdisputeCategory] = useState('issue_with_program');
     const [programId, setprogramId] = useState();
     const [disputeError, setdisputeError] = useState()
-    const [imgfiles, setimgfiles] = useState([])
+    const [imgfiles, setimgfiles] = useState([]);
+    const [singleDispute, setSingleDispute] = useState()
     const [inputData, setinputData] = useState({
         subject: '',
         category: '',
@@ -21,9 +24,18 @@ const AddNewTicket = () => {
         checkout_order_id: '',
     })
 
-    console.log(inputData)
-
-
+    useEffect(() => {
+        setinputData({
+            subject: singleDispute?.subject || '',
+            category: singleDispute?.category || '',
+            description: singleDispute?.description || '',
+            coach_id: singleDispute?.coach_id || '',
+            checkout_order_id: singleDispute?.checkout_order_id || ''
+        })
+        setimgfiles(singleDispute?.attachments)
+        setdisputeCategory(singleDispute?.category || '')
+        setprogramId(singleDispute?.program?.id)
+    }, [singleDispute])
     const handleChange = (e) => {
         const { name, value } = e.target;
         setinputData({
@@ -31,8 +43,6 @@ const AddNewTicket = () => {
             [name]: value
         })
     }
-
-
     const callDisputeOptions = async () => {
         setloading(true)
         const res = await getDisputeformOptions()
@@ -42,7 +52,6 @@ const AddNewTicket = () => {
     useEffect(() => {
         callDisputeOptions()
     }, [])
-
 
     const handleDelete = (index) => {
         setimgfiles((prev) => (
@@ -63,7 +72,7 @@ const AddNewTicket = () => {
         }
         e.target.value = null
     }
-    const createDisputeFunc = async () => {
+    const editDisputeFunc = async () => {
         setloading(true)
         const formData = new FormData();
         formData.append('subject', inputData?.subject)
@@ -82,13 +91,29 @@ const AddNewTicket = () => {
         formData.append('description', inputData.description)
         if (imgfiles?.length > 0) {
             imgfiles?.forEach((element, index) => {
-                formData.append(`attachments[${index}]`, element)
+                if(element instanceof File){
+                    formData.append(`attachments[${index}]`, element)
+                }
             })
         }
-        const res = await createDispute(formData)
-        setdisputeError(res?.errors || null)
+        const res = await editDispute(formData, id)
+        setdisputeError(res?.errors)
         setloading(false)
     }
+
+    const singleDisputeFunc = async () => {
+        setloading(true)
+        const res = await getSingleDispute(id)
+        setSingleDispute(res)
+        setloading(false)
+    }
+
+    console.log(singleDispute)
+    useEffect(() => {
+        if (id) {
+            singleDisputeFunc()
+        }
+    }, [])
     return (
         <>
             {loading && <Loaders />}
@@ -286,12 +311,26 @@ const AddNewTicket = () => {
                                     );
                                 } else {
                                     return (
-                                        <img key={index} alt="preview" style={{
-                                            width: '80px',
-                                            height: '80px',
-                                            borderRadius: '5px',
-                                            objectFit: 'contain'
-                                        }} src={e} />
+                                        <div style={{
+                                            position: 'relative'
+                                        }}>
+                                            <i onClick={(() => handleDelete(index))} style={{
+                                                fontSize: '14px',
+                                                position: 'absolute',
+                                                top: '-10px',
+                                                left: '70px',
+                                                cursor: 'pointer',
+                                                color: 'var(--primary-color)'
+                                            }} class="fa-solid fa-circle-xmark"></i>
+
+                                            <img key={index} alt="preview" style={{
+                                                width: '80px',
+                                                height: '80px',
+                                                borderRadius: '5px',
+                                                objectFit: 'cover'
+                                            }} src={e.url} />
+                                        </div>
+
                                     )
 
                                 }
@@ -303,8 +342,8 @@ const AddNewTicket = () => {
                         marginTop: '30px'
                     }}>
                         <button>Cancel</button>
-                        <div onClick={createDisputeFunc}>
-                            <Button children={'Select'} />
+                        <div onClick={editDisputeFunc}>
+                            <Button children={'Update'} />
                         </div>
                     </div>
                 </form>
@@ -313,4 +352,4 @@ const AddNewTicket = () => {
     )
 }
 
-export default AddNewTicket
+export default EditTicket

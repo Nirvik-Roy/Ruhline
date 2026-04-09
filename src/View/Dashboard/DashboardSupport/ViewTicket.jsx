@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Button from '../../../Components/Button/Button'
 import { getSingleDispute } from '../../../utils/dispute'
-import { useParams } from 'react-router-dom'
+import {  useParams } from 'react-router-dom'
 import Loaders from '../../../Components/Loaders/Loaders'
 
 const ViewTicket = () => {

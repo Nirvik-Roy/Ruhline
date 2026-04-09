@@ -15,7 +15,7 @@ export const getDisputeformOptions = async () => {
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err.response.data
         }
     } else {
         toast.error('Unauthenticated')
@@ -38,14 +38,34 @@ export const createDispute = async (data) => {
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err.response.data
         }
     } else {
         toast.error('Unauthenticated')
     }
 }
 
-
+export const editDispute = async (data,id) => {
+    const token = localStorage.getItem('token')
+    if (token && data && id) {
+        try {
+            const res = await axios.put(`${import.meta.env.VITE_BASE_URL}/dispute/${id}`, data, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res.data.success == true) {
+                toast.success(res?.data?.message)
+                return res.data.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err.response.data
+        }
+    } else {
+        toast.error('Unauthenticated')
+    }
+}
 export const getDisputeList = async () => {
     const token = localStorage.getItem('token')
     if (token) {
