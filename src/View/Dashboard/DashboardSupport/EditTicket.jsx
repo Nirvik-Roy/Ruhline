@@ -91,7 +91,7 @@ const EditTicket = () => {
         formData.append('description', inputData.description)
         if (imgfiles?.length > 0) {
             imgfiles?.forEach((element, index) => {
-                if(element instanceof File){
+                if (element instanceof File) {
                     formData.append(`attachments[${index}]`, element)
                 }
             })
@@ -268,7 +268,7 @@ const EditTicket = () => {
                             <h5>Png, Jpg, Jpeg supported | file size: 250 KB | max 5 files</h5>
                             <input onChange={handleUpload} multiple maxLength={5} max={5} type='file' />
                         </div>
-
+                      
                         <div style={{
                             display: 'flex',
                             gap: '10px',
@@ -329,8 +329,14 @@ const EditTicket = () => {
                                                 borderRadius: '5px',
                                                 objectFit: 'cover'
                                             }} src={e.url} />
-                                        </div>
 
+
+                                            {(disputeError?.attachments)
+                                                && <small style={{
+                                                    color: 'red',
+                                                    marginLeft: '5px',
+                                                }}>* {disputeError?.attachments}</small>}
+                                        </div>
                                     )
 
                                 }

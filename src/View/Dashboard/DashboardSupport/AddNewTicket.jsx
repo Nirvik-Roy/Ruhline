@@ -244,6 +244,12 @@ const AddNewTicket = () => {
                             <input onChange={handleUpload} multiple maxLength={5} max={5} type='file' />
                         </div>
 
+                        {(disputeError?.attachments)
+                            && <small style={{
+                                color: 'red',
+                                marginLeft: '5px',
+                            }}>* {disputeError?.attachments[0]}</small>}
+
                         <div style={{
                             display: 'flex',
                             gap: '10px',
