@@ -11,6 +11,7 @@ const AddNewTicket = () => {
     const [disputeFormOptions, setdisputeFormOptions] = useState([]);
     const [disputeCategory, setdisputeCategory] = useState('issue_with_program');
     const [programId, setprogramId] = useState();
+    const [disputeError, setdisputeError] = useState()
     const [imgfiles, setimgfiles] = useState([])
     const [inputData, setinputData] = useState({
         subject: '',
@@ -85,8 +86,10 @@ const AddNewTicket = () => {
             })
         }
         const res = await createDispute(formData)
+        setdisputeError(res)
         setloading(false)
     }
+    console.log(disputeError)
     return (
         <>
             {loading && <Loaders />}
@@ -109,7 +112,14 @@ const AddNewTicket = () => {
                     </div>
                 </div>
                 <form className='new_ticket_form_Wrapper'>
-                    <Input onChange={handleChange} name={'subject'} value={inputData?.subject} type={'text'} label={'Subject'} required={true} placeholder={'Enter subject '} />
+                    <div>
+                        <Input onChange={handleChange} name={'subject'} value={inputData?.subject} type={'text'} label={'Subject'} required={true} placeholder={'Enter subject '} />
+                        {disputeError?.subject && <small style={{
+                            color: 'red',
+                            marginLeft: '5px',
+                            marginTop: '10px'
+                        }}>* {disputeError?.subject[0]}</small>}
+                    </div>
                     <div className='values_form_input_Wrapper' style={{
                         marginBottom: '30px'
                     }}>
@@ -123,7 +133,6 @@ const AddNewTicket = () => {
                             marginTop: '10px',
                             flexWrap: 'wrap'
                         }}>
-
                             <li className='values_checkbox_wrapper'>
                                 <input onChange={((e) => setdisputeCategory(e.target.value))} type='radio' value={'issue_with_program'} checked={disputeCategory == 'issue_with_program'} />
                                 <p>Issue with program</p>
@@ -149,7 +158,15 @@ const AddNewTicket = () => {
                                 <option value={element?.id} key={element?.id}>{element?.name}</option>
                             ))}
                         </select>
-                    </div>}
+                    </div>
+                    }
+
+                    {(disputeError?.program_id && disputeCategory == 'issue_with_program')
+                        && <small style={{
+                            color: 'red',
+                            marginLeft: '5px',
+                            marginTop: '10px'
+                        }}>* {disputeError?.program_id[0]}</small>}
 
                     {disputeCategory == 'issue_with_coach' && <div className='cofirm_form_grid_wrapper' style={{
                         marginTop: '-15px'
@@ -162,6 +179,11 @@ const AddNewTicket = () => {
                                     <option value={element?.id} key={element?.id}>{element?.name}</option>
                                 ))}
                             </select>
+                            {(disputeError?.program_id && disputeCategory == 'issue_with_coach')
+                                && <small style={{
+                                    color: 'red',
+                                    marginLeft: '5px',
+                                }}>* {disputeError?.program_id[0]}</small>}
                         </div>
                         <div className='values_form_input_Wrapper'>
                             <label>Associated coach<span>*</span></label>
@@ -171,7 +193,15 @@ const AddNewTicket = () => {
                                     <option value={element?.id} key={element?.id}>{element?.name}</option>
                                 ))}
                             </select>
+
+                            {(disputeError?.coach_id && disputeCategory == 'issue_with_coach')
+                                && <small style={{
+                                    color: 'red',
+                                    marginLeft: '5px',
+                                }}>* {disputeError?.coach_id[0]}</small>}
                         </div>
+
+
                     </div>}
 
                     {disputeCategory == 'issue_with_payments' && <div className='values_form_input_Wrapper'>
@@ -182,16 +212,31 @@ const AddNewTicket = () => {
                                 <option value={element?.id} key={element?.id}>#{element?.id} ({element?.program?.name})</option>
                             ))}
                         </select>
+                        {(disputeError?.checkout_order_id && disputeCategory == 'issue_with_payments')
+                            && <small style={{
+                                color: 'red',
+                                marginLeft: '5px',
+                            }}>* {disputeError?.checkout_order_id[0]}</small>}
                     </div>}
+
+
                     <div className='values_form_input_Wrapper'>
-                        <Textarea onChange={handleChange} value={inputData?.description} name={'description'} label={'Description'} required={true} placeholder={'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'} />
+                        <Textarea onChange={handleChange} value={inputData?.description} name={'description'} label={'Description'} required={true} placeholder={'Enter description'} />
                     </div>
+
+
+                    {disputeError?.description
+                        && <small style={{
+                            color: 'red',
+                            marginLeft: '5px',
+                            marginTop: '10px'
+                        }}>* {disputeError?.description[0]}</small>}
 
                     <div className='values_form_input_Wrapper'>
                         <label style={{
                             fontSize: '18px',
                             fontWeight: '600'
-                        }}>Upload Files<span>*</span></label>
+                        }}>Upload Files<span></span></label>
 
                         <div className='files_upload_wrapper'>
                             <img src={upload} />

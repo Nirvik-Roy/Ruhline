@@ -10,7 +10,7 @@ const DashboardSupport = () => {
     const [dropdown, setdropdown] = useState(false);
     const navigate = useNavigate();
     const [disputeList, setdisputeList] = useState([]);
-    const [deleteModal, setdeleteModal] = useState(false)
+    const [deleteModal, setdeleteModal] = useState(false);
     const [deletedId, setdeleteId] = useState()
     const [loading, setloading] = useState(false)
     const callDisputeList = async () => {
@@ -47,9 +47,6 @@ const DashboardSupport = () => {
         }
         setloading(false)
     }
-
-
-
     return (
         <>
             {deleteModal && <DeleteModal setdeleteModal={setdeleteModal} onClick={handleDelete} title={'Delete dispute'} details={'Do you really want to delete this dispute?'} />}
