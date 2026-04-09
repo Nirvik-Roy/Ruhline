@@ -268,7 +268,7 @@ const EditTicket = () => {
                             <h5>Png, Jpg, Jpeg supported | file size: 250 KB | max 5 files</h5>
                             <input onChange={handleUpload} multiple maxLength={5} max={5} type='file' />
                         </div>
-                      
+
                         <div style={{
                             display: 'flex',
                             gap: '10px',
