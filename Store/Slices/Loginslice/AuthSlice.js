@@ -64,13 +64,17 @@ const AuthSlice = createSlice({
         resendLoading: false
     },
     reducers: {
-        verifyToken(state,) {
+        verifyToken(state) {
             const token = localStorage.getItem('token');
+
             if (token) {
-                state.isLogin = true,
-                    state.isChecking = false;
+                state.isLogin = true;
+            } else {
+                state.isLogin = false;
             }
-        },
+
+            state.isChecking = false; // ✅ ALWAYS stop checking
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(Auth.pending, (state) => {

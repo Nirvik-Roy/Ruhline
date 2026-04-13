@@ -10,7 +10,8 @@ import ReviewCard from '../../OneTimeService/ReviewCard'
 import DeleteModal from '../../../Components/DeleteModal/DeleteModal'
 const DashboardProgramSchedule = () => {
   const [modal, setModal] = useState(false);
-  const [singleProgramSessions, setsingleProgramSessions] = useState([])
+  const [singleProgramSessions, setsingleProgramSessions] = useState([]);
+  const [sessionDetails,setsessionDetails]= useState()
   const [loading, setloading] = useState()
   const { id, programId } = useParams();
   const [reviewsData, setreviewsData] = useState([])
@@ -25,6 +26,7 @@ const DashboardProgramSchedule = () => {
     const res = await getProgramEnrollmentsById(id)
     if (res?.success) {
       setsingleProgramSessions(res?.data?.sessions)
+      setsessionDetails(res?.data)
       setenrollmentStatus(res?.data?.enrollment_status)
     }
     setloading(false)
@@ -69,8 +71,8 @@ const DashboardProgramSchedule = () => {
           <div className='schedule_program_back_wrapper'>
             <img onClick={(() => navigate(-1))} src={arrow} />
             <div className='schedule_program_head'>
-              <h3>Program 1</h3>
-              <p><span>Facilitator name:</span> Bidisha Bhowmick</p>
+              <h3>{sessionDetails?.program?.name}</h3>
+              <p><span>Facilitator name:</span> {sessionDetails?.coach?.name}</p>
             </div>
           </div>
           <Link to={'/dashboard/purchase'}>View order details</Link>
