@@ -65,16 +65,19 @@ const AuthSlice = createSlice({
     },
     reducers: {
         verifyToken(state) {
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem("token");
+            const expiry = Number(localStorage.getItem("expiry"));
 
-            if (token) {
+            if (token && expiry && Date.now() < expiry) {
                 state.isLogin = true;
+                state.isChecking = false;
             } else {
+                localStorage.removeItem("token");
+                localStorage.removeItem("expiry");
                 state.isLogin = false;
+                state.isChecking = false;
             }
-
-            state.isChecking = false; // ✅ ALWAYS stop checking
-        }
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(Auth.pending, (state) => {
@@ -154,7 +157,8 @@ const AuthSlice = createSlice({
                 state.errors = '';
                 state.loginerrors = '';
                 state.resendErrors = '';
-                localStorage.setItem('token', action.payload.token)
+                localStorage.setItem('token', action.payload.token);
+                localStorage.setItem("expiry", Date.now() + 24 * 60 * 60 * 1000);
 
             }
         })
