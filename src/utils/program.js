@@ -46,3 +46,192 @@ export const getSingleProgram = async (programId) => {
     }
 
 }
+
+
+export const getProgramEnrollments = async () => {
+    const token = localStorage.getItem('token')
+    if (token) {
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/customer/enrollments`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res.data.success == true) {
+                return res.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err.response.data
+        }
+    }
+}
+
+
+export const getProgramEnrollmentsById = async (enrollmentId) => {
+    const token = localStorage.getItem('token')
+    if (token && enrollmentId) {
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res.data.success == true) {
+                return res.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err.response.data
+        }
+    }
+}
+
+export const getEnrollmentSlots = async (enrollmentId, sessionId, date) => {
+    const token = localStorage.getItem('token')
+    if (enrollmentId && token && sessionId && date) {
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/sessions/${sessionId}/available-slots?date=${date}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res.data.success == true) {
+                return res.data.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err.response.data.errors
+        }
+    } else {
+        toast.error('Enrollment Id is required')
+    }
+}
+
+
+
+export const rescheduleProgramApi = async (data, enrollmentId, sessionId) => {
+    const token = localStorage.getItem('token')
+    if (token && enrollmentId && sessionId && data) {
+        try {
+            const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/sessions/${sessionId}/reschedule`, data, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res.data.success == true) {
+                toast.success(res?.data?.message)
+                return res.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err.response.data
+        }
+    }
+}
+
+export const scheduleProgramApi = async (data, enrollmentId, sessionId) => {
+    const token = localStorage.getItem('token')
+    if (token && enrollmentId && sessionId && data) {
+        try {
+            const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/sessions/${sessionId}/schedule`, data, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res.data.success == true) {
+                toast.success(res?.data?.message)
+                return res.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err.response.data
+        }
+    }
+}
+
+
+export const addProgramsReview = async (data ) => {
+    const token = localStorage.getItem('token')
+    if (token && data) {
+        try {
+            const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/customer/reviews`, data, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res.data.success == true) {
+                toast.success(res?.data?.message)
+                return res.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err.response.data
+        }
+    }
+}
+
+
+export const getProgramReviews = async () => {
+    const token = localStorage.getItem('token')
+    if ( token ) {
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/customer/reviews`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res.data.success == true) {
+                return res.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err.response.data.errors
+        }
+    } else {
+        toast.error('Enrollment Id is required')
+    }
+}
+
+
+export const deleteProgramReviews = async (id) => {
+    const token = localStorage.getItem('token')
+    if (token && id) {
+        try {
+            const res = await axios.delete(`${import.meta.env.VITE_BASE_URL}/customer/reviews/${id}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res.data.success == true) {
+                return res.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err.response.data.errors
+        }
+    } else {
+        toast.error('Enrollment Id is required')
+    }
+}
+
+
+export const editProgramsReview = async (data,id) => {
+    const token = localStorage.getItem('token')
+    if (token && data && id) {
+        try {
+            const res = await axios.put(`${import.meta.env.VITE_BASE_URL}/customer/reviews/${id}`, data, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res.data.success == true) {
+                toast.success(res?.data?.message)
+                return res.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err.response.data
+        }
+    }
+}

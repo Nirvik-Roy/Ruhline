@@ -25,7 +25,6 @@ const DashboardProfile = () => {
         getProfileFunc()
     }, [])
 
-    console.log(profileData)
     return (
         <>
             {loader && <Loaders />}

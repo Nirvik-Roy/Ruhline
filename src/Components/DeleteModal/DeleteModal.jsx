@@ -1,6 +1,6 @@
 import React from 'react'
 import Button from '../Button/Button.jsx'
-import './DeleteModal.css'
+import './Modal.css'
 const DeleteModal = ({ title, onClick, details, setdeleteModal }) => {
     return (
         <>

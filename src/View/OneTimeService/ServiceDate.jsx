@@ -154,7 +154,7 @@ const ServiceDate = () => {
                             justifyContent: 'space-between',
                             flexDirection: 'column',
                             gap: '40px',
-                            height: '38vh',
+                            minheight:'38vh',
                         }}>
                             <div className='time_gird_wrapper'>
                                 {slotsData?.slots?.length <= 0 && <p>No slots are available right now...</p>}
