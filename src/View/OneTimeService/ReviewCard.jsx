@@ -1,13 +1,13 @@
 import React from 'react'
 import { Rating } from 'react-simple-star-rating'
 import img from '../../assets/Images/pngtree-default-avatar-profile-icon-gray-placeholder-vector-png-image_16213764.png'
-const ReviewCard = ({ isedit, isDelete, value = 5, title = 'Anonymous', description, date,onEdit,onDelete }) => {
+const ReviewCard = ({ isedit, isDelete, value = 5, name = 'Anonymous', description, date,onEdit,onDelete,imgLink }) => {
     return (
         <>
             <div className='service_review_wrapper'>
                 <div className='service_review_img_wrapper'>
-                    <img src={img} />
-                    <p>{title}</p>
+                    <img src={imgLink || img} />
+                    <p>{name}</p>
                 </div>
                 <div className='service_review_details'>
                     <div className='service_review_rating_wrapper' style={{

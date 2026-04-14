@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useOutletContext, useParams } from 'react-router-dom'
 import arrow from '../../../assets/Images/Vector (4).svg'
 import img from '../../../assets/Images/Capa_1 (1).svg'
 import FeedBackModal from './FeedBackModal'
@@ -10,8 +10,9 @@ import ReviewCard from '../../OneTimeService/ReviewCard'
 import DeleteModal from '../../../Components/DeleteModal/DeleteModal'
 const DashboardProgramSchedule = () => {
   const [modal, setModal] = useState(false);
+  const { profileData } = useOutletContext();
   const [singleProgramSessions, setsingleProgramSessions] = useState([]);
-  const [sessionDetails,setsessionDetails]= useState()
+  const [sessionDetails, setsessionDetails] = useState()
   const [loading, setloading] = useState()
   const { id, programId } = useParams();
   const [reviewsData, setreviewsData] = useState([])
@@ -41,7 +42,7 @@ const DashboardProgramSchedule = () => {
     }
     setloading(false)
   }
-
+  console.log(profileData)
   useEffect(() => {
     fetchReviews()
   }, [])
@@ -112,7 +113,7 @@ const DashboardProgramSchedule = () => {
                 {e?.start_at && <span>{new Date(e?.start_at).toLocaleString("en-IN", {
                   dateStyle: "medium",
                   timeStyle: "short",
-                  timeZone:'utc'
+                  timeZone: 'utc'
                 })}</span>}
                 {e?.can_reschedule && <small onClick={(() => navigate(`/dashboard/programs/session/${programId}/${id}/${e?.id}?session=Session ${e?.session_number}`))}>Reschedule</small>}
 
@@ -130,9 +131,9 @@ const DashboardProgramSchedule = () => {
             <button className='dispute_btn' onClick={(() => navigate('/dashboard/support'))}>Raise a dispute</button>
           </> :
             <>
-              <button style={reviewsData?.length > 0 ?{
-                display:'none'
-              }:{}} onClick={(() => setModal(true))} className='dispute_btn'>Write a review</button>
+              <button style={reviewsData?.length > 0 ? {
+                display: 'none'
+              } : {}} onClick={(() => setModal(true))} className='dispute_btn'>Write a review</button>
             </>}
         </div>
 
@@ -150,7 +151,7 @@ const DashboardProgramSchedule = () => {
                 setdeleteId(e?.id)
                 setdeleteModal(true)
 
-              })} isedit={true} value={e?.rating} isDelete={true} date={new Date(e?.created_at).toLocaleString("en-IN", {
+              })} name={profileData?.name} imgLink={profileData?.profile?.profile_image || ''} isedit={true} value={e?.rating} isDelete={true} date={new Date(e?.created_at).toLocaleString("en-IN", {
                 dateStyle: "medium",
                 timeStyle: "short",
               })} key={e?.id} description={e?.body} />

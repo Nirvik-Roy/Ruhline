@@ -1,22 +1,40 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import arrow from '../../../assets/Images/Vector (4).svg'
 import logo from '../../../assets/Images/Frame 1984078480.svg'
 import Button from '../../../Components/Button/Button'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useOutletContext, useParams } from 'react-router-dom'
+import { getSinglePurchaseHistory } from '../../../utils/purchaseHistory'
+import Loaders from '../../../Components/Loaders/Loaders'
 const SinglePurchaseHistory = () => {
     const navigate = useNavigate()
+    const { id } = useParams()
+    const [loading, setloading] = useState(false)
+    const [purchaseData, setpurchaseData] = useState({})
+    const { profileData  } = useOutletContext();
+    const purchaseFunc = async () => {
+        setloading(true)
+        const res = await getSinglePurchaseHistory(id)
+        if (res?.success) {
+            setpurchaseData(res?.data)
+        }
+        setloading(false)
+    }
+    useEffect(() => {
+        purchaseFunc()
+    }, [])
     return (
         <>
+            {loading && <Loaders />}
             <div className='dashboard_content_wrapper'>
                 <div className='schedule_program_head_wrapper' style={{
                     marginBottom: '30px'
                 }}>
                     <div className='schedule_program_back_wrapper'>
-                        <img onClick={(()=>navigate(-1))} src={arrow} />
+                        <img onClick={(() => navigate(-1))} src={arrow} />
                         <div className='schedule_program_head'>
                             <h3 style={{
                                 marginBottom: '0px'
-                            }}> #3492</h3>
+                            }}> #{purchaseData?.id}</h3>
                         </div>
                     </div>
                 </div>
@@ -30,9 +48,12 @@ const SinglePurchaseHistory = () => {
                                     +1 (123) 456 7891, +44 (876) 543 2198</p>
                             </div>
                             <div className='single_id_wrapper'>
-                                <h1>Invoice ID: #3492</h1>
-                                <p>Order Placed: 25/08/2020</p>
-                                <p>Payment: Paid</p>
+                                <h1>Invoice ID: #{purchaseData?.id}</h1>
+                                <p>Order Placed: {new Date(purchaseData?.created_at)
+                                    .toLocaleString("en-IN", { dateStyle: "short",  timeZone: 'utc' })}</p>
+                                <p style={{
+                                    textTransform: 'capitalize'
+                                }}>Payment: {purchaseData?.status}</p>
                             </div>
                         </div>
                     </div>
@@ -40,11 +61,11 @@ const SinglePurchaseHistory = () => {
                     <div className='single_purchase_invoice_wrapper'>
                         <h3>Invoice To:</h3>
                         <ul>
-                            <li>Thomas shelby</li>
-                            <li>Shelby Company Limited</li>
-                            <li>Small Heath, B10 0HF, UK</li>
-                            <li>718-986-6062</li>
-                            <li>peakyFBlinders@gmail.com</li>
+                            <li>{profileData?.name}</li>
+                            <li>{profileData?.profile?.address_line_1}</li>
+                            <li>{profileData?.profile?.address_line_2}</li>
+                            <li>{profileData?.profile?.postal_code}</li>
+                            <li>{profileData?.email}</li>
                         </ul>
                     </div>
 
@@ -66,11 +87,11 @@ const SinglePurchaseHistory = () => {
                             <tbody>
 
                                 <tr>
-                                    <td>Service 1</td>
-                                    <td>Bidisha Bhowmick</td>
+                                    <td>{purchaseData?.program?.name}</td>
+                                    <td>{purchaseData?.coach?.name}</td>
                                     <td style={{
                                         textAlign: 'right'
-                                    }}>SAR 32</td>
+                                    }}>{purchaseData?.currency} {purchaseData?.subtotal_amount}</td>
                                 </tr>
 
                             </tbody>
@@ -79,7 +100,7 @@ const SinglePurchaseHistory = () => {
 
                     <div className='total_wrapper_46662'>
                         <p>Total:</p>
-                        <h4>SAR 32</h4>
+                        <h4>{purchaseData?.currency} {purchaseData?.total_amount}</h4>
                     </div>
 
                     <p style={{
@@ -90,14 +111,14 @@ const SinglePurchaseHistory = () => {
                 </div>
 
                 <Button children={'Cancel Program'} styles={{
-                    border:'none',
-                    backgroundColor:'transparent',
-                    color:'rgba(255, 77, 73, 1)',
-                    fontWeight:'600',
-                    fontSize:'15px',
-                    marginLeft:'auto',
-                    marginTop:'30px'
-                }}/>
+                    border: 'none',
+                    backgroundColor: 'transparent',
+                    color: 'rgba(255, 77, 73, 1)',
+                    fontWeight: '600',
+                    fontSize: '15px',
+                    marginLeft: 'auto',
+                    marginTop: '30px'
+                }} />
             </div>
         </>
     )

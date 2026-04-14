@@ -74,7 +74,7 @@ const DashboardPurchaseHistory = () => {
                                 <h2>#{e.id} <span style={{
                                     textTransform: 'uppercase'
                                 }}>{new Date(e?.created_at)
-                                    .toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" })}</span></h2>
+                                    .toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short",timeZone:'utc' })}</span></h2>
                                 <div className='dashboard_support_status' style={{
                                     position: 'relative'
                                 }}>
@@ -87,18 +87,18 @@ const DashboardPurchaseHistory = () => {
                                         backgroundColor: 'red',
                                         textTransform: 'capitalize'
                                     }}>{e?.payment_status}</p>}
-                                    {/* <i onClick={(() => {
+                                    <i onClick={(() => {
                                         if (dropdown === e.id) {
                                             setdropdown('')
                                         } else {
                                             setdropdown(e.id)
                                         }
-                                    })} class="fa-solid fa-ellipsis"></i> */}
+                                    })} class="fa-solid fa-ellipsis"></i>
 
                                     {dropdown === e.id && <div className='dashboard_actions_wrapper' style={{
                                         bottom: '-80px'
                                     }}>
-                                        <p onClick={(() => navigate(`/dashboard/purchase/single-purchase/2`))}>View</p>
+                                        <p onClick={(() => navigate(`/dashboard/purchase/single-purchase/${e?.id}`))}>View</p>
                                         <p>Delete</p>
                                     </div>}
                                 </div>
