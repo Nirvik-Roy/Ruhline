@@ -1,12 +1,11 @@
 import React from 'react'
 import check from '../../../assets/Images/Layer_1 (5).svg'
 import Button from '../../../Components/Button/Button'
+import PrevSubmit from '../../../Components/PrevSubmit/PrevSubmit'
 const FindMotivation = ({ completedFunction }) => {
     return (
         <>
-            <div className='values_head'>
-                <h4><span>Find your Motivation</span></h4>
-            </div>
+            <PrevSubmit title={'Find your Motivation'} lastStep={true} previousButton={false}/>
             <div className='motivation_wrapper'>
                 <div className='motivation_input_wrapper'>
                     <h1>P</h1>
@@ -14,7 +13,6 @@ const FindMotivation = ({ completedFunction }) => {
                     <input value={'A'} type='text' maxlength={1} />
                     <input value={'C'} type='text' maxlength={1} />
                     <input value={'E'} type='text' maxlength={1} />
-                    <img src={check} />
                 </div>
 
                 <div className='motivation_input_wrapper'>
@@ -42,7 +40,7 @@ const FindMotivation = ({ completedFunction }) => {
             <div onClick={(() => completedFunction(5))} style={{
                 marginTop: '30px',
             }}>
-                <Button children={'Submit'} />
+                {/* <Button children={'Submit'} /> */}
             </div>
         </>
     )

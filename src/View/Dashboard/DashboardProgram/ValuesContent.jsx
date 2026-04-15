@@ -2,13 +2,13 @@ import React from 'react'
 import Input from '../../../Components/Inputs/Input'
 import Textarea from '../../../Components/Inputs/Textarea'
 import Button from '../../../Components/Button/Button'
+import PrevSubmit from '../../../Components/PrevSubmit/PrevSubmit'
 
 const ValuesContent = ({ completedFunction }) => {
     return (
         <>
-            <div className='values_head'>
-                <h4>Values</h4>
-            </div>
+
+            <PrevSubmit title={'Values'} objective={`Question ${1} of ${5}`}/>
 
             <form className='values_form_wrapper'>
                 <h5>Answer the Question </h5>

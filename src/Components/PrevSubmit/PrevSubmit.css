@@ -1,0 +1,12 @@
+.values_head {
+    padding: 15px 25px;
+    background-color: #f4e6dd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.values_head h4 {
+    font-size: 17px;
+    font-weight: 400;
+}
