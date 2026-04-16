@@ -51,7 +51,6 @@ const LiveProgram = () => {
       habit: id == 6 ? true : false,
       whoAmI: id == 7 ? true : false,
     })
-    setId(id)
   }
 
   const fetchAllProgramModules = async () => {
@@ -155,14 +154,20 @@ const LiveProgram = () => {
               gridColumn: '1/-1'
             }}>No modules are available right now...</p>}
             {allProgramModules?.map((e) => (
-              <div style={e.program_structure_id === id ? {
+              <div style={e.sort_order === id ? {
                 border: '2px solid var(--primary-color)'
               } : {}} onClick={(() => {
                 fetchLockUnlockDetails(e?.program_structure_id,e?.title)
+                setId(e.sort_order)
               })} className='program_tab'>
                 <img src={e?.title == 'Values' ? heartIcon : e?.title == 'Find your Motivation' ? questionIcon : ''} />
                 <p>{e.title}</p>
                 {(e?.title == 'Values' && valuesContent?.progress?.is_completed) ? <img style={{
+                  position: 'absolute',
+                  top: '10px',
+                  right: '10px',
+                  width: '18px'
+                }} src={tick} /> : (e?.title == 'Find your Motivation' && motivationContent?.progress?.is_completed) ? <img style={{
                   position: 'absolute',
                   top: '10px',
                   right: '10px',

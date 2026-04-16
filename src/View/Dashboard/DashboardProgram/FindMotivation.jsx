@@ -47,8 +47,8 @@ const FindMotivation = ({ completedFunction, motivationContent, fetchMotivation 
         setloading(true)
         if (!inputs.includes('')) {
             const formData = new FormData()
-            formData.append('guess_word', motivationContent?.words[wordIndex]?.first_letter + inputs.join(''))
-            const res = await saveMotivationWords(enrollmentId, motivationContent?.program_structure_id, motivationContent?.words[wordIndex]?.id, formData)
+            formData.append('guess_word', motivationContent?.words?.[wordIndex]?.first_letter + inputs.join(''))
+            const res = await saveMotivationWords(enrollmentId, motivationContent?.program_structure_id, motivationContent?.words?.[wordIndex]?.id, formData)
             if (res?.success) {
                 if (wordIndex < motivationContent?.words?.length - 1) {
                     setwordIndex(wordIndex + 1)
