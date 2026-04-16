@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react'
-import check from '../../../assets/Images/Layer_1 (5).svg'
 import Button from '../../../Components/Button/Button'
 import PrevSubmit from '../../../Components/PrevSubmit/PrevSubmit'
 import { saveMotivationWords } from '../../../utils/program'
@@ -14,9 +13,7 @@ const FindMotivation = ({ completedFunction, motivationContent, fetchMotivation 
     const [loading, setloading] = useState(false)
     useEffect(() => {
         const wordData = motivationContent?.words?.[wordIndex];
-
         if (!wordData) return;
-
         const guessWord = wordData?.guess?.guess_word;
 
         // ✅ Scenario 1: If guess exists → use it
@@ -29,7 +26,6 @@ const FindMotivation = ({ completedFunction, motivationContent, fetchMotivation 
             const length = wordData?.word_length - 1 || 0;
             setInputs(Array.from({ length }, () => ""));
         }
-
     }, [wordIndex, motivationContent]);
 
 
@@ -86,7 +82,7 @@ const FindMotivation = ({ completedFunction, motivationContent, fetchMotivation 
     return (
         <>
             {loading && <Loaders />}
-            <PrevSubmit objective={`Guess word ${wordIndex + 1} of ${motivationContent?.words?.length}`} title={'Find your Motivation'} firstStep={wordIndex == 0} lastStep={motivationContent?.length == wordIndex} onSumbit={(() => {
+            <PrevSubmit objective={`Guess word ${motivationContent?.words?.length > 0 ?wordIndex + 1 : 0} of ${motivationContent?.words?.length}`} title={'Find your Motivation'} firstStep={wordIndex == 0} lastStep={motivationContent?.length == wordIndex} onSumbit={(() => {
                 if (wordIndex < motivationContent?.words?.length) {
                     postMotivation()
                 }
@@ -96,6 +92,11 @@ const FindMotivation = ({ completedFunction, motivationContent, fetchMotivation 
                 }
             })} previousButton={true} />
             <div className='motivation_wrapper'>
+                {motivationContent?.words?.length <= 0 && !loading && <p style={{
+                    textAlign: 'center',
+                    gridColumn: '1/-1',
+                    color: 'var(--primary-color)'
+                }}>No words added...</p>}
                 {motivationContent?.words?.map((e, i) => {
                     if (i == wordIndex) {
                         return (

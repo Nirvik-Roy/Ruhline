@@ -25,7 +25,7 @@ import Loaders from '../../../Components/Loaders/Loaders'
 import toast from 'react-hot-toast'
 const LiveProgram = () => {
   const { programId, enrollmentId } = useParams();
-  const [moduleOpen, setmoduleOpen] = useState(false)
+  const [moduleOpen, setmoduleOpen] = useState(true)
   const [valuesContent, setvaluesContent] = useState({})
   const [whoAmIContent, setwhoAmiIContent] = useState({})
   const [motivationContent, setmotivationContent] = useState({})
@@ -179,17 +179,17 @@ const LiveProgram = () => {
               })} className='program_tab'>
                 <img src={e?.title == 'Values' ? heartIcon : e?.title == 'Find your Motivation' ? questionIcon : e?.title == 'Who am I' ? userIcon : ''} />
                 <p>{e.title}</p>
-                {(e?.title == 'Values' && valuesContent?.progress?.is_completed) ? <img style={{
+                {(e?.is_completed || valuesContent ?.progress?.is_completed) ? <img style={{
                   position: 'absolute',
                   top: '10px',
                   right: '10px',
                   width: '18px'
-                }} src={tick} /> : (e?.title == 'Find your Motivation' && motivationContent?.progress?.is_completed) ? <img style={{
+                }} src={tick} /> : (e?.is_completed || motivationContent?.progress?.is_completed) ? <img style={{
                   position: 'absolute',
                   top: '10px',
                   right: '10px',
                   width: '18px'
-                }} src={tick} /> : (e?.title == 'Who am I' && whoAmIContent?.progress?.is_completed) ? <img style={{
+                  }} src={tick} /> : (e?.is_completed || whoAmIContent?.progress?.is_completed) ? <img style={{
                   position: 'absolute',
                   top: '10px',
                   right: '10px',

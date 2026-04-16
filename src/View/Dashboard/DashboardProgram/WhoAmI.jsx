@@ -10,7 +10,7 @@ import Loaders from '../../../Components/Loaders/Loaders'
 
 const WhoAmiI = ({ completedFunction, whoAmIContent, fetchWhoamIQuestion }) => {
     const { enrollmentId } = useParams()
-    const [questions, setquestions] = useState([])
+    const questions = whoAmIContent?.questions || [];
     const [questionIndex, setquestionIndex] = useState(0);
     const [descriptiveAnswer, setdescriptiveAnswer] = useState("")
     const [multiChoiceAnswer, setmultichoiceAnswer] = useState([])
@@ -136,9 +136,7 @@ const WhoAmiI = ({ completedFunction, whoAmIContent, fetchWhoamIQuestion }) => {
         setloading(false)
     }
 
-    useEffect(() => {
-        setquestions(whoAmIContent?.questions || [])
-    }, [whoAmIContent])
+   
     return (
         <>
             {loading && <Loaders />}
@@ -155,6 +153,11 @@ const WhoAmiI = ({ completedFunction, whoAmIContent, fetchWhoamIQuestion }) => {
 
             <form className='values_form_wrapper'>
                 <h5>Answer the Question </h5>
+                {questions?.length <=0 && !loading && <p style={{
+                    textAlign:'center',
+                    gridColumn:'1/-1',
+                    color:'var(--primary-color)'
+                }}>No questions available...</p>}
                 {questions?.map((element, i) => {
                     if (i == questionIndex) {
                         if (element.type == 'descriptive') {

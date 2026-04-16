@@ -10,7 +10,7 @@ import Loaders from '../../../Components/Loaders/Loaders'
 
 const ValuesContent = ({ completedFunction, valuesContent, fetchValuesQuestion }) => {
     const { enrollmentId } = useParams()
-    const [questions, setquestions] = useState([])
+    const questions = valuesContent?.questions || [];
     const [questionIndex, setquestionIndex] = useState(0);
     const [descriptiveAnswer, setdescriptiveAnswer] = useState("")
     const [multiChoiceAnswer, setmultichoiceAnswer] = useState([])
@@ -136,18 +136,15 @@ const ValuesContent = ({ completedFunction, valuesContent, fetchValuesQuestion }
         setloading(false)
     }
 
-    useEffect(() => {
-        setquestions(valuesContent?.questions || [])
-    }, [valuesContent])
     return (
         <>
             {loading && <Loaders />}
             <PrevSubmit firstStep={questionIndex == 0} onPrevious={(() => {
                 if (questionIndex != 0) {
                     setquestionIndex(questionIndex - 1)
-                  
+
                 }
-            })} title={'Values'}  lastStep={questionIndex == questions?.length -1} onSumbit={(() => {
+            })} title={'Values'} lastStep={questionIndex == questions?.length - 1} onSumbit={(() => {
                 if (questionIndex < questions?.length) {
                     saveQuestions()
                 }
@@ -155,6 +152,11 @@ const ValuesContent = ({ completedFunction, valuesContent, fetchValuesQuestion }
 
             <form className='values_form_wrapper'>
                 <h5>Answer the Question </h5>
+                {questions?.length <= 0 && !loading && <p style={{
+                    textAlign: 'center',
+                    gridColumn: '1/-1',
+                    color: 'var(--primary-color)'
+                }}>No questions available...</p>}
                 {questions?.map((element, i) => {
                     if (i == questionIndex) {
                         if (element.type == 'descriptive') {
