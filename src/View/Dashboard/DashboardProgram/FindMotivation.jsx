@@ -43,6 +43,28 @@ const FindMotivation = ({ completedFunction, motivationContent, fetchMotivation 
         }// update state
     };
 
+
+    const handleKeyDown = (e, index) => {
+        if (e.key === "Backspace") {
+
+            // Case 1: If current input has value → just clear it
+            if (inputs[index]) {
+                const updated = [...inputs];
+                updated[index] = "";
+                setInputs(updated);
+            }
+
+            // Case 2: If empty → go to previous input
+            else if (index > 0) {
+                const updated = [...inputs];
+                updated[index - 1] = "";
+                setInputs(updated);
+
+                inputRefs.current[index - 1]?.focus();
+            }
+        }
+    };
+
     const postMotivation = async () => {
         setloading(true)
         if (!inputs.includes('')) {
@@ -84,10 +106,10 @@ const FindMotivation = ({ completedFunction, motivationContent, fetchMotivation 
                                         inputs.map((val, index) => (
                                             <input
                                                 key={index}
-                                                value={val}
                                                 ref={(el) => (inputRefs.current[index] = el)}
-
+                                                value={inputs[index]}
                                                 onChange={(e) => handleChange(e.target.value, index)}
+                                                onKeyDown={(e) => handleKeyDown(e, index)}
                                                 maxLength={1}
                                                 type="text"
                                             />

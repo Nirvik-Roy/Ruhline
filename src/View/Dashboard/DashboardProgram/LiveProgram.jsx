@@ -19,14 +19,16 @@ import WhoAmI from './WhoAmI'
 import WaitingModal from './WaitingModal'
 import HabitTracker from './HabitTracker'
 import tick from '../../../assets/Images/Layer_1.svg'
-import { checkLockUnlock, getMotivationWords, getProgramsModule, getValuesQuestions } from '../../../utils/program'
+import { checkLockUnlock, getMotivationWords, getProgramsModule, getValuesQuestions, getWhoamIQuestions } from '../../../utils/program'
 import { useParams } from 'react-router-dom'
 import Loaders from '../../../Components/Loaders/Loaders'
 import toast from 'react-hot-toast'
 const LiveProgram = () => {
   const { programId, enrollmentId } = useParams();
+  const [moduleOpen, setmoduleOpen] = useState(false)
   const [valuesContent, setvaluesContent] = useState({})
-  const [motivationContent,setmotivationContent] = useState({})
+  const [whoAmIContent, setwhoAmiIContent] = useState({})
+  const [motivationContent, setmotivationContent] = useState({})
   const [id, setId] = useState(null);
   const [completed, setCompleted] = useState([]);
   const [loading, setloading] = useState(false)
@@ -75,6 +77,16 @@ const LiveProgram = () => {
   }
 
 
+  const fetchWhoamIQuestion = async (structureId) => {
+    setloading(true)
+    const res = await getWhoamIQuestions(Number(enrollmentId), structureId)
+    if (res?.success) {
+      setwhoAmiIContent(res?.data || {})
+    }
+    setloading(false)
+  }
+
+
   const fetchMotivation = async (structureId) => {
     setloading(true)
     const res = await getMotivationWords(Number(enrollmentId), structureId)
@@ -86,18 +98,23 @@ const LiveProgram = () => {
 
 
 
-  const fetchLockUnlockDetails = async (structureId,moduleName) => {
+  const fetchLockUnlockDetails = async (structureId, moduleName) => {
     setloading(true)
     const res = await checkLockUnlock(enrollmentId, structureId)
     if (res?.success) {
-      if(moduleName == 'Values'){
+      if (moduleName == 'Values') {
         fetchValuesQuestion(structureId)
         tabsFunction(1)
       }
 
-      if(moduleName == 'Find your Motivation'){
+      if (moduleName == 'Find your Motivation') {
         fetchMotivation(structureId)
         tabsFunction(5)
+      }
+
+      if (moduleName == 'Who am I') {
+        fetchWhoamIQuestion(structureId)
+        tabsFunction(7)
       }
     } else {
       toast.error('Module is not unlocked yet!')
@@ -124,8 +141,8 @@ const LiveProgram = () => {
       {modalIsopen && <WaitingModal setmodalIsopen={setmodalIsopen} />}
       <div className='dashboard_content_wrapper'>
         <div className='live_program_head_wrapper'>
-          <div className='live_program_head'>
-            <img src={arrow} />
+          <div className='live_program_head' >
+            <img />
             <h3>Program 1</h3>
           </div>
           <div className='download_resources_head'>
@@ -141,12 +158,12 @@ const LiveProgram = () => {
         <div className='live_program_modules_wrapper'>
           <div className='live_program_modules_head'>
             <h4>Program Modules</h4>
-            <div className='down_img56'>
+            <div className='down_img56' src={arrow} onClick={(() => setmoduleOpen(!moduleOpen))}>
               <img src={down} />
             </div>
           </div>
 
-          <div className='program_tabs_wrapper'>
+          {moduleOpen && <div className='program_tabs_wrapper'>
             {(allProgramModules?.length <= 0 && !loading) && <p style={{
               textAlign: 'center',
               color: 'var(--primary-color)',
@@ -157,10 +174,10 @@ const LiveProgram = () => {
               <div style={e.sort_order === id ? {
                 border: '2px solid var(--primary-color)'
               } : {}} onClick={(() => {
-                fetchLockUnlockDetails(e?.program_structure_id,e?.title)
+                fetchLockUnlockDetails(e?.program_structure_id, e?.title)
                 setId(e.sort_order)
               })} className='program_tab'>
-                <img src={e?.title == 'Values' ? heartIcon : e?.title == 'Find your Motivation' ? questionIcon : ''} />
+                <img src={e?.title == 'Values' ? heartIcon : e?.title == 'Find your Motivation' ? questionIcon : e?.title == 'Who am I' ? userIcon : ''} />
                 <p>{e.title}</p>
                 {(e?.title == 'Values' && valuesContent?.progress?.is_completed) ? <img style={{
                   position: 'absolute',
@@ -172,17 +189,22 @@ const LiveProgram = () => {
                   top: '10px',
                   right: '10px',
                   width: '18px'
+                }} src={tick} /> : (e?.title == 'Who am I' && whoAmIContent?.progress?.is_completed) ? <img style={{
+                  position: 'absolute',
+                  top: '10px',
+                  right: '10px',
+                  width: '18px'
                 }} src={tick} /> : null}
               </div>
             ))}
-          </div>
+          </div>}
 
           {tabs.values && <ValuesContent fetchValuesQuestion={fetchValuesQuestion} valuesContent={valuesContent} completedFunction={completedFunction} />}
           {tabs.cardGame && <CardGameContent completedFunction={completedFunction} />}
           {tabs.wheel && <WheelLife completedFunction={completedFunction} />}
           {tabs.goal && <GoalSetting completedFunction={completedFunction} />}
           {tabs.motivation && <FindMotivation fetchMotivation={fetchMotivation} motivationContent={motivationContent} completedFunction={completedFunction} />}
-          {tabs.whoAmI && <WhoAmI completedFunction={completedFunction} />}
+          {tabs.whoAmI && <WhoAmI fetchWhoamIQuestion={fetchWhoamIQuestion} whoAmIContent={whoAmIContent} completedFunction={completedFunction} />}
           {tabs.habit && <HabitTracker completedFunction={completedFunction} />}
         </div>
       </div>
