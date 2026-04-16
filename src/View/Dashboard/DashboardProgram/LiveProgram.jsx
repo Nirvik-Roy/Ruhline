@@ -18,9 +18,19 @@ import FindMotivation from './FindMotivation'
 import WhoAmI from './WhoAmI'
 import WaitingModal from './WaitingModal'
 import HabitTracker from './HabitTracker'
+import tick from '../../../assets/Images/Layer_1.svg'
+import { checkLockUnlock, getMotivationWords, getProgramsModule, getValuesQuestions } from '../../../utils/program'
+import { useParams } from 'react-router-dom'
+import Loaders from '../../../Components/Loaders/Loaders'
+import toast from 'react-hot-toast'
 const LiveProgram = () => {
-  const [id, setId] = useState();
-  const [completed, setCompleted] = useState([])
+  const { programId, enrollmentId } = useParams();
+  const [valuesContent, setvaluesContent] = useState({})
+  const [motivationContent,setmotivationContent] = useState({})
+  const [id, setId] = useState(null);
+  const [completed, setCompleted] = useState([]);
+  const [loading, setloading] = useState(false)
+  const [allProgramModules, setallProgramModules] = useState([])
   const [tabs, setTabs] = useState({
     values: false,
     cardGame: false,
@@ -30,10 +40,6 @@ const LiveProgram = () => {
     habit: false,
     whoAmI: false,
   })
-
-  const completedFunction = (id) => {
-    setCompleted([...completed, id])
-  }
 
   const tabsFunction = (id) => {
     setTabs({
@@ -48,47 +54,74 @@ const LiveProgram = () => {
     setId(id)
   }
 
+  const fetchAllProgramModules = async () => {
+    setloading(true)
+    const res = await getProgramsModule(enrollmentId)
+    console.log(res)
+    if (res?.success) {
+      setallProgramModules(res?.data?.modules || [])
+    }
+    setloading(false)
+  }
+
+
+
+  const fetchValuesQuestion = async (structureId) => {
+    setloading(true)
+    const res = await getValuesQuestions(Number(enrollmentId), structureId)
+    if (res?.success) {
+      setvaluesContent(res?.data || {})
+    }
+    setloading(false)
+  }
+
+
+  const fetchMotivation = async (structureId) => {
+    setloading(true)
+    const res = await getMotivationWords(Number(enrollmentId), structureId)
+    if (res?.success) {
+      setmotivationContent(res?.data || {})
+    }
+    setloading(false)
+  }
+
+
+
+  const fetchLockUnlockDetails = async (structureId,moduleName) => {
+    setloading(true)
+    const res = await checkLockUnlock(enrollmentId, structureId)
+    if (res?.success) {
+      if(moduleName == 'Values'){
+        fetchValuesQuestion(structureId)
+        tabsFunction(1)
+      }
+
+      if(moduleName == 'Find your Motivation'){
+        fetchMotivation(structureId)
+        tabsFunction(5)
+      }
+    } else {
+      toast.error('Module is not unlocked yet!')
+    }
+    setloading(false)
+  }
+
+  useEffect(() => {
+    if (enrollmentId) {
+      fetchAllProgramModules()
+    }
+  }, [enrollmentId])
+
+  const completedFunction = (id) => {
+    setCompleted([...completed, id])
+  }
+
+
   const [modalIsopen, setmodalIsopen] = useState(false);
 
-  const programModules = [
-    {
-      id: 1,
-      icon: heartIcon,
-      title: 'Values',
-    },
-    {
-      id: 2,
-      icon: cardIcon,
-      title: 'Card Game'
-    },
-    {
-      id: 3,
-      icon: wheelIcon,
-      title: 'Wheel of Life'
-    },
-    {
-      id: 4,
-      icon: frameIcon,
-      title: 'Goal Settings'
-    },
-    {
-      id: 5,
-      icon: questionIcon,
-      title: 'Find your Motivation'
-    },
-    {
-      id: 6,
-      icon: habbitIcon,
-      title: 'Habit Tracker'
-    },
-    {
-      id: 7,
-      icon: userIcon,
-      title: 'Who am I?'
-    },
-  ]
   return (
     <>
+      {loading && <Loaders />}
       {modalIsopen && <WaitingModal setmodalIsopen={setmodalIsopen} />}
       <div className='dashboard_content_wrapper'>
         <div className='live_program_head_wrapper'>
@@ -115,33 +148,35 @@ const LiveProgram = () => {
           </div>
 
           <div className='program_tabs_wrapper'>
-            {programModules.map((e, i) => (
-              <div style={e.id === id ? {
+            {(allProgramModules?.length <= 0 && !loading) && <p style={{
+              textAlign: 'center',
+              color: 'var(--primary-color)',
+              fontWeight: '600',
+              gridColumn: '1/-1'
+            }}>No modules are available right now...</p>}
+            {allProgramModules?.map((e) => (
+              <div style={e.program_structure_id === id ? {
                 border: '2px solid var(--primary-color)'
               } : {}} onClick={(() => {
-                tabsFunction(e.id)
+                fetchLockUnlockDetails(e?.program_structure_id,e?.title)
               })} className='program_tab'>
-                <img src={e.icon} />
+                <img src={e?.title == 'Values' ? heartIcon : e?.title == 'Find your Motivation' ? questionIcon : ''} />
                 <p>{e.title}</p>
-                {completed.includes(e.id) && <span style={{
-                  fontSize: '10px',
-                  fontWeight: '500',
-                  color: '#fff',
-                  background: 'rgba(36, 159, 50, 1)',
-                  padding: '5px 10px',
-                  borderRadius: '5px',
-                  textAlign: 'center',
-                  marginInline: 'auto',
-                }}>Completed</span>}
+                {(e?.title == 'Values' && valuesContent?.progress?.is_completed) ? <img style={{
+                  position: 'absolute',
+                  top: '10px',
+                  right: '10px',
+                  width: '18px'
+                }} src={tick} /> : null}
               </div>
             ))}
           </div>
 
-          {tabs.values && <ValuesContent completedFunction={completedFunction} />}
+          {tabs.values && <ValuesContent fetchValuesQuestion={fetchValuesQuestion} valuesContent={valuesContent} completedFunction={completedFunction} />}
           {tabs.cardGame && <CardGameContent completedFunction={completedFunction} />}
           {tabs.wheel && <WheelLife completedFunction={completedFunction} />}
           {tabs.goal && <GoalSetting completedFunction={completedFunction} />}
-          {tabs.motivation && <FindMotivation completedFunction={completedFunction} />}
+          {tabs.motivation && <FindMotivation fetchMotivation={fetchMotivation} motivationContent={motivationContent} completedFunction={completedFunction} />}
           {tabs.whoAmI && <WhoAmI completedFunction={completedFunction} />}
           {tabs.habit && <HabitTracker completedFunction={completedFunction} />}
         </div>

@@ -118,7 +118,7 @@ const DashboardProgramSchedule = () => {
                 {e?.can_reschedule && <small onClick={(() => navigate(`/dashboard/programs/session/${programId}/${id}/${e?.id}?session=Session ${e?.session_number}`))}>Reschedule</small>}
 
                 {e?.can_schedule && <small onClick={(() => navigate(`/dashboard/programs/session/${programId}/${id}/${e?.id}?session=Session ${e?.session_number}`))}>Schedule</small>}
-                {e?.join_now_url && <small onClick={(() => navigate(e?.join_now_url))}>Join Now</small>}
+                {e?.join_now_url && <small onClick={(() => navigate(`/dashboard/programs/live-programs/${programId}/${id}`))}>Join Now</small>}
               </div>
             ))}
 

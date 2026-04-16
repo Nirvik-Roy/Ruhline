@@ -151,7 +151,7 @@ export const scheduleProgramApi = async (data, enrollmentId, sessionId) => {
 }
 
 
-export const addProgramsReview = async (data ) => {
+export const addProgramsReview = async (data) => {
     const token = localStorage.getItem('token')
     if (token && data) {
         try {
@@ -174,7 +174,7 @@ export const addProgramsReview = async (data ) => {
 
 export const getProgramReviews = async () => {
     const token = localStorage.getItem('token')
-    if ( token ) {
+    if (token) {
         try {
             const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/customer/reviews`, {
                 headers: {
@@ -216,11 +216,134 @@ export const deleteProgramReviews = async (id) => {
 }
 
 
-export const editProgramsReview = async (data,id) => {
+export const editProgramsReview = async (data, id) => {
     const token = localStorage.getItem('token')
     if (token && data && id) {
         try {
             const res = await axios.put(`${import.meta.env.VITE_BASE_URL}/customer/reviews/${id}`, data, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res.data.success == true) {
+                toast.success(res?.data?.message)
+                return res.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err.response.data
+        }
+    }
+}
+
+
+export const getProgramsModule = async (enrollmentId) => {
+    const token = localStorage.getItem('token')
+    if (token && enrollmentId) {
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/modules`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res.data.success == true) {
+                return res.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err.response.data
+        }
+    }
+}
+
+
+export const checkLockUnlock = async (enrollmentId, structureId) => {
+    const token = localStorage.getItem('token')
+    if (token && enrollmentId && structureId) {
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/modules/${structureId}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res.data.success == true) {
+                return res.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err.response.data
+        }
+    }
+}
+
+export const getValuesQuestions = async (enrollmentId, structureId) => {
+    const token = localStorage.getItem('token')
+    if (token && enrollmentId && structureId) {
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/modules/${structureId}/values/questions`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res.data.success == true) {
+                return res.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err.response.data
+        }
+    }
+}
+
+
+export const saveValuesQuestion = async (enrollmentId, structureId, questionId, data) => {
+    const token = localStorage.getItem('token')
+    
+    if (token && data && enrollmentId && structureId && questionId) {
+        try {
+            const res = await axios.put(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/modules/${structureId}/values/questions/${questionId}/answer`, data, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res.data.success == true) {
+                toast.success(res?.data?.message)
+                return res.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err.response.data
+        }
+    }
+}
+
+
+export const getMotivationWords = async (enrollmentId, structureId) => {
+    const token = localStorage.getItem('token')
+    if (token && enrollmentId && structureId) {
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/modules/${structureId}/find-your-motivation/words`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res.data.success == true) {
+                return res.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err.response.data
+        }
+    }
+}
+
+
+export const saveMotivationWords = async (enrollmentId, structureId, wordId, data) => {
+    const token = localStorage.getItem('token')
+
+    if (token && data && enrollmentId && structureId && wordId) {
+        try {
+            const res = await axios.put(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/modules/${structureId}/find-your-motivation/words/${wordId}/guess`, data, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

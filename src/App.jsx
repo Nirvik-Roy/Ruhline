@@ -77,7 +77,7 @@ function App() {
                 <Route path='programs' element={<DashboardProgram />} ></Route>
                 <Route path='programs/schedule/:programId/:id' element={<DashboardProgramSchedule />} />
                 <Route path='programs/session/:programId/:enrollmentId/:sessionId' element={<DashboardSession />} />
-                <Route path='programs/live-programs/:id' element={<LiveProgram />} />
+                <Route path='programs/live-programs/:programId/:enrollmentId' element={<LiveProgram />} />
                 <Route path='calendar' element={<DashboardCalendar />} />
                 <Route path='calendar/programs/:id' element={<CalendarDatesPrograms />} />
                 <Route path='support' element={<DashboardSupport />} />

@@ -1,6 +1,6 @@
 import Button from '../Button/Button'
 import './PrevSubmit.css'
-const PrevSubmit = ({ title, objective, firstStep = true, lastStep = false, onPrevious, onNext, onSumbit, previousButton = true }) => {
+const PrevSubmit = ({ title, objective, firstStep = true, lastStep = false, onPrevious, onSumbit, previousButton = true }) => {
     return (
         <>
             <div className='values_head'>
@@ -33,7 +33,7 @@ const PrevSubmit = ({ title, objective, firstStep = true, lastStep = false, onPr
                         color: 'rgba(206, 115, 86, 1)'
                     }} children={'Previous'} />}
 
-                    <Button onClick={lastStep ? onSumbit : onNext} children={lastStep ? 'Submit' : 'Save & Continue'} />
+                    <Button onClick={ onSumbit  } children={lastStep ? 'Submit' : 'Save & Continue'} />
                 </div>
             </div>
         </>
