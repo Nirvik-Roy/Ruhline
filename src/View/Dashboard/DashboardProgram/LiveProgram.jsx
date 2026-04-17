@@ -194,22 +194,22 @@ const LiveProgram = () => {
               })} className='program_tab'>
                 <img src={e?.title == 'Values' ? heartIcon : e?.title == 'Find your Motivation' ? questionIcon : e?.title == 'Who am I' ? userIcon : e?.title == 'Wheel of Life' ? wheelIcon : ''} />
                 <p>{e.title}</p>
-                {(e?.is_completed || valuesContent?.progress?.is_completed) ? <img style={{
+                {(e?.is_completed && valuesContent?.progress?.is_completed) ? <img style={{
                   position: 'absolute',
                   top: '10px',
                   right: '10px',
                   width: '18px'
-                }} src={tick} /> : (e?.is_completed || motivationContent?.progress?.is_completed) ? <img style={{
+                }} src={tick} /> : (e?.is_completed && motivationContent?.progress?.is_completed) ? <img style={{
                   position: 'absolute',
                   top: '10px',
                   right: '10px',
                   width: '18px'
-                }} src={tick} /> : (e?.is_completed || whoAmIContent?.progress?.is_completed) ? <img style={{
+                }} src={tick} /> : (e?.is_completed && whoAmIContent?.progress?.is_completed) ? <img style={{
                   position: 'absolute',
                   top: '10px',
                   right: '10px',
                   width: '18px'
-                    }} src={tick} /> : (e?.is_completed || lifeElements?.progress?.is_completed) ? <img style={{
+                    }} src={tick} /> : (e?.is_completed && lifeElements?.progress?.is_completed) ? <img style={{
                   position: 'absolute',
                   top: '10px',
                   right: '10px',
