@@ -401,3 +401,88 @@ export const saveMotivationWords = async (enrollmentId, structureId, wordId, dat
         }
     }
 }
+
+
+
+export const getlifeElements = async (enrollmentId, structureId) => {
+    const token = localStorage.getItem('token')
+    if (token && enrollmentId && structureId) {
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/modules/${structureId}/wheel-of-life/elements`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res.data.success == true) {
+                return res.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err.response.data
+        }
+    }
+}
+
+
+export const saveLifeElements = async (enrollmentId, structureId, data) => {
+    const token = localStorage.getItem('token')
+    if (token && data && enrollmentId && structureId ) {
+        try {
+            const res = await axios.put(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/modules/${structureId}/wheel-of-life/ratings`, data, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res.data.success == true) {
+                toast.success(res?.data?.message)
+                return res.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err.response.data
+        }
+    }
+}
+
+
+export const getQuestionsoflifeElements = async (enrollmentId, structureId, elementId) => {
+    const token = localStorage.getItem('token')
+    console.log(elementId)
+    if (token && enrollmentId && structureId && elementId) {
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/modules/${structureId}/wheel-of-life/elements/${elementId}/questions`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res.data.success == true) {
+                return res.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err.response.data
+        }
+    }
+}
+
+
+export const saveWheelOfLifequestion = async (enrollmentId, structureId, questionId, data, elementId) => {
+    const token = localStorage.getItem('token')
+
+    if (token && data && enrollmentId && structureId && questionId && elementId) {
+        try {
+            const res = await axios.put(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/modules/${structureId}/wheel-of-life/elements/${elementId}/questions/${questionId}/answer`, data, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res.data.success == true) {
+                toast.success(res?.data?.message)
+                return res.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err.response.data
+        }
+    }
+}

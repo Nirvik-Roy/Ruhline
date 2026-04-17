@@ -1,22 +1,80 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import LifeElements from './LifeElements'
-import Frogivness from './Frogivness'
+import ElementsQuestion from './ElementsQuestion'
+import { getQuestionsoflifeElements, saveLifeElements } from '../../../../utils/program'
+import { useParams } from 'react-router-dom'
+import Loaders from '../../../../Components/Loaders/Loaders'
+import PrevSubmit from '../../../../Components/PrevSubmit/PrevSubmit'
+import toast from 'react-hot-toast'
 
-const WheelLife = ({ completedFunction }) => {
+const WheelLife = ({ completedFunction, lifeElements }) => {
+    const [loading, setloading] = useState(false)
+    const [ratingData, setratingData] = useState([]);
+    const [questionsData, setquestionsdata] = useState([]);
+    const { enrollmentId } = useParams()
     const [toggle, setToggle] = useState({
         life: true,
-        frogivness: false,
+        questions: false,
     })
+
+    const handleRating = (index, ratingRate) => {
+        const dummyData = [...ratingData]
+        dummyData[index].rating = ratingRate
+        setratingData([...dummyData])
+    }
     const toggleFunction = (id) => {
         setToggle({
             life: id === 1 ? true : false,
-            frogivness: id === 2 ? true : false
+            questions: id === 2 ? true : false
         })
     }
+
+    const fetchLifeElementsQuestion = async (elementId) => {
+        setloading(true)
+        const res = await getQuestionsoflifeElements(enrollmentId, lifeElements?.program_structure_id, elementId)
+        if (res?.success) {
+            setquestionsdata(res?.data || [])
+        }
+        setloading(false)
+    }
+
+    const postLifeElements = async () => {
+        setloading(true)
+        const hasZeroRating = ratingData.some(item => item.rating === 0);
+        if (hasZeroRating) {
+            setloading(false)
+            toast.error('Plz rate all the elements')
+            return;
+        } else {
+            const payload = {
+                ratings: ratingData.map((item) => ({
+                    element_id: item.id,
+                    rating: item.rating
+                }))
+            };
+            const res = await saveLifeElements(enrollmentId, lifeElements?.program_structure_id, payload)
+            if (res?.success) {
+                fetchLifeElementsQuestion(ratingData?.[0]?.id)
+                toggleFunction(2)
+            }
+            setloading(false)
+        }
+        setloading(false)
+    }
+
+    useEffect(() => {
+        if (!lifeElements?.elements) return;
+        const mappedSections = lifeElements.elements.map((e) => ({
+            id: e?.source_element_id ?? null,
+            rating: e?.rating?.value ?? 0
+        }));
+        setratingData(mappedSections);
+    }, [lifeElements]);
     return (
         <>
-            {toggle.life && <LifeElements toggleFunction={toggleFunction} />}
-            {toggle.frogivness && <Frogivness completedFunction={completedFunction}/>}
+            {loading && <Loaders />}
+            {toggle.life && <LifeElements postLifeElements={postLifeElements} ratingData={ratingData} handleRating={handleRating} lifeElements={lifeElements} toggleFunction={toggleFunction} />}
+            {toggle.questions && <ElementsQuestion  fetchLifeElementsQuestion={fetchLifeElementsQuestion} questionsData={questionsData} completedFunction={completedFunction} />}
         </>
     )
 }

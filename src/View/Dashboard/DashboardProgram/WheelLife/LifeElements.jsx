@@ -1,17 +1,16 @@
 import React from 'react'
 import { Rating } from 'react-simple-star-rating'
 import Button from '../../../../Components/Button/Button'
-const LifeElements = ({toggleFunction}) => {
+import PrevSubmit from '../../../../Components/PrevSubmit/PrevSubmit'
+const LifeElements = ({ lifeElements, handleRating, ratingData, postLifeElements }) => {
+
     return (
         <>
-            <div className='values_head'>
-                <h4><span>Wheel of Life:</span> Life Elements </h4>
-            </div>
-
+         <PrevSubmit title={'Wheel of life'} objective={'Rate life elements'} previousButton={false} onSumbit={postLifeElements}/>
             <div className='wheel_life_grid_wrapper'>
-                {['Anxiety', 'Depression', 'Peace', 'Courage', 'Forgiveness', 'Health'].map((e, i) => (
+                {lifeElements?.elements?.map((e, index) => (
                     <div className='wheel_life_card'>
-                        <h4>{e}</h4>
+                        <h4>{e?.name}</h4>
 
                         <div className='rate_life_elements_wrapper'>
                             <p>Rate Life Elements:</p>
@@ -19,35 +18,24 @@ const LifeElements = ({toggleFunction}) => {
                                 display: 'flex',
                                 justifyContent: 'flex-start',
                                 alignItems: 'center',
-                                overflowX:'auto',
-                                overflowY:'hidden'
+                                overflowX: 'auto',
+                                overflowY: 'hidden'
                             }}>
                                 <Rating
-                                 
+                                    initialValue={ratingData[index]?.rating}
+                                    onClick={((rate) => handleRating(index, rate))}
                                     className='ratings'
                                     size={25}
                                     fillColor="gold"
+                                    iconsCount={10}
+                                />
 
-                                />
-                                <Rating
-                                  
-                                    className='ratings'
-                                      size={25}
-                                    fillColor="gold"
-                                />
                             </div>
                         </div>
                     </div>
                 ))}
 
 
-            </div>
-
-
-            <div onClick={(() => toggleFunction(2))} style={{
-                marginTop: '30px'
-            }}>
-                <Button children={'Next'} />
             </div>
         </>
     )
