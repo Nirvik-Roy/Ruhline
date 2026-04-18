@@ -7,7 +7,7 @@ import { Resendmail } from '../../../Store/Slices/Loginslice/ResendMail'
 import Loaders from '../../Components/Loaders/Loaders'
 const ResendLinkModal = ({ setResendModal }) => {
     const [isLoading, setisLoading] = useState(false);
-    const { isResend, resendErrors, resendLoading } = useSelector(state => state.auth)
+    const {  resendErrors } = useSelector(state => state.auth)
     const dispatch = useDispatch()
     const [emailErrormessage, setEmailerrorMessage] = useState('');
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;

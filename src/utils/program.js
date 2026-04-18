@@ -392,7 +392,6 @@ export const saveMotivationWords = async (enrollmentId, structureId, wordId, dat
                 }
             });
             if (res.data.success == true) {
-                toast.success(res?.data?.message)
                 return res.data
             }
         } catch (err) {

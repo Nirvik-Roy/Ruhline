@@ -25,6 +25,7 @@ import Loaders from '../../../Components/Loaders/Loaders'
 import toast from 'react-hot-toast'
 const LiveProgram = () => {
   const { programId, enrollmentId } = useParams();
+  const [modalIsopen, setmodalIsopen] = useState(false);
   const [moduleOpen, setmoduleOpen] = useState(true)
   const [valuesContent, setvaluesContent] = useState({})
   const [whoAmIContent, setwhoAmiIContent] = useState({})
@@ -56,6 +57,29 @@ const LiveProgram = () => {
     })
   }
 
+  const MODULE_ICONS = {
+    'Values': heartIcon,
+    'Find your Motivation': questionIcon,
+    'Who am I': userIcon,
+    'Wheel of Life': wheelIcon,
+  };
+
+  const MODULE_PROGRESS = {
+    'Values': valuesContent?.progress?.is_completed,
+    'Find your Motivation': motivationContent?.progress?.is_completed,
+    'Who am I': whoAmIContent?.progress?.is_completed,
+    'Wheel of Life': lifeElements?.progress?.is_completed,
+  };
+
+  const tickStyle = {
+    position: 'absolute',
+    top: '10px',
+    right: '10px',
+    width: '18px',
+  };
+
+  const isModuleCompleted = (module) =>
+    module?.is_completed || MODULE_PROGRESS[module?.title];
   const fetchAllProgramModules = async () => {
     setloading(true)
     const res = await getProgramsModule(enrollmentId)
@@ -148,7 +172,6 @@ const LiveProgram = () => {
   }
 
 
-  const [modalIsopen, setmodalIsopen] = useState(false);
 
   return (
     <>
@@ -186,35 +209,18 @@ const LiveProgram = () => {
               gridColumn: '1/-1'
             }}>No modules are available right now...</p>}
             {allProgramModules?.map((e) => (
-              <div style={e.sort_order === id ? {
-                border: '2px solid var(--primary-color)'
-              } : {}} onClick={(() => {
-                fetchLockUnlockDetails(e?.program_structure_id, e?.title)
-                setId(e.sort_order)
-              })} className='program_tab'>
-                <img src={e?.title == 'Values' ? heartIcon : e?.title == 'Find your Motivation' ? questionIcon : e?.title == 'Who am I' ? userIcon : e?.title == 'Wheel of Life' ? wheelIcon : ''} />
+              <div
+                key={e.sort_order}
+                style={e.sort_order === id ? { border: '2px solid var(--primary-color)' } : {}}
+                onClick={() => {
+                  fetchLockUnlockDetails(e?.program_structure_id, e?.title);
+                  setId(e.sort_order);
+                }}
+                className='program_tab'
+              >
+                <img src={MODULE_ICONS[e?.title] ?? ''} alt={e?.title} />
                 <p>{e.title}</p>
-                {(e?.is_completed && valuesContent?.progress?.is_completed) ? <img style={{
-                  position: 'absolute',
-                  top: '10px',
-                  right: '10px',
-                  width: '18px'
-                }} src={tick} /> : (e?.is_completed && motivationContent?.progress?.is_completed) ? <img style={{
-                  position: 'absolute',
-                  top: '10px',
-                  right: '10px',
-                  width: '18px'
-                }} src={tick} /> : (e?.is_completed && whoAmIContent?.progress?.is_completed) ? <img style={{
-                  position: 'absolute',
-                  top: '10px',
-                  right: '10px',
-                  width: '18px'
-                    }} src={tick} /> : (e?.is_completed && lifeElements?.progress?.is_completed) ? <img style={{
-                  position: 'absolute',
-                  top: '10px',
-                  right: '10px',
-                  width: '18px'
-                }} src={tick} /> : null}
+                {isModuleCompleted(e) && <img style={tickStyle} src={tick} alt='completed' />}
               </div>
             ))}
           </div>}

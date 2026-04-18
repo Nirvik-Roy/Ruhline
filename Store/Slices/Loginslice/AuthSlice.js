@@ -59,9 +59,7 @@ const AuthSlice = createSlice({
         isVerified: false,
         isVerifyChecking: false,
         loginerrors: '',
-        isResend: false,
         resendErrors: '',
-        resendLoading: false
     },
     reducers: {
         verifyToken(state) {
@@ -170,24 +168,18 @@ const AuthSlice = createSlice({
 
         builder.addCase(Resendmail.pending, (state) => {
             state.resendErrors = '',
-                state.resendLoading = true,
-                state.isResend = false
             state.errors = '';
             state.loginerrors = '';
             state.resendErrors = '';
         })
         builder.addCase(Resendmail.fulfilled, (state) => {
             state.resendErrors = '',
-                state.resendLoading = false,
-                state.isResend = true,
-                state.errors = '';
+            state.errors = '';
             state.loginerrors = '';
             state.resendErrors = '';
         })
         builder.addCase(Resendmail.rejected, (state, action) => {
-            state.resendErrors = action.payload,
-                state.resendLoading = false,
-                state.isResend = false
+            state.resendErrors = action.payload
         })
     }
 })

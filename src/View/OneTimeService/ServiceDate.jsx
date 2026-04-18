@@ -154,9 +154,10 @@ const ServiceDate = () => {
                             justifyContent: 'space-between',
                             flexDirection: 'column',
                             gap: '40px',
-                            minheight:'38vh',
+                            height:'37vh',
+                            overflowY:'auto'
                         }}>
-                            <div className='time_gird_wrapper'>
+                            <div className='time_gird_wrapper' >
                                 {slotsData?.slots?.length <= 0 && <p>No slots are available right now...</p>}
                                 {slotsData?.slots?.map((element, index) => {
                                     return (
