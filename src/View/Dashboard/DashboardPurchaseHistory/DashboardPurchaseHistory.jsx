@@ -96,10 +96,9 @@ const DashboardPurchaseHistory = () => {
                                     })} class="fa-solid fa-ellipsis"></i>
 
                                     {dropdown === e.id && <div className='dashboard_actions_wrapper' style={{
-                                        bottom: '-80px'
+                                        bottom: '-60px'
                                     }}>
                                         <p onClick={(() => navigate(`/dashboard/purchase/single-purchase/${e?.id}`))}>View</p>
-                                        <p>Delete</p>
                                     </div>}
                                 </div>
                             </div>
