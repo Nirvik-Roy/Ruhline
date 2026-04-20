@@ -12,7 +12,9 @@ const RemoveCardGame = ({ cardGamestate, setCardGamestate }) => {
   const [selectedCards, setselectedCards] = useState([])
   const [availableCards, setavailableCards] = useState([]);
   const [loading, setloading] = useState(false);
-  const { enrollmentId } = useParams()
+  const { enrollmentId } = useParams();
+  const [previouscardIndex,setpreviouscardIndex] = useState(0)
+  const [nextCardIndex,setnextCardIndex] = useState(12)
   const cardFunction = (index) => {
     const selectedItem = availableCards[index]
     if (selectedCards?.length != 10) {
@@ -34,7 +36,16 @@ const RemoveCardGame = ({ cardGamestate, setCardGamestate }) => {
     const cardsAvailable = cardGamestate?.card_snapshots?.filter((element) =>
       cardGamestate?.remaining_card_snapshot_ids?.includes(element?.id)
     )
-    setavailableCards(cardsAvailable || [])
+
+    const mappedData = cardsAvailable?.map((element,index)=>(
+      {
+        card_index:index+1,
+        id:element?.id,
+        name:element?.name,
+        description:element?.description
+      }
+    )) || []
+    setavailableCards(mappedData || [])
   }, [cardGamestate])
 
 
@@ -54,6 +65,7 @@ const RemoveCardGame = ({ cardGamestate, setCardGamestate }) => {
     }
   }
 
+
   return (
     <>
 
@@ -63,17 +75,38 @@ const RemoveCardGame = ({ cardGamestate, setCardGamestate }) => {
       })} />
       <div className='card_game_cards_Main_wrapper'>
         <div className='card_game_arrows_wrapper'>
-          <img src={leftarrow} />
-          <img src={rightarrow} />
+          <img onClick={(() => {
+            if (previouscardIndex != 0 && nextCardIndex !=12) {
+              setnextCardIndex(nextCardIndex - 12)
+              setpreviouscardIndex(previouscardIndex - 12)
+            }
+          })} style={{
+            cursor:'pointer'
+          }} src={leftarrow} />
+          <img onClick={(()=>{
+            if(nextCardIndex < availableCards?.length){
+              setnextCardIndex(nextCardIndex + 12)
+              setpreviouscardIndex(previouscardIndex+ 12)
+            }
+          })} style={{
+            cursor: 'pointer'
+          }} src={rightarrow} />
         </div>
         <div className='card_game_gird_wrapper'>
-          {availableCards?.map((e, index) => (
-            <div onClick={(() => cardFunction(index))} className='card_game_card'>
-              <h1>{e.id}</h1>
-              <h6>{e.name}</h6>
-              <p>{e.description}</p>
-            </div>
-          ))}
+          {availableCards?.map((e, index) => {
+            if(index >= previouscardIndex && index < nextCardIndex){
+              return (
+                <>
+                  <div onClick={(() => cardFunction(index))} className='card_game_card'>
+                    <h1>{e.card_index}</h1>
+                    <h6>{e.name}</h6>
+                    <p>{e.description}</p>
+                  </div>
+                </>
+              )
+            }
+          
+          })}
 
         </div>
 
@@ -88,7 +121,7 @@ const RemoveCardGame = ({ cardGamestate, setCardGamestate }) => {
           {selectedCards?.map((e, i) => (
             <div className='card_game_card'>
               <img src={deleteIcon} onClick={(() => removeCard(i))} />
-              <h1>{e.id}</h1>
+              <h1>{e.card_index}</h1>
               <h6>{e.name}</h6>
               <p>{e.description}</p>
             </div>

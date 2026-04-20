@@ -24,7 +24,15 @@ const SixCards = ({ cardGamestate, setCardGamestate }) => {
         const cardsAvailable = cardGamestate?.card_snapshots?.filter((element) =>
             cardGamestate?.remaining_card_snapshot_ids?.includes(element?.id)
         )
-        setavailableCards(cardsAvailable || [])
+        const mappedData = cardsAvailable?.map((element, index) => (
+            {
+                index: index + 1,
+                id: element?.id,
+                name: element?.name,
+                description: element?.description
+            }
+        )) || []
+        setavailableCards(mappedData || [])
     }, [cardGamestate])
 
 
@@ -55,7 +63,7 @@ const SixCards = ({ cardGamestate, setCardGamestate }) => {
                         border: '1px solid rgba(36, 159, 50, 1)',
                         background: 'rgba(36, 159, 50, 0.07)'
                     } : {}} className='card_game_card'>
-                        <h1>{e.id}</h1>
+                        <h1>{e.index}</h1>
                         <h6>{e.name}</h6>
                         <p>{e.description}</p>
                     </div>
