@@ -298,7 +298,7 @@ export const getValuesQuestions = async (enrollmentId, structureId) => {
 
 export const saveValuesQuestion = async (enrollmentId, structureId, questionId, data) => {
     const token = localStorage.getItem('token')
-    
+
     if (token && data && enrollmentId && structureId && questionId) {
         try {
             const res = await axios.put(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/modules/${structureId}/values/questions/${questionId}/answer`, data, {
@@ -425,7 +425,7 @@ export const getlifeElements = async (enrollmentId, structureId) => {
 
 export const saveLifeElements = async (enrollmentId, structureId, data) => {
     const token = localStorage.getItem('token')
-    if (token && data && enrollmentId && structureId ) {
+    if (token && data && enrollmentId && structureId) {
         try {
             const res = await axios.put(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/modules/${structureId}/wheel-of-life/ratings`, data, {
                 headers: {
@@ -471,6 +471,93 @@ export const saveWheelOfLifequestion = async (enrollmentId, structureId, questio
     if (token && data && enrollmentId && structureId && questionId && elementId) {
         try {
             const res = await axios.put(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/modules/${structureId}/wheel-of-life/elements/${elementId}/questions/${questionId}/answer`, data, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res.data.success == true) {
+                toast.success(res?.data?.message)
+                return res.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err.response.data
+        }
+    }
+}
+
+
+export const getCardGameState = async (enrollmentId, structureId) => {
+    const token = localStorage.getItem('token')
+    if (token && enrollmentId && structureId) {
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/modules/${structureId}/card-game/state`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res.data.success == true) {
+                return res.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err.response.data
+        }
+    }
+}
+
+
+export const saveCardGameQuestions = async (enrollmentId, structureId, questionId, data, setId) => {
+    const token = localStorage.getItem('token')
+
+    if (token && data && enrollmentId && structureId && questionId && setId) {
+        try {
+            const res = await axios.put(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/modules/${structureId}/card-game/question-sets/${setId}/questions/${questionId}/answer`, data, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res.data.success == true) {
+                toast.success(res?.data?.message)
+                return res.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err.response.data
+        }
+    }
+}
+
+
+
+export const saveCardSelection = async (enrollmentId, structureId, data, setId) => {
+    const token = localStorage.getItem('token')
+    console.log(setId)
+
+    if (token && data && enrollmentId && structureId && setId) {
+        try {
+            const res = await axios.put(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/modules/${structureId}/card-game/question-sets/${setId}/card-selection`, data, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res.data.success == true) {
+                toast.success(res?.data?.message)
+                return res.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err.response.data
+        }
+    }
+}
+
+
+export const finalSubmitCard = async (enrollmentId, structureId) => {
+    const token = localStorage.getItem('token')
+    if (token && enrollmentId && structureId) {
+        try {
+            const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/modules/${structureId}/card-game/submit`,{}, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

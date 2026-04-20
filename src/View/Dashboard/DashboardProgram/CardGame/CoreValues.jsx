@@ -1,60 +1,33 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from '../../../../Components/Button/Button'
-const CoreValues = ({completedFunction}) => {
-    const cardData = [
-        {
-            id: 1,
-            title: 'Anxiety',
-            para: "Stability, orderliness, predictability",
-        },
-        {
-            id: 2,
-            title: 'Depression',
-            para: "Stability, orderliness, predictability",
-        },
-        {
-            id: 3,
-            title: 'Forgiveness',
-            para: "Stability, orderliness, predictability",
-        },
-        {
-            id: 4,
-            title: 'Loyalty',
-            para: "Stability, orderliness, predictability",
-        },
-        {
-            id: 5,
-            title: 'Peace',
-            para: "Stability, orderliness, predictability",
-        },
-        {
-            id: 6,
-            title: 'Health',
-            para: "Stability, orderliness, predictability",
-        },
-    ]
+import PrevSubmit from '../../../../Components/PrevSubmit/PrevSubmit';
+import { finalSubmitCard } from '../../../../utils/program';
+import { useParams } from 'react-router-dom';
+const CoreValues = ({ completedFunction, cardGamestate, setCardGamestate }) => {
+    const [availableCards, setavailableCards] = useState([]);
+    const {enrollmentId} = useParams()
+    useEffect(() => {
+        setavailableCards(cardGamestate?.core_values || [])
+    }, [cardGamestate])
+    
     return (
         <>
-            <div className='values_head'>
-                <h4><span>Card Game:</span> Your core values are</h4>
-            </div>
+            <PrevSubmit title={'Card Game:'} onSumbit={(async()=>{
+                const res = await finalSubmitCard(enrollmentId, cardGamestate?.program_structure_id)
+                if(res?.success){
+                    setCardGamestate(res?.data)
+                }
+            })} lastStep={true} objective={'Your core values are'}/>
 
             <div className='card_game_gird_wrapper'>
-                {cardData.map((e, i) => (
+                {availableCards?.map((e) => (
                     <div className='card_game_card'>
                         <h1>{e.id}</h1>
-                        <h6>{e.title}</h6>
-                        <p>{e.para}</p>
+                        <h6>{e.name}</h6>
+                        <p>{e.description}</p>
                     </div>
                 ))}
 
-            </div>
-            <div style={{
-                marginTop: '30px',
-            }}>
-                <div onClick={(()=>completedFunction(2))}>
-                    <Button children={'Finish'} />
-                </div>
             </div>
         </>
     )

@@ -5,13 +5,12 @@ import CardGameForm from './CardGameForm'
 import RemoveCardGame from './RemoveCardGame'
 import SixCards from './SixCards'
 import CoreValues from './CoreValues'
-const CardGameContent = ({completedFunction}) => {
+const CardGameContent = ({ completedFunction, cardGamestate, setCardGamestate }) => {
     const [toggle, settoggle] = useState({
         cardForm: true,
         removeCard: false,
         sixCards: false,
         coreValues: false,
-
     })
     const toggleFunction = (id) => {
         settoggle({
@@ -23,10 +22,10 @@ const CardGameContent = ({completedFunction}) => {
     }
     return (
         <>
-            {toggle.cardForm && <CardGameForm toggleFunction={toggleFunction} />}
-            {toggle.removeCard && <RemoveCardGame toggleFunction={toggleFunction} />}
-            {toggle.sixCards && <SixCards toggleFunction={toggleFunction} />}
-            {toggle.coreValues && <CoreValues toggleFunction={toggleFunction} completedFunction={completedFunction} />}
+            {(cardGamestate?.navigation?.current_phase == 'questions') && <CardGameForm cardGamestate={cardGamestate} setCardGamestate={setCardGamestate}/> }
+            {(cardGamestate?.navigation?.current_phase == 'remove_cards') && <RemoveCardGame cardGamestate={cardGamestate} setCardGamestate={setCardGamestate}/>}
+            {(cardGamestate?.navigation?.current_phase == 'keep_cards') && <SixCards cardGamestate={cardGamestate} setCardGamestate={setCardGamestate} />}
+            {(cardGamestate?.navigation?.current_phase == 'awaiting_submit') && <CoreValues setCardGamestate={setCardGamestate} cardGamestate={cardGamestate}  completedFunction={completedFunction} />}
         </>
     )
 }

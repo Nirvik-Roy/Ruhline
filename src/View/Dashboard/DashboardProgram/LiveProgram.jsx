@@ -19,7 +19,7 @@ import WhoAmI from './WhoAmI'
 import WaitingModal from './WaitingModal'
 import HabitTracker from './HabitTracker'
 import tick from '../../../assets/Images/Layer_1.svg'
-import { checkLockUnlock, getlifeElements, getMotivationWords, getProgramsModule, getValuesQuestions, getWhoamIQuestions } from '../../../utils/program'
+import { checkLockUnlock, getCardGameState, getlifeElements, getMotivationWords, getProgramsModule, getValuesQuestions, getWhoamIQuestions } from '../../../utils/program'
 import { useParams } from 'react-router-dom'
 import Loaders from '../../../Components/Loaders/Loaders'
 import toast from 'react-hot-toast'
@@ -30,6 +30,7 @@ const LiveProgram = () => {
   const [valuesContent, setvaluesContent] = useState({})
   const [whoAmIContent, setwhoAmiIContent] = useState({})
   const [lifeElements, setLifeelements] = useState({})
+  const [cardGamestate, setCardGamestate] = useState({})
   const [motivationContent, setmotivationContent] = useState({})
   const [id, setId] = useState(null);
   const [completed, setCompleted] = useState([]);
@@ -62,13 +63,22 @@ const LiveProgram = () => {
     'Find your Motivation': questionIcon,
     'Who am I': userIcon,
     'Wheel of Life': wheelIcon,
+    'Card Game': cardIcon
   };
+
+  useEffect(()=>{
+    if (valuesContent?.progress?.is_completed || motivationContent?.progress?.is_completed || whoAmIContent?.progress?.is_completed || lifeElements?.progress?.is_completed || cardGamestate?.navigation?.current_phase == 'completed'){
+      toast.success('You have already completed this module...')
+    }
+
+  }, [valuesContent, motivationContent, whoAmIContent, lifeElements, cardGamestate])
 
   const MODULE_PROGRESS = {
     'Values': valuesContent?.progress?.is_completed,
     'Find your Motivation': motivationContent?.progress?.is_completed,
     'Who am I': whoAmIContent?.progress?.is_completed,
     'Wheel of Life': lifeElements?.progress?.is_completed,
+    'Card Game': cardGamestate?.navigation?.current_phase == 'completed'
   };
 
   const tickStyle = {
@@ -80,6 +90,8 @@ const LiveProgram = () => {
 
   const isModuleCompleted = (module) =>
     module?.is_completed || MODULE_PROGRESS[module?.title];
+
+
   const fetchAllProgramModules = async () => {
     setloading(true)
     const res = await getProgramsModule(enrollmentId)
@@ -96,6 +108,7 @@ const LiveProgram = () => {
     const res = await getValuesQuestions(Number(enrollmentId), structureId)
     if (res?.success) {
       setvaluesContent(res?.data || {})
+      tabsFunction(1)
     }
     setloading(false)
   }
@@ -106,6 +119,7 @@ const LiveProgram = () => {
     const res = await getWhoamIQuestions(Number(enrollmentId), structureId)
     if (res?.success) {
       setwhoAmiIContent(res?.data || {})
+      tabsFunction(7)
     }
     setloading(false)
   }
@@ -116,11 +130,10 @@ const LiveProgram = () => {
     const res = await getMotivationWords(Number(enrollmentId), structureId)
     if (res?.success) {
       setmotivationContent(res?.data || {})
+      tabsFunction(5)
     }
     setloading(false)
   }
-
-
 
 
   const fetchWhoamIElements = async (structureId) => {
@@ -128,9 +141,22 @@ const LiveProgram = () => {
     const res = await getlifeElements(Number(enrollmentId), structureId)
     if (res?.success) {
       setLifeelements(res?.data || {})
+      tabsFunction(3)
     }
     setloading(false)
   }
+
+
+  const fetchCardGameState = async (structureId) => {
+    setloading(true)
+    const res = await getCardGameState(Number(enrollmentId), structureId)
+    if (res?.success) {
+      setCardGamestate(res?.data || {})
+      tabsFunction(2)
+    }
+    setloading(false)
+  }
+
 
   const fetchLockUnlockDetails = async (structureId, moduleName) => {
     setloading(true)
@@ -138,22 +164,22 @@ const LiveProgram = () => {
     if (res?.success) {
       if (moduleName == 'Values') {
         fetchValuesQuestion(structureId)
-        tabsFunction(1)
       }
 
       if (moduleName == 'Find your Motivation') {
         fetchMotivation(structureId)
-        tabsFunction(5)
       }
 
       if (moduleName == 'Who am I') {
         fetchWhoamIQuestion(structureId)
-        tabsFunction(7)
       }
 
       if (moduleName == 'Wheel of Life') {
         fetchWhoamIElements(structureId)
-        tabsFunction(3)
+      }
+
+      if (moduleName == 'Card Game') {
+        fetchCardGameState(structureId)
       }
     } else {
       toast.error('Module is not unlocked yet!')
@@ -170,6 +196,7 @@ const LiveProgram = () => {
   const completedFunction = (id) => {
     setCompleted([...completed, id])
   }
+
 
 
 
@@ -225,12 +252,12 @@ const LiveProgram = () => {
             ))}
           </div>}
 
-          {tabs.values && <ValuesContent fetchValuesQuestion={fetchValuesQuestion} valuesContent={valuesContent} completedFunction={completedFunction} />}
-          {tabs.cardGame && <CardGameContent completedFunction={completedFunction} />}
-          {tabs.wheel && <WheelLife lifeElements={lifeElements} completedFunction={completedFunction} />}
+          {(tabs.values && !valuesContent?.progress?.is_completed) && <ValuesContent fetchValuesQuestion={fetchValuesQuestion} valuesContent={valuesContent} completedFunction={completedFunction} />}
+          {tabs.cardGame && <CardGameContent setCardGamestate={setCardGamestate} cardGamestate={cardGamestate} completedFunction={completedFunction} />}
+          {(tabs.wheel && !lifeElements?.progress?.is_completed && !lifeElements?.elements?.[0]?.question_progress?.is_completed) && <WheelLife lifeElements={lifeElements} completedFunction={completedFunction} />}
           {tabs.goal && <GoalSetting completedFunction={completedFunction} />}
-          {tabs.motivation && <FindMotivation fetchMotivation={fetchMotivation} motivationContent={motivationContent} completedFunction={completedFunction} />}
-          {tabs.whoAmI && <WhoAmI fetchWhoamIQuestion={fetchWhoamIQuestion} whoAmIContent={whoAmIContent} completedFunction={completedFunction} />}
+          {(tabs.motivation && !motivationContent?.progress?.is_completed) && <FindMotivation fetchMotivation={fetchMotivation} motivationContent={motivationContent} completedFunction={completedFunction} />}
+          {(tabs.whoAmI && !whoAmIContent?.progress?.is_completed) && <WhoAmI fetchWhoamIQuestion={fetchWhoamIQuestion} whoAmIContent={whoAmIContent} completedFunction={completedFunction} />}
           {tabs.habit && <HabitTracker completedFunction={completedFunction} />}
         </div>
       </div>

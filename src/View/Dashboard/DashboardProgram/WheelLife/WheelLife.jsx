@@ -52,7 +52,12 @@ const WheelLife = ({ completedFunction, lifeElements }) => {
                     rating: item.rating
                 }))
             };
-            const res = await saveLifeElements(enrollmentId, lifeElements?.program_structure_id, payload)
+            const formData = new FormData()
+            ratingData.forEach((element, index) => {
+                formData.append(`ratings[${index}][element_id]`, element.id)
+                formData.append(`ratings[${index}][rating]`, element.rating)
+            })
+            const res = await saveLifeElements(enrollmentId, lifeElements?.program_structure_id, formData)
             if (res?.success) {
                 fetchLifeElementsQuestion(ratingData?.[0]?.id)
                 toggleFunction(2)

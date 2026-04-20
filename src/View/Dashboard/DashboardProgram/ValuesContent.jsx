@@ -142,7 +142,6 @@ const ValuesContent = ({ completedFunction, valuesContent, fetchValuesQuestion }
             <PrevSubmit firstStep={questionIndex == 0} onPrevious={(() => {
                 if (questionIndex != 0) {
                     setquestionIndex(questionIndex - 1)
-
                 }
             })} title={'Values'} lastStep={questionIndex == questions?.length - 1} onSumbit={(() => {
                 if (questionIndex < questions?.length) {
