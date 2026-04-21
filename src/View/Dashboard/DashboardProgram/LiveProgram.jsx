@@ -20,11 +20,12 @@ import WaitingModal from './WaitingModal'
 import HabitTracker from './HabitTracker'
 import tick from '../../../assets/Images/Layer_1.svg'
 import { checkLockUnlock, getCardGameState, getlifeElements, getMotivationWords, getProgramsModule, getValuesQuestions, getWhoamIQuestions } from '../../../utils/program'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Loaders from '../../../Components/Loaders/Loaders'
 import toast from 'react-hot-toast'
 const LiveProgram = () => {
   const { programId, enrollmentId } = useParams();
+  const navigate = useNavigate()
   const [modalIsopen, setmodalIsopen] = useState(false);
   const [moduleOpen, setmoduleOpen] = useState(true)
   const [valuesContent, setvaluesContent] = useState({})
@@ -207,7 +208,7 @@ const LiveProgram = () => {
       <div className='dashboard_content_wrapper'>
         <div className='live_program_head_wrapper'>
           <div className='live_program_head' >
-            <img />
+            <img onClick={(()=>navigate(-1))} src={arrow}/>
             <h3>Program 1</h3>
           </div>
           <div className='download_resources_head'>

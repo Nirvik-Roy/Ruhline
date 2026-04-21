@@ -20,7 +20,7 @@ const PaymentSuccesfullModal = ({setModal}) => {
         <p style={{
             marginTop:'-15px'
         }}>Redirecting to your dashboard</p>
-        <p>If not redirected, <Link>Click to view Dashboard</Link></p>
+        <p>If not redirected, <Link to={'/dashboard'}>Click to view Dashboard</Link></p>
       </div>
     </>
   )
