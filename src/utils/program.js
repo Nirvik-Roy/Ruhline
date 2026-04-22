@@ -572,3 +572,105 @@ export const finalSubmitCard = async (enrollmentId, structureId) => {
         }
     }
 }
+
+
+export const getGoalSettings = async (enrollmentId, structureId) => {
+    const token = localStorage.getItem('token')
+    if (token && enrollmentId && structureId) {
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/modules/${structureId}/goal-settings/goals`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res.data.success == true) {
+                return res.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err.response.data
+        }
+    }
+}
+
+export const postGoalSettings = async (enrollmentId, structureId, data) => {
+    const token = localStorage.getItem('token')
+    if (token && data && enrollmentId && structureId ) {
+        try {
+            const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/modules/${structureId}/goal-settings/goals`, data, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res.data.success == true) {
+                toast.success(res?.data?.message)
+                return res.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err.response.data
+        }
+    }
+}
+
+
+export const updateGoalSettings = async (enrollmentId, structureId, goalId, data ) => {
+    const token = localStorage.getItem('token')
+    if (token && data && enrollmentId && structureId && goalId) {
+        try {
+            const res = await axios.put(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/modules/${structureId}/goal-settings/goals/${goalId}`, data, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res.data.success == true) {
+                toast.success(res?.data?.message)
+                return res.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err.response.data
+        }
+    }
+}
+
+
+export const deleteGoal = async (enrollmentId, structureId, goalId) => {
+    const token = localStorage.getItem('token')
+    if (token && enrollmentId && structureId && goalId) {
+        try {
+            const res = await axios.delete(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/modules/${structureId}/goal-settings/goals/${goalId}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res.data.success == true) {
+                return res.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err.response.data.errors
+        }
+    } else {
+        toast.error('Enrollment Id is required')
+    }
+}
+
+export const getHabitTrackerState = async (enrollmentId, structureId) => {
+    const token = localStorage.getItem('token')
+    if (token && enrollmentId && structureId) {
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/modules/${structureId}/habit-tracker/state`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res.data.success == true) {
+                return res.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err.response.data
+        }
+    }
+}

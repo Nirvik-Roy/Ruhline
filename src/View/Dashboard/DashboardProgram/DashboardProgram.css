@@ -688,6 +688,34 @@
   right: 20px;
   cursor: pointer;
 }
+.toggle_wrapper{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3.5px 6px;
+  border-radius: 15px;
+  width: fit-content;
+  background-color: rgba(164, 164, 164, 1);
+  gap: 5px;
+  font-size: 12px;
+  color:#fff;
+  cursor: pointer;
+}
+.enable_sub_goal_wrapper{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 12px;
+  margin: 30px 0px;
+  padding-bottom: 12px;
+  padding-left: 20px;
+  border-bottom: 2px solid #ccc;
+}
+.enable_sub_goal_wrapper h4{
+  font-size: 17px;
+  color: var(--text-color);
+  font-weight: 500;
+}
 
 @media (max-width: 1099px) {
   .dashboard_session_wrapper {

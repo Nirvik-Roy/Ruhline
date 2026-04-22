@@ -1,73 +1,123 @@
-import React from 'react'
-import Input from '../../../Components/Inputs/Input'
-import Textarea from '../../../Components/Inputs/Textarea'
+import React, { useState } from 'react'
+import PrevSubmit from '../../../Components/PrevSubmit/PrevSubmit'
 import Button from '../../../Components/Button/Button'
-const GoalSetting = ({ completedFunction }) => {
+import GoalSettingForm from './GoalSettingForm';
+import EditGoalSettingForm from './EditGoalSettingsForm';
+import DeleteModal from '../../../Components/DeleteModal/DeleteModal.jsx'
+import { deleteGoal } from '../../../utils/program';
+import { useParams } from 'react-router-dom';
+import Loaders from '../../../Components/Loaders/Loaders';
+import Pagination from '../../../Components/Pagination/Pagination.jsx';
+const GoalSetting = ({ goalsettingsContent, setgoalSettingsContent }) => {
+    const [dropdown, setdropdown] = useState('');
+    const [createGoal, setcreateGoal] = useState(false);
+    const [goalId, setgoalId] = useState()
+    const [editGoal, seteditGoal] = useState(false);
+    const [loading, setloading] = useState(false);
+    const [deleteModal, setdeleteModal] = useState(false);
+    const { enrollmentId } = useParams()
+
+    const handleDelete = async () => {
+        setloading(true)
+        const res = await deleteGoal(enrollmentId, goalsettingsContent?.program_structure_id, goalId)
+        if (res?.success) {
+            setgoalSettingsContent(res?.data)
+            setdeleteModal(false)
+            setgoalId(false)
+        }
+        setloading(false)
+    }
+
+
+    // Pagination logic only
+
+    const itemsPerPage = 3;
+    const [currentPage, setCurrentPage] = useState(0);
+
+    const offset = currentPage * itemsPerPage;
+
+    const currentItems = goalsettingsContent?.goals?.slice(offset, offset + itemsPerPage);
+
+    const pageCount = Math.ceil(goalsettingsContent?.goals?.length / itemsPerPage);
+
+    const handlePageChange = (selectedItem) => {
+        setCurrentPage(selectedItem.selected);
+    };
     return (
         <>
-            <div className='values_head'>
-                <h4><span>Goal Settings:</span> Create your own goal </h4>
-            </div>
-
-            <form className='values_form_wrapper' style={{
-                marginTop: '-25px'
-            }}>
-
-                <div className='values_form_input_Wrapper'>
-                    <Input label={'Goal Name'} required={true} placeholder={"Goal 1"} />
-                </div>
-
-                <div className='values_form_input_Wrapper' style={{
-                    marginTop: '0px'
+            {loading && <Loaders />}
+            {deleteModal && <DeleteModal onClick={handleDelete} setdeleteModal={setdeleteModal} title={'Delete goal'} details={'Do you really want to delete this goal?'} />}
+            {(!createGoal && !editGoal) && <div>
+                <div className='values_head' style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    gap: '20px'
                 }}>
-                    <ul className='values_checkbox_button' style={{
-                        flexDirection: 'row',
-                        gap: '20px'
-                    }}>
-                        <li className='values_checkbox_wrapper'>
-                            <input type='radio' style={{
-                                width: '15px',
-                                height: '15px'
-                            }} />
-                            <p>Short term</p>
-                        </li>
-
-                        <li className='values_checkbox_wrapper'>
-                            <input type='radio' style={{
-                                width: '15px',
-                                height: '15px'
-                            }} />
-                            <p>Long term</p>
-                        </li>
-                    </ul>
-                </div>
-                <div className='values_form_grid_wrapper'>
-                    <div className='values_form_input_Wrapper'>
-                        <Input label={'Start Date'} required={true} type={'date'} placeholder={"Goal 1"} />
-                    </div>
-
-                    <div className='values_form_input_Wrapper'>
-                        <label>Duration Selection <span>*</span></label>
-                        <select>
-                            <option>1 week</option>
-                        </select>
-                    </div>
+                    <h4><span>Goal Settings:</span> Create your own goal </h4>
+                    <Button onClick={(() => setcreateGoal(true))} children={'Create Goal'} />
                 </div>
 
-                <div className='values_form_input_Wrapper'>
-                    <Textarea label={' Write about yourself'} required={true} placeholder={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. "} />
-                </div>
+                {/* This goal list design is taken from dashboard purchase history.. The css is in the dashboard purchase history */}
 
-
-                <div className='values_form_input_Wrapper'>
-                    <Textarea label={' Why is it important?'} required={true} placeholder={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. "} />
-                </div>
-                <div onClick={(() => completedFunction(4))} style={{
-                    marginTop: '30px',
+                <div className='goal_list_wrapper' style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    rowGap: '15px',
+                    marginTop: '30px'
                 }}>
-                    <Button children={'Submit'} />
+                    {currentItems?.map((element, index) => (
+                        <div className='dashboard_support'>
+                            <div className='dashboard_support_header'>
+                                <h2>{element?.goal_name} <span style={{
+                                    textTransform: 'capitalize'
+                                }}>{element?.goal_type}</span></h2>
+                                <div className='dashboard_support_status' style={{
+                                    position: 'relative'
+                                }}>
+                                    <i onClick={(() => {
+                                        if (dropdown === index) {
+                                            setdropdown('')
+                                        } else {
+                                            setdropdown(index)
+                                        }
+                                    })} class="fa-solid fa-ellipsis"></i>
+
+                                    {dropdown === index && <div className='dashboard_actions_wrapper' style={{
+                                        bottom: '-70px'
+                                    }}>
+                                        <p onClick={(() => {
+                                            seteditGoal(true)
+                                            setgoalId(element?.id)
+                                        })}>Edit</p>
+                                        <p onClick={(() => {
+                                            setdeleteModal(true)
+                                            setgoalId(element?.id)
+                                        })}>Delete</p>
+                                    </div>}
+                                </div>
+                            </div>
+                            <div className='dashboard_subject_wrapper' style={{
+                                display: 'flex',
+                                justifyContent: 'flex-start',
+                                alignItems: 'center',
+                                gap: '10px'
+                            }}>
+                                <h4>Start Date: <span>{element?.start_date}</span></h4>
+                                <h4>Duration: <span> {element?.duration_label}</span></h4>
+                            </div>
+                        </div>
+                    ))}
                 </div>
-            </form>
+                <Pagination pageCount={pageCount}
+                    currentPage={currentPage}
+                    onPageChange={handlePageChange} />
+            </div>}
+
+            {createGoal && <GoalSettingForm setcreateGoal={setcreateGoal} setgoalSettingsContent={setgoalSettingsContent} goalsettingsContent={goalsettingsContent} />}
+
+            {editGoal && <EditGoalSettingForm seteditGoal={seteditGoal} setgoalSettingsContent={setgoalSettingsContent} goalsettingsContent={goalsettingsContent} goalId={goalId} />}
+
         </>
     )
 }
