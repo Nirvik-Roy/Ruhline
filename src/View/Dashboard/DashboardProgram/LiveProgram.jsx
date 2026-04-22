@@ -292,7 +292,7 @@ const LiveProgram = () => {
           {tabs.goal && <GoalSetting setgoalSettingsContent={setgoalSettingsContent} goalsettingsContent={goalsettingsContent} completedFunction={completedFunction} />}
           {(tabs.motivation && !motivationContent?.progress?.is_completed) && <FindMotivation fetchMotivation={fetchMotivation} motivationContent={motivationContent} completedFunction={completedFunction} />}
           {(tabs.whoAmI && !whoAmIContent?.progress?.is_completed) && <WhoAmI fetchWhoamIQuestion={fetchWhoamIQuestion} whoAmIContent={whoAmIContent} completedFunction={completedFunction} />}
-          {tabs.habit && <HabitTracker habbitContent={habbitContent} />}
+          {tabs.habit && <HabitTracker sethabbitContent={sethabbitContent} habbitContent={habbitContent} />}
         </div>
       </div>
     </>

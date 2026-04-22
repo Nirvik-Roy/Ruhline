@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import PrevSubmit from '../../../Components/PrevSubmit/PrevSubmit'
 import Button from '../../../Components/Button/Button'
 import GoalSettingForm from './GoalSettingForm';
@@ -16,14 +16,16 @@ const GoalSetting = ({ goalsettingsContent, setgoalSettingsContent }) => {
     const [loading, setloading] = useState(false);
     const [deleteModal, setdeleteModal] = useState(false);
     const { enrollmentId } = useParams()
+    const dropdownRef = useRef()
 
     const handleDelete = async () => {
+        
         setloading(true)
         const res = await deleteGoal(enrollmentId, goalsettingsContent?.program_structure_id, goalId)
         if (res?.success) {
             setgoalSettingsContent(res?.data)
             setdeleteModal(false)
-            setgoalId(false)
+            setgoalId('')
         }
         setloading(false)
     }
@@ -43,6 +45,21 @@ const GoalSetting = ({ goalsettingsContent, setgoalSettingsContent }) => {
     const handlePageChange = (selectedItem) => {
         setCurrentPage(selectedItem.selected);
     };
+
+
+    const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setdropdown([]);
+        }
+    };
+
+
+    useEffect(() => {
+        document.addEventListener("click", handleClickOutside);
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, []);
     return (
         <>
             {loading && <Loaders />}
@@ -66,6 +83,10 @@ const GoalSetting = ({ goalsettingsContent, setgoalSettingsContent }) => {
                     rowGap: '15px',
                     marginTop: '30px'
                 }}>
+                    {currentItems?.length <= 0 && <p style={{
+                        textAlign: 'center',
+                        color: 'var(--primary-color)'
+                    }}>No goals added...</p>}
                     {currentItems?.map((element, index) => (
                         <div className='dashboard_support'>
                             <div className='dashboard_support_header'>
@@ -75,7 +96,8 @@ const GoalSetting = ({ goalsettingsContent, setgoalSettingsContent }) => {
                                 <div className='dashboard_support_status' style={{
                                     position: 'relative'
                                 }}>
-                                    <i onClick={(() => {
+                                    <i onClick={((e) => {
+                                        e.stopPropagation()
                                         if (dropdown === index) {
                                             setdropdown('')
                                         } else {
@@ -83,7 +105,8 @@ const GoalSetting = ({ goalsettingsContent, setgoalSettingsContent }) => {
                                         }
                                     })} class="fa-solid fa-ellipsis"></i>
 
-                                    {dropdown === index && <div className='dashboard_actions_wrapper' style={{
+                                    {dropdown === index && <div ref={dropdownRef}
+                                    className='dashboard_actions_wrapper' style={{
                                         bottom: '-70px'
                                     }}>
                                         <p onClick={(() => {

@@ -1,5 +1,5 @@
 import './DashboardPurchaseHistory.css'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Button from '../../../Components/Button/Button'
 import Pagination from '../../../Components/Pagination/Pagination'
 import { useNavigate } from 'react-router-dom'
@@ -10,7 +10,7 @@ const DashboardPurchaseHistory = () => {
     const navigate = useNavigate();
     const [loading, setloading] = useState(false)
     const [purchaseData, setpurchaseData] = useState([])
-
+    const dropdownRef = useRef()
     const purchaseFunc = async () => {
         setloading(true)
         const res = await getPurchaseHistory()
@@ -39,6 +39,21 @@ const DashboardPurchaseHistory = () => {
     const handlePageChange = (selectedItem) => {
         setCurrentPage(selectedItem.selected);
     };
+
+
+     const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setdropdown([]);
+            }
+        };
+    
+    
+        useEffect(() => {
+            document.addEventListener("click", handleClickOutside);
+            return () => {
+                document.removeEventListener("click", handleClickOutside);
+            };
+        }, []);
     return (
         <>
             {loading && <Loaders />}
@@ -87,7 +102,8 @@ const DashboardPurchaseHistory = () => {
                                         backgroundColor: 'red',
                                         textTransform: 'capitalize'
                                     }}>{e?.payment_status}</p>}
-                                    <i onClick={(() => {
+                                    <i onClick={((event) => {
+                                        event.stopPropagation()
                                         if (dropdown === e.id) {
                                             setdropdown('')
                                         } else {
@@ -95,7 +111,9 @@ const DashboardPurchaseHistory = () => {
                                         }
                                     })} class="fa-solid fa-ellipsis"></i>
 
-                                    {dropdown === e.id && <div className='dashboard_actions_wrapper' style={{
+                                    {dropdown === e.id && <div className='dashboard_actions_wrapper' 
+                                    ref={dropdownRef}
+                                    style={{
                                         bottom: '-60px'
                                     }}>
                                         <p onClick={(() => navigate(`/dashboard/purchase/single-purchase/${e?.id}`))}>View</p>

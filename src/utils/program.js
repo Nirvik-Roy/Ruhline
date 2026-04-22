@@ -674,3 +674,67 @@ export const getHabitTrackerState = async (enrollmentId, structureId) => {
         }
     }
 }
+
+
+export const postHabit = async (enrollmentId, structureId, data) => {
+    const token = localStorage.getItem('token')
+    if (token && data && enrollmentId && structureId) {
+        try {
+            const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/modules/${structureId}/habit-tracker/habits`, data, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res.data.success == true) {
+                toast.success(res?.data?.message)
+                return res.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err.response.data
+        }
+    }
+}
+
+
+export const updateHabit = async (enrollmentId, structureId, habitId, data) => {
+    const token = localStorage.getItem('token')
+    if (token && data && enrollmentId && structureId && habitId) {
+        try {
+            const res = await axios.put (`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/modules/${structureId}/habit-tracker/habits/${habitId}`, data, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res.data.success == true) {
+                toast.success(res?.data?.message)
+                return res.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err.response.data
+        }
+    }
+}
+
+
+export const deleteHabit = async (enrollmentId, structureId, habitId) => {
+    const token = localStorage.getItem('token')
+    if (token && enrollmentId && structureId && habitId) {
+        try {
+            const res = await axios.delete(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/modules/${structureId}/habit-tracker/habits/${habitId}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res.data.success == true) {
+                return res.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err.response.data.errors
+        }
+    } else {
+        toast.error('Enrollment Id is required')
+    }
+}

@@ -1,399 +1,146 @@
-import React, { useState } from 'react'
-import Input from '../../../Components/Inputs/Input'
-import Textarea from '../../../Components/Inputs/Textarea'
+import React, { useEffect, useRef, useState } from 'react'
+import HabittrackerForm from './HabittrackerForm'
 import Button from '../../../Components/Button/Button'
-import PrevSubmit from '../../../Components/PrevSubmit/PrevSubmit'
+import Pagination from '../../../Components/Pagination/Pagination'
+import UpdateHabittrackerForm from './UpdateHabittrackerForm'
+import { deleteHabit } from '../../../utils/program'
+import { useParams } from 'react-router-dom'
+import Loaders from '../../../Components/Loaders/Loaders'
+import DeleteModal from '../../../Components/DeleteModal/DeleteModal'
 
-const HabitTracker = ({ habbitContent }) => {
-    const [loading,setloading] = useState(false)
-    const [inputData, setInputData] = useState({
-        "habit_type_id": '',
-        "linked_goal_id": '',
-        "habit_name": "",
-        "frequency_unit": "",
-        "frequency_interval": '',
-        "days_of_week": [],
-        "monthly_mode": '',
-        "day_of_month": '',
-        "week_of_month": '',
-        "monthly_day_of_week": '',
-        "start_date": "",
-        "end_date": '',
-        "target_count": '',
-        "target_period": "",
-        "reminder_time": "",
-        "timezone": Intl.DateTimeFormat().resolvedOptions().timeZone // auto-detect from browser
-    })
+const HabitTracker = ({ habbitContent, sethabbitContent }) => {
+    const { enrollmentId } = useParams()
+    const dropdownRef = useRef()
+    const [createHabit, setcreateHabit] = useState(false)
+    const [dropdown, setdropdown] = useState('');
+    const [habitId, sethabitId] = useState('')
+    const [editHabit, seteditHabit] = useState(false)
+    const [deleteModal, setdeleteModal] = useState(false)
+    const [loading, setloading] = useState(false)
+    // Pagination logic only
+    const itemsPerPage = 3;
+    const [currentPage, setCurrentPage] = useState(0);
+
+    const offset = currentPage * itemsPerPage;
+
+    const currentItems = habbitContent?.habits?.slice(offset, offset + itemsPerPage);
+
+    const pageCount = Math.ceil(habbitContent?.habits?.length / itemsPerPage);
+
+    const handlePageChange = (selectedItem) => {
+        setCurrentPage(selectedItem.selected);
+    };
 
 
-    // ─── Show/hide conditions ─────────────────────────────────────────────────
-    const isWeekly = inputData.frequency_unit === 'week'
-    const isMonthly = inputData.frequency_unit === 'month'
-    const isDayOfMonth = isMonthly && inputData.monthly_mode === 'day_of_month'
-    const isWeekdayOfMonth = isMonthly && inputData.monthly_mode === 'weekday_of_month'
-
-
-    // ─── Generic handler for all simple inputs/selects ───────────────────────
-    const handleChange = (e) => {
-        const { name, value } = e.target
-        setInputData(prev => ({ ...prev, [name]: value }))
-    }
-
-    // ─── Special handler for frequency_unit ──────────────────────────────────
-    // When frequency unit changes, reset all frequency-related fields
-    const handleFrequencyUnitChange = (e) => {
-        const value = e.target.value
-        setInputData(prev => ({
-            ...prev,
-            frequency_unit: value,
-            days_of_week: [],          // reset
-            monthly_mode: '',          // reset
-            day_of_month: '',          // reset
-            week_of_month: '',         // reset
-            monthly_day_of_week: ''    // reset
-        }))
-    }
-
-    // ─── Special handler for monthly_mode ────────────────────────────────────
-    // When monthly mode changes, reset its sub-fields
-    const handleMonthlyModeChange = (e) => {
-        const value = e.target.value
-        setInputData(prev => ({
-            ...prev,
-            monthly_mode: value,
-            day_of_month: '',          // reset
-            week_of_month: '',         // reset
-            monthly_day_of_week: ''    // reset
-        }))
-    }
-
-    // ─── Special handler for days_of_week checkboxes ─────────────────────────
-    const handleDaysOfWeekChange = (e) => {
-        const value = e.target.value
-        const checked = e.target.checked
-
-        let updatedDays = [...inputData.days_of_week]
-
-        if (checked) {
-            updatedDays.push(value)
-        } else {
-            updatedDays = updatedDays.filter(d => d !== value)
-        }
-
-        setInputData({ ...inputData, days_of_week: updatedDays })
-    }
-    
-    const handleSubmit = async()=>{
-        setloading(false)
-        const formData = new FormData()
-
-        // ── Always append these fields ──
-        formData.append('habit_type_id', inputData.habit_type_id)
-        formData.append('linked_goal_id', inputData.linked_goal_id)
-        formData.append('habit_name', inputData.habit_name)
-        formData.append('frequency_unit', inputData.frequency_unit)
-        formData.append('frequency_interval', inputData.frequency_interval)
-        formData.append('start_date', inputData.start_date)
-        formData.append('end_date', inputData.end_date)
-        formData.append('target_count', inputData.target_count)
-        formData.append('target_period', inputData.target_period)
-        formData.append('reminder_time', inputData.reminder_time)
-        formData.append('timezone', inputData.timezone)
-
-        // ── If weekly → append days_of_week ──
-        if (inputData.frequency_unit === 'week') {
-            inputData.days_of_week.forEach(day => {
-                formData.append('days_of_week[]', day)
-            })
-        }
-
-        // ── If monthly → append monthly_mode first ──
-        if (inputData.frequency_unit === 'month') {
-            formData.append('monthly_mode', inputData.monthly_mode)
-
-            // If monthly mode is by date → append day_of_month only
-            if (inputData.monthly_mode === 'day_of_month') {
-                formData.append('day_of_month', inputData.day_of_month)
+      const handleDelete = async () => {
+            setloading(true)
+            const res = await deleteHabit(enrollmentId, habbitContent?.program_structure_id, habitId)
+            if (res?.success) {
+                sethabbitContent(res?.data)
+                setdeleteModal(false)
+                sethabitId('')
             }
-
-            // If monthly mode is by weekday → append week_of_month + monthly_day_of_week only
-            if (inputData.monthly_mode === 'weekday_of_month') {
-                formData.append('week_of_month', inputData.week_of_month)
-                formData.append('monthly_day_of_week', inputData.monthly_day_of_week)
-            }
+            setloading(false)
         }
 
 
-        setloading(false)
-    }
+    const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setdropdown([]);
+        }
+    };
 
+
+    useEffect(() => {
+        document.addEventListener("click", handleClickOutside);
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, []);
     return (
         <>
-            <PrevSubmit onSumbit={handleSubmit} title={'Habit Tracker'} previousButton={false} lastStep={true}/>
-
-            <form className='values_form_wrapper' style={{ marginTop: '-25px' }}>
-
-                {/* ── Habit Type ── */}
-                <div className='values_form_input_Wrapper'>
-                    <label>Select Habit type <span>*</span></label>
-                    <select
-                        name='habit_type_id'
-                        value={inputData.habit_type_id}
-                        onChange={handleChange}
-                    >
-                        <option value=''>--select-habit-types--</option>
-                        {habbitContent?.options?.habit_types?.map((element) => (
-                            <option key={element?.id} value={element?.id}>
-                                {element?.name}
-                            </option>
-                        ))}
-                    </select>
+        {loading && <Loaders/>}
+        {deleteModal && <DeleteModal setdeleteModal={setdeleteModal} details={'Do you really want to remove this habit?'} title={'Remove habit'} onClick={handleDelete}/>}
+            {(!createHabit && !editHabit) && <div>
+                <div className='values_head' style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    gap: '20px'
+                }}>
+                    <h4><span>Habit Tracker</span> </h4>
+                    <Button onClick={(() => setcreateHabit(true))} children={'Create Habit'} />
                 </div>
 
-                {/* ── Habit Name ── */}
-                <div className='values_form_input_Wrapper'>
-                    <Input
-                        label={'Habit Name'}
-                        required={true}
-                        placeholder={"Enter habit name"}
-                        name='habit_name'
-                        value={inputData.habit_name}
-                        onChange={handleChange}
-                    />
-                </div>
+                {/* This habit list design is taken from dashboard purchase history.. The css is in the dashboard purchase history */}
 
-                {/* ── Linked Goal ── */}
-                <div className='values_form_input_Wrapper'>
-                    <label>Combine with goal <span>*</span></label>
-                    <select
-                        name='linked_goal_id'
-                        value={inputData.linked_goal_id}
-                        onChange={handleChange}
-                    >
-                        <option value=''>--select-goal--</option>
-                        {habbitContent?.options?.goal_options?.map((element) => (
-                            // doc says "goal_name" not "name"
-                            <option key={element?.id} value={element?.id}>
-                                {element?.goal_name}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+                <div className='goal_list_wrapper' style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    rowGap: '15px',
+                    marginTop: '30px'
+                }}>
+                    {currentItems?.length <= 0 && <p style={{
+                        textAlign: 'center',
+                        color: 'var(--primary-color)'
+                    }}>No habits added...</p>}
+                    {currentItems?.map((element, index) => (
+                        <div className='dashboard_support'>
+                            <div className='dashboard_support_header'>
+                                <h2>{element?.habit_name} <span style={{
+                                    textTransform: 'capitalize'
+                                }}>{element?.target_count} | {element?.linked_goal_name} | {element?.reminder_time && element?.reminder_time?.slice(0, 5)}</span></h2>
+                                <div className='dashboard_support_status' style={{
+                                    position: 'relative'
+                                }}>
+                                    <i onClick={((e) => {
+                                        e.stopPropagation()
+                                        if (dropdown === index) {
+                                            setdropdown('')
+                                        } else {
+                                            setdropdown(index)
+                                        }
+                                    })} class="fa-solid fa-ellipsis"></i>
 
-                {/* ── Frequency Unit (radio) ── */}
-                <div className='values_form_input_Wrapper' style={{ marginTop: '0px' }}>
-                    <label style={{ margin: '20px 15px 10px 15px' }}>
-                        Frequency Unit <span>*</span>
-                    </label>
-                    <ul className='values_checkbox_button' style={{ flexDirection: 'row', gap: '20px', margin: '0 0' }}>
-                        {habbitContent?.options?.frequency_units?.map((element) => (
-                            <li key={element} className='values_checkbox_wrapper'>
-                                <input
-                                    name='frequency_unit'
-                                    value={element}
-                                    type='radio'
-                                    checked={inputData.frequency_unit === element}
-                                    onChange={handleFrequencyUnitChange}
-                                    style={{ width: '15px', height: '15px' }}
-                                />
-                                <p style={{ textTransform: 'capitalize' }}>{element}</p>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-
-                {/* ── Frequency Interval ── */}
-                <div className='values_form_input_Wrapper'>
-                    <Input
-                        label={'Frequency Interval'}
-                        type={'number'}
-                        required={true}
-                        placeholder={"Enter frequency interval (e.g. 1, 2, 3)"}
-                        name='frequency_interval'
-                        value={inputData.frequency_interval}
-                        onChange={handleChange}
-                    />
-                </div>
-
-                {/* ── Days of Week (only when weekly) ── */}
-                {isWeekly && (
-                    <div className='values_form_input_Wrapper' style={{ marginTop: '0px' }}>
-                        <label style={{ margin: '20px 15px 10px 15px' }}>
-                            Days of Week <span>*</span>
-                        </label>
-                        <ul className='values_checkbox_button' style={{ flexDirection: 'row', gap: '20px', margin: '0 0' }}>
-                            {habbitContent?.options?.weekdays?.map((element) => (
-                                <li key={element} className='values_checkbox_wrapper'>
-                                    <input
-                                        name='days_of_week'
-                                        value={element}
-                                        type='checkbox'
-                                        checked={inputData.days_of_week.includes(element)}
-                                        onChange={handleDaysOfWeekChange}
-                                        style={{ width: '15px', height: '15px' }}
-                                    />
-                                    <p style={{ textTransform: 'capitalize' }}>{element}</p>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
-
-                {/* ── Monthly Mode (only when monthly) ── */}
-                {isMonthly && (
-                    <div className='values_form_input_Wrapper' style={{ marginTop: '0px' }}>
-                        <label style={{ margin: '20px 15px 10px 15px' }}>
-                            Monthly Mode <span>*</span>
-                        </label>
-                        <ul className='values_checkbox_button' style={{ flexDirection: 'row', gap: '20px', margin: '0 0' }}>
-                            {habbitContent?.options?.monthly_modes?.map((element) => (
-                                <li key={element} className='values_checkbox_wrapper'>
-                                    <input
-                                        name='monthly_mode'
-                                        value={element}
-                                        type='radio'
-                                        checked={inputData.monthly_mode === element}
-                                        onChange={handleMonthlyModeChange}
-                                        style={{ width: '15px', height: '15px' }}
-                                    />
-                                    <p style={{ textTransform: 'capitalize' }}>
-                                        {element === 'day_of_month' ? 'By Date' : 'By Weekday Position'}
-                                    </p>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
-
-                {/* ── Day of Month (only when monthly + day_of_month mode) ── */}
-                {isDayOfMonth && (
-                    <div className='values_form_input_Wrapper'>
-                        <Input
-                            placeholder={'Enter day of month (1-31)'}
-                            type={'number'}
-                            label={'Day of Month'}
-                            required={true}
-                            name='day_of_month'
-                            value={inputData.day_of_month}
-                            onChange={handleChange}
-                        />
-                    </div>
-                )}
-
-                {/* ── Week of Month + Monthly Day of Week (only when monthly + weekday_of_month mode) ── */}
-                {isWeekdayOfMonth && (
-                    <>
-                        <div className='values_form_input_Wrapper'>
-                            <label>Week of Month <span>*</span></label>
-                            <select
-                                name='week_of_month'
-                                value={inputData.week_of_month}
-                                onChange={handleChange}
-                            >
-                                <option value=''>--select-week--</option>
-                                {habbitContent?.options?.week_of_month_options?.map((element) => (
-                                    <option key={element} style={{ textTransform: 'capitalize' }} value={element}>
-                                        {element}
-                                    </option>
-                                ))}
-                            </select>
+                                    {dropdown === index && <div ref={dropdownRef} className='dashboard_actions_wrapper' style={{
+                                        bottom: '-70px'
+                                    }}>
+                                        <p onClick={((e) => {
+                                            e.stopPropagation()
+                                            seteditHabit(true)
+                                            sethabitId(element?.id)
+                                        })}>Edit</p>
+                                        <p onClick={((e) => {
+                                            e.stopPropagation()
+                                            setdeleteModal(true)
+                                            sethabitId(element?.id)
+                                        })}>Delete</p>
+                                    </div>}
+                                </div>
+                            </div>
+                            <div className='dashboard_subject_wrapper' style={{
+                                display: 'flex',
+                                justifyContent: 'flex-start',
+                                alignItems: 'center',
+                                gap: '10px'
+                            }}>
+                                <h4>Habit Type: <span>{element?.habit_type_name}</span></h4>
+                                <h4>Frequency: <span> {element?.frequency_label}</span></h4>
+                            </div>
                         </div>
-
-                        <div className='values_form_input_Wrapper'>
-                            <label>Day of Week <span>*</span></label>
-                            <select
-                                name='monthly_day_of_week'
-                                value={inputData.monthly_day_of_week}
-                                onChange={handleChange}
-                            >
-                                <option value=''>--select-day--</option>
-                                {habbitContent?.options?.weekdays?.map((element) => (
-                                    <option key={element} style={{ textTransform: 'capitalize' }} value={element}>
-                                        {element}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                    </>
-                )}
-
-                {/* ── Bottom Grid: Dates, Target, Reminder ── */}
-                <div className='values_form_grid_wrapper' style={{ gridTemplateColumns: 'repeat(auto-fill,minmax(300px,1fr)' }}>
-
-                    <div className='values_form_input_Wrapper'>
-                        <Input
-                            placeholder={'Enter start date'}
-                            type={'date'}
-                            label={'Start Date'}
-                            required={true}
-                            name='start_date'
-                            value={inputData.start_date}
-                            onChange={handleChange}
-                        />
-                    </div>
-
-                    <div className='values_form_input_Wrapper'>
-                        <Input
-                            placeholder={'Enter end date (optional)'}
-                            type={'date'}
-                            label={'End Date'}
-                            name='end_date'
-                            value={inputData.end_date}
-                            onChange={handleChange}
-                        />
-                    </div>
-
-                    <div className='values_form_input_Wrapper'>
-                        <Input
-                            placeholder={'Enter target count'}
-                            type={'number'}
-                            label={'Target Count'}
-                            required={true}
-                            name='target_count'
-                            value={inputData.target_count}
-                            onChange={handleChange}
-                        />
-                    </div>
-
-                    <div className='values_form_input_Wrapper'>
-                        <label>Target Period <span>*</span></label>
-                        <select
-                            name='target_period'
-                            value={inputData.target_period}
-                            onChange={handleChange}
-                        >
-                            <option value=''>--select-target-period--</option>
-                            {habbitContent?.options?.target_periods?.map((element) => (
-                                <option key={element} style={{ textTransform: 'capitalize' }} value={element}>
-                                    {element}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-
-                    <div className='values_form_input_Wrapper'>
-                        <Input
-                            label={'Reminder Time'}
-                            required={true}
-                            type={'time'}
-                            name='reminder_time'
-                            value={inputData.reminder_time}
-                            onChange={handleChange}
-                        />
-                    </div>
-
-                    <div className='values_form_input_Wrapper'>
-                        <Input
-                            label={'Timezone'}
-                            required={true}
-                            placeholder={'e.g. Asia/Kolkata'}
-                            name='timezone'
-                            value={inputData.timezone}
-                            onChange={handleChange}
-                        />
-                    </div>
+                    ))}
                 </div>
-            </form>
+
+                <Pagination pageCount={pageCount}
+                    currentPage={currentPage}
+                    onPageChange={handlePageChange} />
+            </div>}
+
+            {createHabit && <HabittrackerForm setcreateHabit={setcreateHabit} sethabbitContent={sethabbitContent} habbitContent={habbitContent} setcreateHabit={setcreateHabit} />}
+
+            {editHabit && <UpdateHabittrackerForm seteditHabit={seteditHabit} habitId={habitId} habbitContent={habbitContent} sethabbitContent={sethabbitContent} />}
+
+
         </>
     )
 }

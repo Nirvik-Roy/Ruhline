@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './DashboardSupport.css'
 import Button from '../../../Components/Button/Button'
 import Pagination from '../../../Components/Pagination/Pagination'
@@ -11,7 +11,8 @@ const DashboardSupport = () => {
     const navigate = useNavigate();
     const [disputeList, setdisputeList] = useState([]);
     const [deleteModal, setdeleteModal] = useState(false);
-    const [deletedId, setdeleteId] = useState()
+    const [deletedId, setdeleteId] = useState();
+    const dropdownRef = useRef()
     const [loading, setloading] = useState(false)
     const callDisputeList = async () => {
         setloading(true)
@@ -47,6 +48,19 @@ const DashboardSupport = () => {
         }
         setloading(false)
     }
+    const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setdropdown([]);
+        }
+    };
+
+
+    useEffect(() => {
+        document.addEventListener("click", handleClickOutside);
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, []);
     return (
         <>
             {deleteModal && <DeleteModal setdeleteModal={setdeleteModal} onClick={handleDelete} title={'Delete dispute'} details={'Do you really want to delete this dispute?'} />}
@@ -95,7 +109,8 @@ const DashboardSupport = () => {
                                     } : {
                                         background: 'green'
                                     }}>{e.status}</p>
-                                    <i onClick={(() => {
+                                    <i onClick={((event) => {
+                                        event.stopPropagation()
                                         if (dropdown === e.id) {
                                             setdropdown('')
                                         } else {
@@ -103,10 +118,12 @@ const DashboardSupport = () => {
                                         }
                                     })} class="fa-solid fa-ellipsis"></i>
 
-                                    {dropdown === e.id && <div className='dashboard_actions_wrapper' style={ e?.status == 'closed' ?{
-                                        top:'35px',
-                                        height:'fit-content'
-                                    }:{
+                                    {dropdown === e.id && <div className='dashboard_actions_wrapper' 
+                                    ref={dropdownRef}
+                                    style={e?.status == 'closed' ? {
+                                        top: '35px',
+                                        height: 'fit-content'
+                                    } : {
 
                                     }}>
                                         <p onClick={(() => navigate(`/dashboard/support/view-ticket/${e?.id}`))}>View</p>
