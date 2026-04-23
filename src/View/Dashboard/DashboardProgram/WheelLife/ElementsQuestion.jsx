@@ -51,7 +51,7 @@ const ElementsQuestion = ({ questionsData, fetchLifeElementsQuestion }) => {
             if (descriptiveAnswer != '') {
                 const formData = new FormData()
                 formData.append('answer_text', descriptiveAnswer)
-                const res = await saveWheelOfLifequestion(enrollmentId, questionsData?.program_structure_id, questionsData?.questions?.[questionIndex].source_question_id, formData, questionsData?.element?.source_element_id)
+                const res = await saveWheelOfLifequestion(enrollmentId, questionsData?.program_structure_id, questionsData?.questions?.[questionIndex].id, formData, questionsData?.element?.source_element_id)
                 if (res?.success) {
                     if (questionIndex < questionsData?.questions?.length - 1) {
                         setquestionIndex(questionIndex + 1);
@@ -82,7 +82,7 @@ const ElementsQuestion = ({ questionsData, fetchLifeElementsQuestion }) => {
                 multiChoiceAnswer?.forEach((element) => (
                     formData.append("answer_options[]", element)
                 ))
-                const res = await saveWheelOfLifequestion(enrollmentId, questionsData?.program_structure_id, questionsData?.questions[questionIndex].source_question_id, formData, questionsData?.element?.source_element_id);
+                const res = await saveWheelOfLifequestion(enrollmentId, questionsData?.program_structure_id, questionsData?.questions[questionIndex].id, formData, questionsData?.element?.source_element_id);
                 if (res?.success) {
                     if (questionIndex < questionsData?.questions?.length - 1) {
                         setquestionIndex(questionIndex + 1);
@@ -112,7 +112,7 @@ const ElementsQuestion = ({ questionsData, fetchLifeElementsQuestion }) => {
             if (singleChoiceAnswer != "") {
                 const formData = new FormData()
                 formData.append('answer_option', singleChoiceAnswer)
-                const res = await saveWheelOfLifequestion(enrollmentId, questionsData?.program_structure_id, questionsData?.questions[questionIndex].source_question_id, formData, questionsData?.element?.source_element_id);
+                const res = await saveWheelOfLifequestion(enrollmentId, questionsData?.program_structure_id, questionsData?.questions[questionIndex].id, formData, questionsData?.element?.source_element_id);
                 if (res?.success) {
                     if (questionIndex < questionsData?.questions?.length - 1) {
                         setquestionIndex(questionIndex + 1);
@@ -141,7 +141,7 @@ const ElementsQuestion = ({ questionsData, fetchLifeElementsQuestion }) => {
             if (dropdownAnswer != "") {
                 const formData = new FormData()
                 formData.append('answer_option', dropdownAnswer)
-                const res = await saveWheelOfLifequestion(enrollmentId, questionsData?.program_structure_id, questionsData?.questions[questionIndex].source_question_id, formData, questionsData?.element?.source_element_id);
+                const res = await saveWheelOfLifequestion(enrollmentId, questionsData?.program_structure_id, questionsData?.questions[questionIndex].id, formData, questionsData?.element?.source_element_id);
                 if (res?.success) {
                     if (questionIndex < questionsData?.questions?.length - 1) {
                         setquestionIndex(questionIndex + 1);

@@ -55,7 +55,7 @@ const ValuesContent = ({ completedFunction, valuesContent, fetchValuesQuestion }
             if (descriptiveAnswer != '') {
                 const formData = new FormData()
                 formData.append('answer_text', descriptiveAnswer)
-                const res = await saveValuesQuestion(enrollmentId, valuesContent?.program_structure_id, questions[questionIndex].source_question_id, formData)
+                const res = await saveValuesQuestion(enrollmentId, valuesContent?.program_structure_id, questions[questionIndex].id, formData)
                 if (res?.success) {
                     if (questionIndex < questions?.length - 1) {
                         setquestionIndex(questionIndex + 1);
@@ -77,7 +77,7 @@ const ValuesContent = ({ completedFunction, valuesContent, fetchValuesQuestion }
                 multiChoiceAnswer?.forEach((element) => (
                     formData.append("answer_options[]", element)
                 ))
-                const res = await saveValuesQuestion(enrollmentId, valuesContent?.program_structure_id, questions[questionIndex].source_question_id, formData);
+                const res = await saveValuesQuestion(enrollmentId, valuesContent?.program_structure_id, questions[questionIndex].id, formData);
                 if (res?.success) {
                     if (questionIndex < questions?.length - 1) {
                         setquestionIndex(questionIndex + 1);
@@ -97,7 +97,7 @@ const ValuesContent = ({ completedFunction, valuesContent, fetchValuesQuestion }
             if (singleChoiceAnswer != "") {
                 const formData = new FormData()
                 formData.append('answer_option', singleChoiceAnswer)
-                const res = await saveValuesQuestion(enrollmentId, valuesContent?.program_structure_id, questions[questionIndex].source_question_id, formData);
+                const res = await saveValuesQuestion(enrollmentId, valuesContent?.program_structure_id, questions[questionIndex].id, formData);
                 if (res?.success) {
                     if (questionIndex < questions?.length - 1) {
                         setquestionIndex(questionIndex + 1);
@@ -118,7 +118,7 @@ const ValuesContent = ({ completedFunction, valuesContent, fetchValuesQuestion }
             if (dropdownAnswer != "") {
                 const formData = new FormData()
                 formData.append('answer_option', dropdownAnswer)
-                const res = await saveValuesQuestion(enrollmentId, valuesContent?.program_structure_id, questions[questionIndex].source_question_id, formData);
+                const res = await saveValuesQuestion(enrollmentId, valuesContent?.program_structure_id, questions[questionIndex].id, formData);
                 if (res?.success) {
                     if (questionIndex < questions?.length - 1) {
                         setquestionIndex(questionIndex + 1);

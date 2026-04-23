@@ -55,7 +55,7 @@ const WhoAmiI = ({ completedFunction, whoAmIContent, fetchWhoamIQuestion }) => {
             if (descriptiveAnswer != '') {
                 const formData = new FormData()
                 formData.append('answer_text', descriptiveAnswer)
-                const res = await saveWhoamIQuestion(enrollmentId, whoAmIContent?.program_structure_id, questions[questionIndex].source_question_id, formData)
+                const res = await saveWhoamIQuestion(enrollmentId, whoAmIContent?.program_structure_id, questions[questionIndex].id, formData)
                 if (res?.success) {
                     if (questionIndex < questions?.length - 1) {
                         setquestionIndex(questionIndex + 1);
@@ -77,7 +77,7 @@ const WhoAmiI = ({ completedFunction, whoAmIContent, fetchWhoamIQuestion }) => {
                 multiChoiceAnswer?.forEach((element) => (
                     formData.append("answer_options[]", element)
                 ))
-                const res = await saveWhoamIQuestion(enrollmentId, whoAmIContent?.program_structure_id, questions[questionIndex].source_question_id, formData);
+                const res = await saveWhoamIQuestion(enrollmentId, whoAmIContent?.program_structure_id, questions[questionIndex].id, formData);
                 if (res?.success) {
                     if (questionIndex < questions?.length - 1) {
                         setquestionIndex(questionIndex + 1);
@@ -97,7 +97,7 @@ const WhoAmiI = ({ completedFunction, whoAmIContent, fetchWhoamIQuestion }) => {
             if (singleChoiceAnswer != "") {
                 const formData = new FormData()
                 formData.append('answer_option', singleChoiceAnswer)
-                const res = await saveWhoamIQuestion(enrollmentId, whoAmIContent?.program_structure_id, questions[questionIndex].source_question_id, formData);
+                const res = await saveWhoamIQuestion(enrollmentId, whoAmIContent?.program_structure_id, questions[questionIndex].id, formData);
                 if (res?.success) {
                     if (questionIndex < questions?.length - 1) {
                         setquestionIndex(questionIndex + 1);
@@ -118,7 +118,7 @@ const WhoAmiI = ({ completedFunction, whoAmIContent, fetchWhoamIQuestion }) => {
             if (dropdownAnswer != "") {
                 const formData = new FormData()
                 formData.append('answer_option', dropdownAnswer)
-                const res = await saveWhoamIQuestion(enrollmentId, whoAmIContent?.program_structure_id, questions[questionIndex].source_question_id, formData);
+                const res = await saveWhoamIQuestion(enrollmentId, whoAmIContent?.program_structure_id, questions[questionIndex].id, formData);
                 if (res?.success) {
                     if (questionIndex < questions?.length - 1) {
                         setquestionIndex(questionIndex + 1);
@@ -145,7 +145,7 @@ const WhoAmiI = ({ completedFunction, whoAmIContent, fetchWhoamIQuestion }) => {
                     setquestionIndex(questionIndex - 1)
 
                 }
-            })} title={'Values'} lastStep={questionIndex == questions?.length - 1} onSumbit={(() => {
+            })} title={'Who Am I'} lastStep={questionIndex == questions?.length - 1} onSumbit={(() => {
                 if (questionIndex < questions?.length) {
                     saveQuestions()
                 }

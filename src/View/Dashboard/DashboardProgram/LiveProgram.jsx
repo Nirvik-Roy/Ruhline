@@ -72,12 +72,12 @@ const LiveProgram = () => {
     'Goal Settings': goalIcon
   };
 
-  useEffect(() => {
-    if (valuesContent?.progress?.is_completed || motivationContent?.progress?.is_completed || whoAmIContent?.progress?.is_completed || lifeElements?.progress?.is_completed || cardGamestate?.navigation?.current_phase == 'completed' || habbitContent?.progress?.is_completed) {
-      toast.success('You have already completed this module...')
-    }
+  // useEffect(() => {
+  //   if (valuesContent?.progress?.is_completed || motivationContent?.progress?.is_completed || whoAmIContent?.progress?.is_completed || lifeElements?.progress?.is_completed || cardGamestate?.navigation?.current_phase == 'completed' || habbitContent?.progress?.is_completed) {
+  //     toast.success('You have already completed this module...')
+  //   }
 
-  }, [valuesContent, motivationContent, whoAmIContent, lifeElements, cardGamestate])
+  // }, [valuesContent, motivationContent, whoAmIContent, lifeElements, cardGamestate])
 
   const MODULE_PROGRESS = {
     'Values': valuesContent?.progress?.is_completed,
@@ -142,7 +142,7 @@ const LiveProgram = () => {
   }
 
 
-  const fetchWhoamIElements = async (structureId) => {
+  const fetchWheelofLifeelements = async (structureId) => {
     setloading(true)
     const res = await getlifeElements(Number(enrollmentId), structureId)
     if (res?.success) {
@@ -201,7 +201,7 @@ const LiveProgram = () => {
       }
 
       if (moduleName == 'Wheel of Life') {
-        fetchWhoamIElements(structureId)
+        fetchWheelofLifeelements(structureId)
       }
 
       if (moduleName == 'Card Game') {
@@ -230,8 +230,6 @@ const LiveProgram = () => {
   const completedFunction = (id) => {
     setCompleted([...completed, id])
   }
-
-
 
 
   return (
@@ -288,7 +286,7 @@ const LiveProgram = () => {
 
           {(tabs.values && !valuesContent?.progress?.is_completed) && <ValuesContent fetchValuesQuestion={fetchValuesQuestion} valuesContent={valuesContent} completedFunction={completedFunction} />}
           {tabs.cardGame && <CardGameContent setCardGamestate={setCardGamestate} cardGamestate={cardGamestate} completedFunction={completedFunction} />}
-          {(tabs.wheel && !lifeElements?.progress?.is_completed && !lifeElements?.elements?.[0]?.question_progress?.is_completed) && <WheelLife lifeElements={lifeElements} completedFunction={completedFunction} />}
+          {(tabs.wheel && !lifeElements?.progress?.is_completed ) && <WheelLife lifeElements={lifeElements} completedFunction={completedFunction} />}
           {tabs.goal && <GoalSetting setgoalSettingsContent={setgoalSettingsContent} goalsettingsContent={goalsettingsContent} completedFunction={completedFunction} />}
           {(tabs.motivation && !motivationContent?.progress?.is_completed) && <FindMotivation fetchMotivation={fetchMotivation} motivationContent={motivationContent} completedFunction={completedFunction} />}
           {(tabs.whoAmI && !whoAmIContent?.progress?.is_completed) && <WhoAmI fetchWhoamIQuestion={fetchWhoamIQuestion} whoAmIContent={whoAmIContent} completedFunction={completedFunction} />}

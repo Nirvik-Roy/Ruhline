@@ -61,7 +61,7 @@ const CardGameForm = ({ cardGamestate, setCardGamestate }) => {
             if (descriptiveAnswer != '') {
                 const formData = new FormData()
                 formData.append('answer_text', descriptiveAnswer)
-                const res = await saveCardGameQuestions(enrollmentId, cardGamestate?.program_structure_id, questionSet?.questions?.[questionIndex].source_question_id, formData, questionSet?.id)
+                const res = await saveCardGameQuestions(enrollmentId, cardGamestate?.program_structure_id, questionSet?.questions?.[questionIndex].id, formData, questionSet?.id)
                 if (res?.success) {
                     if (questionIndex < questionSet?.questions?.length - 1) {
                         setquestionIndex(questionIndex + 1);
@@ -84,7 +84,7 @@ const CardGameForm = ({ cardGamestate, setCardGamestate }) => {
                 multiChoiceAnswer?.forEach((element) => (
                     formData.append("answer_options[]", element)
                 ))
-                const res = await saveCardGameQuestions(enrollmentId, cardGamestate?.program_structure_id, questionSet?.questions?.[questionIndex].source_question_id, formData, questionSet?.id)
+                const res = await saveCardGameQuestions(enrollmentId, cardGamestate?.program_structure_id, questionSet?.questions?.[questionIndex].id, formData, questionSet?.id)
                 if (res?.success) {
                     if (questionIndex < questionSet?.questions?.length - 1) {
                         setquestionIndex(questionIndex + 1);
@@ -107,7 +107,7 @@ const CardGameForm = ({ cardGamestate, setCardGamestate }) => {
             if (singleChoiceAnswer != "") {
                 const formData = new FormData()
                 formData.append('answer_option', singleChoiceAnswer)
-                const res = await saveCardGameQuestions(enrollmentId, cardGamestate?.program_structure_id, questionSet?.questions?.[questionIndex].source_question_id, formData, questionSet?.id)
+                const res = await saveCardGameQuestions(enrollmentId, cardGamestate?.program_structure_id, questionSet?.questions?.[questionIndex].id, formData, questionSet?.id)
                 if (res?.success) {
                     if (questionIndex < questionSet?.questions?.length - 1) {
                         setquestionIndex(questionIndex + 1);
@@ -131,7 +131,7 @@ const CardGameForm = ({ cardGamestate, setCardGamestate }) => {
             if (dropdownAnswer != "") {
                 const formData = new FormData()
                 formData.append('answer_option', dropdownAnswer)
-                const res = await saveCardGameQuestions(enrollmentId, cardGamestate?.program_structure_id, questionSet?.questions?.[questionIndex].source_question_id, formData, questionSet?.id);
+                const res = await saveCardGameQuestions(enrollmentId, cardGamestate?.program_structure_id, questionSet?.questions?.[questionIndex].id, formData, questionSet?.id);
                 if (res?.success) {
                     if (questionIndex < questionSet?.questions?.length - 1) {
                         setquestionIndex(questionIndex + 1);
