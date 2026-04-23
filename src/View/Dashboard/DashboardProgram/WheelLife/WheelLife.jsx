@@ -66,11 +66,11 @@ const WheelLife = ({ completedFunction, lifeElements }) => {
         }
         setloading(false)
     }
-
+ 
     useEffect(() => {
         if (!lifeElements?.elements) return;
         const mappedSections = lifeElements.elements.map((e) => ({
-            id: e?.source_element_id ?? null,
+            id: e?.id ?? null,
             rating: e?.rating?.value ?? 0
         }));
         setratingData(mappedSections);

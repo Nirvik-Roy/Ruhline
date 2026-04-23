@@ -446,7 +446,6 @@ export const saveLifeElements = async (enrollmentId, structureId, data) => {
 
 export const getQuestionsoflifeElements = async (enrollmentId, structureId, elementId) => {
     const token = localStorage.getItem('token')
-    console.log(elementId)
     if (token && enrollmentId && structureId && elementId) {
         try {
             const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/modules/${structureId}/wheel-of-life/elements/${elementId}/questions`, {

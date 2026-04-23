@@ -44,14 +44,13 @@ const ElementsQuestion = ({ questionsData, fetchLifeElementsQuestion }) => {
             setdropdownAnswer(questionsData?.questions?.[questionIndex]?.answer?.answer_option || '')
         }
     }, [questionIndex, questionsData])
-
     const saveQuestions = async () => {
         setloading(true)
         if (questionsData?.questions?.[questionIndex].type == 'descriptive') {
             if (descriptiveAnswer != '') {
                 const formData = new FormData()
                 formData.append('answer_text', descriptiveAnswer)
-                const res = await saveWheelOfLifequestion(enrollmentId, questionsData?.program_structure_id, questionsData?.questions?.[questionIndex].id, formData, questionsData?.element?.source_element_id)
+                const res = await saveWheelOfLifequestion(enrollmentId, questionsData?.program_structure_id, questionsData?.questions?.[questionIndex].id, formData, questionsData?.element?.id)
                 if (res?.success) {
                     if (questionIndex < questionsData?.questions?.length - 1) {
                         setquestionIndex(questionIndex + 1);
@@ -59,7 +58,7 @@ const ElementsQuestion = ({ questionsData, fetchLifeElementsQuestion }) => {
                         setmultichoiceAnswer([])
                         setdropdownAnswer('')
                         setsingleChoiceAnswer('')
-                        fetchLifeElementsQuestion(questionsData?.element?.source_element_id)
+                        fetchLifeElementsQuestion(questionsData?.element?.id)
                     }
 
                     if (questionIndex == questionsData?.questions?.length - 1 && res?.data?.navigation?.has_next_element) {
@@ -82,7 +81,7 @@ const ElementsQuestion = ({ questionsData, fetchLifeElementsQuestion }) => {
                 multiChoiceAnswer?.forEach((element) => (
                     formData.append("answer_options[]", element)
                 ))
-                const res = await saveWheelOfLifequestion(enrollmentId, questionsData?.program_structure_id, questionsData?.questions[questionIndex].id, formData, questionsData?.element?.source_element_id);
+                const res = await saveWheelOfLifequestion(enrollmentId, questionsData?.program_structure_id, questionsData?.questions[questionIndex].id, formData, questionsData?.element?.id);
                 if (res?.success) {
                     if (questionIndex < questionsData?.questions?.length - 1) {
                         setquestionIndex(questionIndex + 1);
@@ -90,7 +89,7 @@ const ElementsQuestion = ({ questionsData, fetchLifeElementsQuestion }) => {
                         setmultichoiceAnswer([])
                         setdropdownAnswer('')
                         setsingleChoiceAnswer('')
-                        fetchLifeElementsQuestion(questionsData?.element?.source_element_id)
+                        fetchLifeElementsQuestion(questionsData?.element?.id)
                     }
 
                     if (questionIndex == questionsData?.questions?.length - 1 && res?.data?.navigation?.has_next_element) {
@@ -112,7 +111,7 @@ const ElementsQuestion = ({ questionsData, fetchLifeElementsQuestion }) => {
             if (singleChoiceAnswer != "") {
                 const formData = new FormData()
                 formData.append('answer_option', singleChoiceAnswer)
-                const res = await saveWheelOfLifequestion(enrollmentId, questionsData?.program_structure_id, questionsData?.questions[questionIndex].id, formData, questionsData?.element?.source_element_id);
+                const res = await saveWheelOfLifequestion(enrollmentId, questionsData?.program_structure_id, questionsData?.questions[questionIndex].id, formData, questionsData?.element?.id);
                 if (res?.success) {
                     if (questionIndex < questionsData?.questions?.length - 1) {
                         setquestionIndex(questionIndex + 1);
@@ -120,7 +119,7 @@ const ElementsQuestion = ({ questionsData, fetchLifeElementsQuestion }) => {
                         setmultichoiceAnswer([])
                         setdropdownAnswer('')
                         setsingleChoiceAnswer('')
-                        fetchLifeElementsQuestion(questionsData?.element?.source_element_id)
+                        fetchLifeElementsQuestion(questionsData?.element?.id)
                     }
                     if (questionIndex == questionsData?.questions?.length - 1 && res?.data?.navigation?.has_next_element) {
                         fetchLifeElementsQuestion(res?.data?.navigation?.next_element_id)
@@ -141,7 +140,7 @@ const ElementsQuestion = ({ questionsData, fetchLifeElementsQuestion }) => {
             if (dropdownAnswer != "") {
                 const formData = new FormData()
                 formData.append('answer_option', dropdownAnswer)
-                const res = await saveWheelOfLifequestion(enrollmentId, questionsData?.program_structure_id, questionsData?.questions[questionIndex].id, formData, questionsData?.element?.source_element_id);
+                const res = await saveWheelOfLifequestion(enrollmentId, questionsData?.program_structure_id, questionsData?.questions[questionIndex].id, formData, questionsData?.element?.id);
                 if (res?.success) {
                     if (questionIndex < questionsData?.questions?.length - 1) {
                         setquestionIndex(questionIndex + 1);
@@ -149,7 +148,7 @@ const ElementsQuestion = ({ questionsData, fetchLifeElementsQuestion }) => {
                         setmultichoiceAnswer([])
                         setdropdownAnswer('')
                         setsingleChoiceAnswer('')
-                        fetchLifeElementsQuestion(questionsData?.element?.source_element_id)
+                        fetchLifeElementsQuestion(questionsData?.element?.id)
                     }
                     if (questionIndex == questionsData?.questions?.length - 1 && res?.data?.navigation?.has_next_element) {
                         fetchLifeElementsQuestion(res?.data?.navigation?.next_element_id)
