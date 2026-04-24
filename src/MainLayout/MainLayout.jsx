@@ -33,7 +33,7 @@ const MainLayout = () => {
         <>
             {loading && <Loaders />}
             <Navbar navbarData={data} />
-            <Outlet  />
+            <Outlet context={{ setGlobalLoading: setloading }} />
             <Footer footerData={data} />
         </>
     )

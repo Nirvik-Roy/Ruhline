@@ -7,23 +7,20 @@ import HomeCoaches from './HomeCoaches/HomeCoaches'
 import HomeBlog from './HomeBlog/HomeBlog'
 import { getAllCmsData } from '../../utils/cms'
 import Loaders from '../../Components/Loaders/Loaders'
+import { useOutletContext } from 'react-router-dom'
 const HomePage = () => {
-
-  const [loading, setloading] = useState(false)
   const [homePageData, sethomePageData] = useState([])
-  
-
-
+  const { setGlobalLoading } = useOutletContext()
   const fetchData = async () => {
     try {
-      setloading(true);
+      setGlobalLoading(true);
       const res = await getAllCmsData('/home-page');
       console.log(res)
       sethomePageData(res?.data)
     } catch (err) {
       console.log(err)
     } finally {
-      setloading(false)
+      setGlobalLoading(false)
     }
   }
   useEffect(() => {
@@ -32,9 +29,6 @@ const HomePage = () => {
   // const isChecking = localStorage.getItem('isChecking');
   return (
     <>
-      {loading && <Loaders />}
-      
-     
       <HomeBanner data={homePageData?.section_01
       } />
       <HomeAbout data={homePageData?.section_02}/>
