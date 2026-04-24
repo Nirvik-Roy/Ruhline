@@ -162,10 +162,12 @@ const EditGoalSettingForm = ({ goalsettingsContent, goalId, seteditGoal, setgoal
                 formData.append(`sub_goals[${index}][reward]`, sg?.reward)
                 formData.append(`sub_goals[${index}][next_step]`, sg?.next_step)
             }
+        } else {
+            formData.append('sub_goals[]', '[]')
         }
 
         const res = await updateGoalSettings(enrollmentId, goalsettingsContent?.program_structure_id, goalId, formData)
-        if(res?.success){
+        if (res?.success) {
             setgoalSettingsContent(res?.data)
             seteditGoal(false)
         }
@@ -175,7 +177,7 @@ const EditGoalSettingForm = ({ goalsettingsContent, goalId, seteditGoal, setgoal
     return (
         <>
             {loading && <Loaders />}
-            <PrevSubmit previousButton={true} firstStep={false} onPrevious={(()=>seteditGoal(false))} lastStep={true} onSumbit={handleSubmit} objective={'Edit your goal'} title={'Edit Goal:'} />
+            <PrevSubmit previousButton={true} firstStep={false} onPrevious={(() => seteditGoal(false))} lastStep={true} onSumbit={handleSubmit} objective={'Edit your goal'} title={'Edit Goal:'} />
 
             <form className='values_form_wrapper' style={{ marginTop: '-25px' }}>
 
