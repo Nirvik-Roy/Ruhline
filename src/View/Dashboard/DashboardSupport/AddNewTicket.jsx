@@ -310,7 +310,7 @@ const AddNewTicket = () => {
                     }}>
                         <button>Cancel</button>
                         <div onClick={createDisputeFunc}>
-                            <Button children={'Select'} />
+                            <Button children={'Add'} />
                         </div>
                     </div>
                 </form>
