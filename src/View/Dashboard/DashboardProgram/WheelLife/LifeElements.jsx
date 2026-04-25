@@ -2,11 +2,11 @@ import React from 'react'
 import { Rating } from 'react-simple-star-rating'
 import Button from '../../../../Components/Button/Button'
 import PrevSubmit from '../../../../Components/PrevSubmit/PrevSubmit'
-const LifeElements = ({ lifeElements, handleRating, ratingData, postLifeElements }) => {
+const LifeElements = ({ lifeElements, handleRating, ratingData, postLifeElements, postLoading }) => {
 
     return (
         <>
-         <PrevSubmit title={'Wheel of life'} objective={'Rate life elements'} previousButton={false} onSumbit={postLifeElements}/>
+            <PrevSubmit loading={postLoading} loadingText={'Saving...'} title={'Wheel of life'} objective={'Rate life elements'} previousButton={false} onSumbit={postLifeElements}/>
             <div className='wheel_life_grid_wrapper'>
                 {lifeElements?.elements?.map((e, index) => (
                     <div className='wheel_life_card'>

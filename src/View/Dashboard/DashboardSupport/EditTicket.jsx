@@ -10,6 +10,7 @@ import { useParams } from 'react-router-dom'
 const EditTicket = () => {
     const { id } = useParams()
     const [loading, setloading] = useState(false);
+    const [postLoading,setpostLoading] = useState(false)
     const [disputeFormOptions, setdisputeFormOptions] = useState([]);
     const [disputeCategory, setdisputeCategory] = useState('issue_with_program');
     const [programId, setprogramId] = useState();
@@ -72,8 +73,9 @@ const EditTicket = () => {
         }
         e.target.value = null
     }
-    const editDisputeFunc = async () => {
-        setloading(true)
+    const editDisputeFunc = async (e) => {
+        e.preventDefault()
+        setpostLoading(true)
         const formData = new FormData();
         formData.append('subject', inputData?.subject)
         formData.append('category', disputeCategory)
@@ -98,7 +100,7 @@ const EditTicket = () => {
         }
         const res = await editDispute(formData, id)
         setdisputeError(res?.errors)
-        setloading(false)
+        setpostLoading(false)
     }
 
     const singleDisputeFunc = async () => {
@@ -347,9 +349,9 @@ const EditTicket = () => {
                     <div className='cancel_select_button_wrapper' style={{
                         marginTop: '30px'
                     }}>
-                        <button>Cancel</button>
+                        <button onClick={((e)=>e.preventDefault())}>Cancel</button>
                         <div onClick={editDisputeFunc}>
-                            <Button children={'Update'} />
+                            <Button loading={postLoading} loadingText='Updating...' children={'Update'} />
                         </div>
                     </div>
                 </form>

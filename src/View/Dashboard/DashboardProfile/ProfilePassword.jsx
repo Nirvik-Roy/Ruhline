@@ -34,7 +34,8 @@ const ProfilePassword = () => {
         }
         return "";
     };
-    const handleSubmitPassword = async () => {
+    const handleSubmitPassword = async (e) => {
+        e.preventDefault()
         if (formData.current_password != '' && formData.password != '' && formData.password_confirmation != "") {
             setpasswordLoading(true)
             try {
@@ -76,7 +77,6 @@ const ProfilePassword = () => {
     }
     return (
         <>
-            {passwordLoading && <Loaders />}
             <div className='dashboard_content_wrapper'>
                 <div className='schedule_program_head_wrapper' style={{
                     marginBottom: '30px'
@@ -210,7 +210,9 @@ const ProfilePassword = () => {
                            e.preventDefault()
                         })}>Cancel</button>
                         <div>
-                            <Button onClick={(() => handleSubmitPassword())} children={'Change'} />
+                            <Button styles={{
+                                background:'var(--primary-color)'
+                            }} loading={passwordLoading}  onClick={((e) => handleSubmitPassword(e))} children={'Change'} />
                         </div>
                     </div>
                 </form>

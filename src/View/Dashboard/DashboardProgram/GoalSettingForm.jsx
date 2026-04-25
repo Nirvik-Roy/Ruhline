@@ -131,8 +131,7 @@ const GoalSettingForm = ({ goalsettingsContent, setgoalSettingsContent, setcreat
 
     return (
         <>
-            {loading && <Loaders />}
-            <PrevSubmit firstStep={false} onPrevious={(()=>setcreateGoal(false))} previousButton={true} lastStep={true} onSumbit={handleSubmit} objective={'Create your own goal'} title={'Goal Settings:'} />
+            <PrevSubmit loading={loading} loadingText={'Saving...'} firstStep={false} onPrevious={(()=>setcreateGoal(false))} previousButton={true} lastStep={true} onSumbit={handleSubmit} objective={'Create your own goal'} title={'Goal Settings:'} />
 
             <form className='values_form_wrapper' style={{ marginTop: '-25px' }}>
 

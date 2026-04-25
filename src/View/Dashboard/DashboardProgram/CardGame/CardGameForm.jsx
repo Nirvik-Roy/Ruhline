@@ -154,8 +154,7 @@ const CardGameForm = ({ cardGamestate, setCardGamestate }) => {
 
     return (
         <>
-            {loading && <Loaders />}
-            <PrevSubmit firstStep={questionIndex == 0} onPrevious={(() => {
+            <PrevSubmit loading={loading} loadingText={'Saving...'} firstStep={questionIndex == 0} onPrevious={(() => {
                 if (questionIndex != 0) {
                     setquestionIndex(questionIndex - 1)
 

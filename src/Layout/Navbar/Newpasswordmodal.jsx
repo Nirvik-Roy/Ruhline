@@ -14,7 +14,7 @@ const NewPasswordModal = () => {
     return (
         <div className='sign_up_wrapper' style={{ height: 'fit-content' }}>
             <h3>Create a new password</h3>
-            <form className='modal_form'>
+            <form onSubmit={((e)=>e.preventDefault())} className='modal_form'>
                 <div className='input_form' style={{ position: 'relative' }}>
                     <label>Password <span>*</span></label>
                     <input name='password' value={formData.password} onChange={handleChange}

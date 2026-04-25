@@ -69,8 +69,7 @@ const RemoveCardGame = ({ cardGamestate, setCardGamestate }) => {
   return (
     <>
 
-      {loading && <Loaders />}
-      <PrevSubmit title={'Card Game:'} objective={'Choose 10 cards to remove'} onSumbit={(() => {
+      <PrevSubmit loading={loading} loadingText={'Saving...'} title={'Card Game:'} objective={'Choose 10 cards to remove'} onSumbit={(() => {
         saveCards()
       })} />
       <div className='card_game_cards_Main_wrapper'>

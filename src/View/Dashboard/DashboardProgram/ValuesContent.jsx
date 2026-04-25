@@ -16,7 +16,8 @@ const ValuesContent = ({ completedFunction, valuesContent, fetchValuesQuestion }
     const [multiChoiceAnswer, setmultichoiceAnswer] = useState([])
     const [singleChoiceAnswer, setsingleChoiceAnswer] = useState("")
     const [dropdownAnswer, setdropdownAnswer] = useState("");
-    const [loading, setloading] = useState(false)
+    const [loading, setloading] = useState(false);
+    const [postLoading,setpostLoading] = useState(false)
 
     const handleMultichoice = (value) => {
         if (multiChoiceAnswer.includes(value)) {
@@ -50,7 +51,7 @@ const ValuesContent = ({ completedFunction, valuesContent, fetchValuesQuestion }
 
 
     const saveQuestions = async () => {
-        setloading(true)
+        setpostLoading(true)
         if (questions[questionIndex].type == 'descriptive') {
             if (descriptiveAnswer != '') {
                 const formData = new FormData()
@@ -133,13 +134,13 @@ const ValuesContent = ({ completedFunction, valuesContent, fetchValuesQuestion }
                 toast.error('Plz select atleast one option..')
             }
         }
-        setloading(false)
+        setpostLoading(false)
     }
 
     return (
         <>
             {loading && <Loaders />}
-            <PrevSubmit firstStep={questionIndex == 0} onPrevious={(() => {
+            <PrevSubmit loading={postLoading} loadingText={'Saving...'} firstStep={questionIndex == 0} onPrevious={(() => {
                 if (questionIndex != 0) {
                     setquestionIndex(questionIndex - 1)
                 }

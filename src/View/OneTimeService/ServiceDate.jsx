@@ -158,6 +158,10 @@ const ServiceDate = () => {
                             overflowY:'auto'
                         }}>
                             <div className='time_gird_wrapper' >
+                                {!date && <p style={{
+                                    color:'var(--primary-color)',
+                                    fontWeight:'600',
+                                }}>No date selected...</p>}
                                 {slotsData?.slots?.length <= 0 && <p>No slots are available right now...</p>}
                                 {slotsData?.slots?.map((element, index) => {
                                     return (
@@ -176,7 +180,9 @@ const ServiceDate = () => {
                             <div className='cancel_select_button_wrapper'>
                                 <button>Cancel</button>
                                 <div onClick={appiledForPreview}>
-                                    <Button children={'Select'} />
+                                    <Button styles={{
+                                        background:'var(--primary-color)'
+                                    }} children={'Select'} />
                                 </div>
                             </div>
                         </div>

@@ -11,6 +11,7 @@ const FindMotivation = ({ completedFunction, motivationContent, fetchMotivation 
     const inputRefs = useRef([]);
     const { enrollmentId } = useParams()
     const [loading, setloading] = useState(false)
+    const [postLoading,setpostLoading] = useState(false)
     useEffect(() => {
         const wordData = motivationContent?.words?.[wordIndex];
         if (!wordData) return;
@@ -62,7 +63,7 @@ const FindMotivation = ({ completedFunction, motivationContent, fetchMotivation 
     };
 
     const postMotivation = async () => {
-        setloading(true)
+        setpostLoading(true)
         if (!inputs.includes('')) {
             const formData = new FormData()
             formData.append('guess_word', motivationContent?.words?.[wordIndex]?.first_letter + inputs.join(''))
@@ -80,12 +81,12 @@ const FindMotivation = ({ completedFunction, motivationContent, fetchMotivation 
             toast.error('Plz fill all the boxes..')
         }
 
-        setloading(false)
+        setpostLoading(false)
     }
     return (
         <>
             {loading && <Loaders />}
-            <PrevSubmit objective={`Guess word ${motivationContent?.words?.length > 0 ?wordIndex + 1 : 0} of ${motivationContent?.words?.length}`} title={'Find your Motivation'} firstStep={wordIndex == 0} lastStep={motivationContent?.length == wordIndex} onSumbit={(() => {
+            <PrevSubmit loading={postLoading} loadingText={'Saving...'} objective={`Guess word ${motivationContent?.words?.length > 0 ?wordIndex + 1 : 0} of ${motivationContent?.words?.length}`} title={'Find your Motivation'} firstStep={wordIndex == 0} lastStep={motivationContent?.length == wordIndex} onSumbit={(() => {
                 if (wordIndex < motivationContent?.words?.length) {
                     postMotivation()
                 }

@@ -52,7 +52,6 @@ const FeedBackModal = ({ setModal, setfeedBackModal, id, fetchReviews, isEdit = 
 
     return (
         <>
-            {loading && <Loaders />}
             <div className='modal_wrapper'></div>
             <div className='feed_back_modal'>
                 <i class="fa-solid fa-xmark" onClick={(() => {
@@ -79,7 +78,7 @@ const FeedBackModal = ({ setModal, setfeedBackModal, id, fetchReviews, isEdit = 
                 <div onClick={isEdit ? editFeedBack : postFeedback} style={{
                     marginLeft: 'auto'
                 }}>
-                    <Button children={isEdit ? 'Update' : 'Share'} />
+                    <Button loading={loading} loadingText={isEdit ? 'Updating...' : 'Sharing...'} children={isEdit ? 'Update' : 'Share'} />
                 </div>
 
             </div>

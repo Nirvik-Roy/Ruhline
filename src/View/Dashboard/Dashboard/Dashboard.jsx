@@ -32,7 +32,7 @@ const Dashboard = () => {
 
                 <h3>Quick Actions</h3>
                 <div className='quick_actions_buttons_wrapper'>
-                    <button className='quick_action_btn'>Raise a Dispute</button>
+                    <button onClick={(() => navigate('/dashboard/support'))} className='quick_action_btn'>Raise a Dispute</button>
                     <button onClick={(()=>navigate('/dashboard/change-password'))} className='quick_action_btn'>Change Password</button>
                     <button className='quick_action_btn'>Delete Account</button>
                 </div>

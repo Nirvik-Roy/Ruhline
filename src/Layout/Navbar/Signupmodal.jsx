@@ -8,7 +8,7 @@ import GoogleAppleLogin from '../../Components/GoogleAppleLogin/GoogleAppleLogin
 
 const SignUpModal = ({ handleModal, setResendModal }) => {
     const dispatch = useDispatch()
-    const { errors } = useSelector(state => state.auth)
+    const { errors,isLoading } = useSelector(state => state.auth)
 
     const [registerFormData, setregisterFormData] = useState({
         first_name: '', last_name: '', email: '',
@@ -129,7 +129,7 @@ const SignUpModal = ({ handleModal, setResendModal }) => {
                 </small>
 
                 <div onClick={handleSubmit}>
-                    <Button children='Create Account' styles={{ width: '100%', padding: '17px 0px' }} />
+                    <Button loading={isLoading} children='Create Account' styles={{ width: '100%', padding: '17px 0px', minWidth:'100%' }} />
                 </div>
                 <GoogleAppleLogin />
             </form>

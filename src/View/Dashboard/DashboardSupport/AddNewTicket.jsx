@@ -8,6 +8,7 @@ import { getDisputeformOptions, createDispute } from '../../../utils/dispute'
 import toast from 'react-hot-toast'
 const AddNewTicket = () => {
     const [loading, setloading] = useState(false);
+    const [postLoading,setpostLoading] = useState(false)
     const [disputeFormOptions, setdisputeFormOptions] = useState([]);
     const [disputeCategory, setdisputeCategory] = useState('issue_with_program');
     const [programId, setprogramId] = useState();
@@ -21,7 +22,6 @@ const AddNewTicket = () => {
         checkout_order_id: '',
     })
 
-    console.log(inputData)
 
 
     const handleChange = (e) => {
@@ -63,8 +63,9 @@ const AddNewTicket = () => {
         }
         e.target.value = null
     }
-    const createDisputeFunc = async () => {
-        setloading(true)
+    const createDisputeFunc = async (e) => {
+        e.preventDefault()
+        setpostLoading(true)
         const formData = new FormData();
         formData.append('subject', inputData?.subject)
         formData.append('category', disputeCategory)
@@ -87,7 +88,7 @@ const AddNewTicket = () => {
         }
         const res = await createDispute(formData)
         setdisputeError(res?.errors || null)
-        setloading(false)
+        setpostLoading(false)
     }
     return (
         <>
@@ -308,9 +309,11 @@ const AddNewTicket = () => {
                     <div className='cancel_select_button_wrapper' style={{
                         marginTop: '30px'
                     }}>
-                        <button>Cancel</button>
+                        <button onClick={((e)=>e.preventDefault())}>Cancel</button>
                         <div onClick={createDisputeFunc}>
-                            <Button children={'Add'} />
+                            <Button loading={postLoading} loadingText='Adding...' styles={{
+                                background:'var(--primary-color)'
+                            }} children={'Add'} />
                         </div>
                     </div>
                 </form>

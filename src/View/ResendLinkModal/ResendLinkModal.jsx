@@ -7,7 +7,7 @@ import { Resendmail } from '../../../Store/Slices/Loginslice/ResendMail'
 import Loaders from '../../Components/Loaders/Loaders'
 const ResendLinkModal = ({ setResendModal }) => {
     const [isLoading, setisLoading] = useState(false);
-    const {  resendErrors } = useSelector(state => state.auth)
+    const { resendErrors } = useSelector(state => state.auth)
     const dispatch = useDispatch()
     const [emailErrormessage, setEmailerrorMessage] = useState('');
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -50,7 +50,6 @@ const ResendLinkModal = ({ setResendModal }) => {
     }
     return (
         <>
-            {isLoading && <Loaders />}
             <div className='modal_wrapper_overlay'></div>
             <div className='modal_wrapper_div'>
                 <i class="fa-solid fa-xmark" onClick={(() => setResendModal(false))} style={{
@@ -65,7 +64,7 @@ const ResendLinkModal = ({ setResendModal }) => {
                     <p>Please enter your email address. You will receive a link in your email
                     </p>
 
-                    <form className='modal_form'>
+                    <form onSubmit={((e) => e.preventDefault())} className='modal_form'>
                         <Input onCh name={'email'} onChange={handleChange} value={email.email} type={'text'} label={'Email Address'} required={true} placeholder={'example@mail.com'} />
                         <small style={{
                             marginLeft: '15px',
@@ -76,7 +75,7 @@ const ResendLinkModal = ({ setResendModal }) => {
                         <div onClick={(() => {
                             reSendLink()
                         })}>
-                            <Button children={'Send Link'} styles={{ width: '100%', padding: '17px 0px' }} />
+                            <Button loadingText='Sending link...' loading={isLoading} children={'Send Link'} styles={{ width: '100%', padding: '17px 0px' }} />
                         </div>
                     </form>
                 </div>

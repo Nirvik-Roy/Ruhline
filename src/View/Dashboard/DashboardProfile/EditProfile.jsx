@@ -13,7 +13,8 @@ const EditProfile = () => {
     const [contacterrorMessage, setContactErrorMessage] = useState();
     const [states, setStates] = useState([]);
     const [cities, setCities] = useState([]);
-    const [loading, setLoading] = useState();
+    const [loading, setLoading] = useState(false);
+    const [postLoading,setpostLoading] = useState(false)
     const [countryId, setCountryId] = useState();
     const [stateId, setStateId] = useState()
     const [file, setFile] = useState()
@@ -146,7 +147,7 @@ const EditProfile = () => {
     };
 
     const handleSubmit = async () => {
-        setLoading(true);
+        setpostLoading(true);
         const { first_name, last_name, email, phone, phone_country_code_id, address_line_1, address_line_2, landmark, country_id, state_id, city_id, postal_code } = formData;
         try {
             console.log('no_profile_img')
@@ -189,7 +190,7 @@ const EditProfile = () => {
         } catch (err) {
             console.log(err)
         } finally {
-            setLoading(false)
+            setpostLoading(false)
         }
     }
 
@@ -428,7 +429,10 @@ const EditProfile = () => {
                         <button onClick={((e)=>e.preventDefault())}>Cancel</button>
                         <div onClick={(() => handleSubmit())}>
 
-                            <Button children={'Add'} />
+                            <Button styles={{
+                                width:'140px',
+                                height:'50px'
+                            }} loadingText='Adding..' loading={postLoading} children={'Add'} />
                         </div>
                     </div>
                 </form>

@@ -8,7 +8,8 @@ import PrevSubmit from '../../../../Components/PrevSubmit/PrevSubmit'
 import toast from 'react-hot-toast'
 
 const WheelLife = ({ completedFunction, lifeElements }) => {
-    const [loading, setloading] = useState(false)
+    const [loading, setloading] = useState(false);
+    const [postLoading,setpostLoading] = useState(false)
     const [ratingData, setratingData] = useState([]);
     const [questionsData, setquestionsdata] = useState([]);
     const { enrollmentId } = useParams()
@@ -39,10 +40,10 @@ const WheelLife = ({ completedFunction, lifeElements }) => {
     }
 
     const postLifeElements = async () => {
-        setloading(true)
+        setpostLoading(true)
         const hasZeroRating = ratingData.some(item => item.rating === 0);
         if (hasZeroRating) {
-            setloading(false)
+            setpostLoading(false)
             toast.error('Plz rate all the elements')
             return;
         } else {
@@ -62,9 +63,9 @@ const WheelLife = ({ completedFunction, lifeElements }) => {
                 fetchLifeElementsQuestion(ratingData?.[0]?.id)
                 toggleFunction(2)
             }
-            setloading(false)
+            setpostLoading(false)
         }
-        setloading(false)
+        setpostLoading(false)
     }
  
     useEffect(() => {
@@ -78,7 +79,7 @@ const WheelLife = ({ completedFunction, lifeElements }) => {
     return (
         <>
             {loading && <Loaders />}
-            {toggle.life && <LifeElements postLifeElements={postLifeElements} ratingData={ratingData} handleRating={handleRating} lifeElements={lifeElements} toggleFunction={toggleFunction} />}
+            {toggle.life && <LifeElements postLoading={postLoading} postLifeElements={postLifeElements} ratingData={ratingData} handleRating={handleRating} lifeElements={lifeElements} toggleFunction={toggleFunction} />}
             {toggle.questions && <ElementsQuestion  fetchLifeElementsQuestion={fetchLifeElementsQuestion} questionsData={questionsData} completedFunction={completedFunction} />}
         </>
     )

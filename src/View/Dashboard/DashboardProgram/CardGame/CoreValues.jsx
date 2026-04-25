@@ -4,7 +4,7 @@ import PrevSubmit from '../../../../Components/PrevSubmit/PrevSubmit';
 import { finalSubmitCard } from '../../../../utils/program';
 import { useParams } from 'react-router-dom';
 import Loaders from '../../../../Components/Loaders/Loaders';
-const CoreValues = ({ completedFunction, cardGamestate, setCardGamestate }) => {
+const CoreValues = ({ cardGamestate, setCardGamestate }) => {
     const [availableCards, setavailableCards] = useState([]);
     const [loading, setloading] = useState(false)
     const { enrollmentId } = useParams()
@@ -22,8 +22,7 @@ const CoreValues = ({ completedFunction, cardGamestate, setCardGamestate }) => {
 
     return (
         <>
-            {loading && <Loaders />}
-            <PrevSubmit title={'Card Game:'} onSumbit={(async () => {
+            <PrevSubmit loading={loading} loadingText={'Saving...'} title={'Card Game:'} onSumbit={(async () => {
                 setloading(true)
                 const res = await finalSubmitCard(enrollmentId, cardGamestate?.program_structure_id)
                 if (res?.success) {

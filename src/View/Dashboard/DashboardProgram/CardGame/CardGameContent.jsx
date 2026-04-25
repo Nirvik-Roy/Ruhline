@@ -6,20 +6,6 @@ import RemoveCardGame from './RemoveCardGame'
 import SixCards from './SixCards'
 import CoreValues from './CoreValues'
 const CardGameContent = ({ completedFunction, cardGamestate, setCardGamestate }) => {
-    const [toggle, settoggle] = useState({
-        cardForm: true,
-        removeCard: false,
-        sixCards: false,
-        coreValues: false,
-    })
-    const toggleFunction = (id) => {
-        settoggle({
-            cardForm: id === 1 ? true : false,
-            removeCard: id === 2 ? true : false,
-            sixCards: id === 3 ? true : false,
-            coreValues: id === 4 ? true : false,
-        })
-    }
     return (
         <>
             {(cardGamestate?.navigation?.current_phase == 'questions') && <CardGameForm cardGamestate={cardGamestate} setCardGamestate={setCardGamestate}/> }

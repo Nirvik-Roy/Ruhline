@@ -53,8 +53,7 @@ const SixCards = ({ cardGamestate, setCardGamestate }) => {
     }
     return (
         <>
-            {loading && <Loaders />}
-            <PrevSubmit title={'Card Game:'} objective={'Select 6 cards to keep'} onSumbit={(() => {
+            <PrevSubmit loading={loading} loadingText={'Saving...'} title={'Card Game:'} objective={'Select 6 cards to keep'} onSumbit={(() => {
                 saveCards()
             })} />
             <div className='card_game_gird_wrapper'>

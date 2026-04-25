@@ -11,6 +11,7 @@ import Loaders from '../../../Components/Loaders/Loaders'
 import { getPhoneCountryCode } from '../../../utils/location'
 const ContactFormContent = () => {
     const [loading, setLoading] = useState(false);
+    const [postLoading,setpostLoading] = useState(false)
     const [emailErrormessage, setEmailerrorMessage] = useState('');
     const [errors, setErrors] = useState([])
     const [phoneData, setPhoneData] = useState([]);
@@ -59,10 +60,11 @@ const ContactFormContent = () => {
             [name]: value
         })
     }
-    const postContactForm = async () => {
+    const postContactForm = async (e) => {
+        e.preventDefault()
         const { name, email, phone, phone_country_code_id, message } = formData;
         if (name != '' && email != '' && phone != '' && phone_country_code_id != '' && message != '') {
-            setLoading(true)
+            setpostLoading(true)
             try {
                 const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/contact`, formData);
                 if (res.data.success == true) {
@@ -73,7 +75,7 @@ const ContactFormContent = () => {
                 toast.error(err.response?.data?.message);
                 setErrors(err.response.data.errors)
             } finally {
-                setLoading(false)
+                setpostLoading(false)
             }
         } else {
             toast.error('Plz enter all the fileds...')
@@ -81,7 +83,6 @@ const ContactFormContent = () => {
     }
     return (
         <>
-            {loading && <Loaders />}
             <div className='contact_us_form_wrapper'>
                 <h1 className='all_heading2'>Get in Touch</h1>
                 <p>Enim tempor eget pharetra facilisis sed maecenas adipiscing. Eu leo molestie vel, ornare non id blandit netus.</p>
@@ -140,8 +141,8 @@ const ContactFormContent = () => {
                             color: 'red'
                         }}>{errors?.message && errors?.message[0]}</small>
                     </div>
-                    <div onClick={(() => postContactForm())}>
-                        <Button children={'Send'} styles={{ padding: '15px 70px' }} />
+                    <div onClick={((e) => postContactForm(e))}>
+                        <Button loading={postLoading} loadingText='Sending...' children={'Send'}  />
                     </div>
 
                     <div className='phone_email_wrapper'>

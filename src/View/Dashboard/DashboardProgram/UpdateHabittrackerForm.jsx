@@ -192,8 +192,8 @@ const UpdateHabittrackerForm = ({ habbitContent, sethabbitContent, habitId, sete
 
     return (
         <>
-            {loading && <Loaders />}
-            <PrevSubmit onPrevious={(() => seteditHabit(false))} onSumbit={handleSubmit} title={'Edit Habit'} previousButton={true} firstStep={false} lastStep={true} />
+          
+            <PrevSubmit loading={loading} loadingText={'Loading...'} onPrevious={(() => seteditHabit(false))} onSumbit={handleSubmit} title={'Edit Habit'} previousButton={true} firstStep={false} lastStep={true} />
 
             <form className='values_form_wrapper' style={{ marginTop: '-25px' }}>
 

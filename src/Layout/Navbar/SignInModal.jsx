@@ -5,10 +5,11 @@ import { closeGlobalLogin } from '../../../Store/Slices/Loginslice/GlobalLoginSl
 import Button from '../../Components/Button/Button.jsx'
 import Input from '../../Components/Inputs/Input'
 import GoogleAppleLogin from '../../Components/GoogleAppleLogin/GoogleAppleLogin.jsx'
+import toast from 'react-hot-toast'
 
 const SignInModal = ({ handleModal, setResendModal }) => {
     const dispatch = useDispatch()
-    const { loginerrors } = useSelector(state => state.auth)
+    const { loginerrors, isLoading } = useSelector(state => state.auth)
 
     const [loginFormData, setloginFormdata] = useState({ email: '', password: '' })
     const [type3, setType3] = useState(false)
@@ -18,7 +19,8 @@ const SignInModal = ({ handleModal, setResendModal }) => {
         setloginFormdata(prev => ({ ...prev, [name]: value }))
     }
 
-    const handleSignIn = async() => {
+    const handleSignIn = async(e) => {
+        e.preventDefault()
         if (loginFormData.email && loginFormData.password) {
             try{
                 await dispatch(Auth(loginFormData)).unwrap()
@@ -27,6 +29,8 @@ const SignInModal = ({ handleModal, setResendModal }) => {
             }catch(err){
                 console.log('Login failed...',err)
             }
+        }else{
+            toast.error('Plz fill the required fileds')
         }
     }
 
@@ -69,7 +73,7 @@ const SignInModal = ({ handleModal, setResendModal }) => {
                 </div>
 
                 <div onClick={handleSignIn}>
-                    <Button children='Login' styles={{ width: '100%', padding: '17px 0px' }} />
+                    <Button loading={isLoading} loadingText='Login you in...' children='Login' styles={{ width: '100%', minWidth:'100%', padding: '17px 0px' }} />
                 </div>
                 <GoogleAppleLogin />
             </form>

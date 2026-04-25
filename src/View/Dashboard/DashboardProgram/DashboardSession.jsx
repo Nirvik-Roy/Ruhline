@@ -13,7 +13,8 @@ import toast from 'react-hot-toast'
 const DashboardSession = () => {
     const { enrollmentId, sessionId, programId } = useParams()
     const [timeData, settitmeData] = useState('')
-    const [loading, setloading] = useState()
+    const [loading, setloading] = useState();
+    const [postLoading,setpostLoading] = useState(false)
     const [date, setDate] = useState('');
     const [slotsData, setslotsData] = useState([])
     const [slotsStartDate, setslotsStartDate] = useState('');
@@ -77,34 +78,34 @@ const DashboardSession = () => {
 
     const rescheduleProgramFunc = async () => {
         if (slotsStartDate) {
-            setloading(true)
+            setpostLoading(true)
             const res = await rescheduleProgramApi({
                 slot_start_at: slotsStartDate
             }, enrollmentId, sessionId)
             if (res?.success) {
                 navigate(-1)
             }
-            setloading(false)
+            setpostLoading(false)
         } else {
             toast.error('Plz select a slot...')
-            setloading(false)
+            setpostLoading(false)
         }
     }
 
 
     const scheduleProgramFunc = async () => {
         if (slotsStartDate) {
-            setloading(true)
+            setpostLoading(true)
             const res = await scheduleProgramApi({
                 slot_start_at: slotsStartDate
             }, enrollmentId, sessionId)
             if(res?.success){
                 navigate(-1)
             }
-            setloading(false)
+            setpostLoading(false)
         } else {
             toast.error('Plz select a slot...')
-            setloading(false)
+            setpostLoading(false)
         }
     }
 
@@ -178,7 +179,9 @@ const DashboardSession = () => {
 
                             <button>Cancel</button>
                             <div onClick={singleSessionDetails?.can_reschedule ? rescheduleProgramFunc : scheduleProgramFunc}>
-                                <Button children={'Select'} />
+                                <Button loading={postLoading} loadingText='Submitting...' styles={{
+                                    background:'var(--primary-color)'
+                                }} children={'Select'} />
                             </div>
                         </div>
                     </div>

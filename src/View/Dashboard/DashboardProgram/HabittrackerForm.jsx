@@ -163,8 +163,7 @@ const HabittrackerForm = ({ habbitContent, sethabbitContent, setcreateHabit }) =
 
     return (
         <>
-            {loading && <Loaders/>}
-            <PrevSubmit onPrevious={(() => setcreateHabit(false))} onSumbit={handleSubmit} title={'Habit Tracker'} firstStep={false} previousButton={true} lastStep={true} />
+            <PrevSubmit loading={loading} loadingText={'Loading..'} onPrevious={(() => setcreateHabit(false))} onSumbit={handleSubmit} title={'Habit Tracker'} firstStep={false} previousButton={true} lastStep={true} />
 
             <form className='values_form_wrapper' style={{ marginTop: '-25px' }}>
 
