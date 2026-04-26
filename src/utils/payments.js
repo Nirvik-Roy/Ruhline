@@ -11,7 +11,7 @@ export const postPreview = async (data) => {
                 }
             });
             if (res?.data?.success == true) {
-                return res.data
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
@@ -31,7 +31,7 @@ export const initatePayment = async (data) => {
                 }
             });
             if (res?.data?.success == true) {
-                return res.data
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);

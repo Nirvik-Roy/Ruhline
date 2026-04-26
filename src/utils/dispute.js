@@ -121,7 +121,7 @@ export const deleteDispute = async (id) => {
             });
             if (res?.data?.success == true) {
                 toast.success(res?.data?.message)
-                return res.data
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);

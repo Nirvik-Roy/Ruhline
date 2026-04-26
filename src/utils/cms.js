@@ -5,7 +5,7 @@ export const getAllCmsData = async (url) => {
         try {
             const res = await axios.get(`${import.meta.env.VITE_BASE_URL}${url}`);
             if (res?.data?.success == true) {
-                return res.data
+                return res?.data
             }
         } catch (err) {
             // toast.error(err.response?.data?.message);
@@ -19,7 +19,7 @@ export const getSingleCmsData = async (url,id) => {
         try {
             const res = await axios.get(`${import.meta.env.VITE_BASE_URL}${url}/${id}`);
             if (res?.data?.success == true) {
-                return res.data
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
