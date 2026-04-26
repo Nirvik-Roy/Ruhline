@@ -20,6 +20,7 @@ const EditProfile = () => {
     const [stateId, setStateId] = useState()
     const [file, setFile] = useState()
     const [phone, setPhone] = useState([]);
+    const [dataLoading,setdataLoading] = useState(false)
     const [errors, setError] = useState();
     const [formData, setformData] = useState({
         first_name: '',
@@ -39,7 +40,7 @@ const EditProfile = () => {
     useEffect(() => {
         const fetchAllData = async () => {
             try {
-                setLoading(true);
+                setdataLoading(true);
                 // Run calls in parallel
                 const [countriesRes, phoneRes, profileRes] =
                     await Promise.all([
@@ -58,7 +59,7 @@ const EditProfile = () => {
                 console.error("Error fetching profile data:", err);
                 setError(err.message || "Something went wrong!");
             } finally {
-                setLoading(false);
+                setdataLoading(false);
             }
         };
         fetchAllData();
@@ -97,6 +98,7 @@ const EditProfile = () => {
                 setLoading(false)
             }
         }
+        setLoading(false)
     }
     useEffect(() => {
         if (countryId) {
@@ -120,6 +122,7 @@ const EditProfile = () => {
                 setLoading(false)
             }
         }
+        setLoading(false)
     }
     const contactRegex = /^[0-9]{10}$/;
 
@@ -151,7 +154,6 @@ const EditProfile = () => {
         setpostLoading(true);
         const { first_name, last_name, email, phone, phone_country_code_id, address_line_1, address_line_2, landmark, country_id, state_id, city_id, postal_code } = formData;
         try {
-            console.log('no_profile_img')
             if (!formData?.profile?.profile_image && file) {
                 const formDataNew = new FormData;
                 formDataNew.append("first_name", first_name);
@@ -170,7 +172,6 @@ const EditProfile = () => {
                 const result = await editProfile(formDataNew);
                 seteditErrors(result?.errors)
             } else {
-                console.log('Profile image')
                 const data = {
                     first_name,
                     last_name,
@@ -200,10 +201,11 @@ const EditProfile = () => {
             getStateFunc(profileData?.profile?.country?.id)
         }
     }, [])
+
     return (
         <>
             <div className='dashboard_content_wrapper'>
-                {loading && <DashboardLoader />}
+                {dataLoading && <DashboardLoader />}
 
                 <div className='schedule_program_head_wrapper' style={{
                     marginBottom: '30px'
@@ -228,7 +230,7 @@ const EditProfile = () => {
                     </div>
                 </div>
 
-             {!loading &&   <form className='confirm_form_wrapper'>
+                {!dataLoading && <form className='confirm_form_wrapper'>
                     <div className='cofirm_form_grid_wrapper'>
                         <div>
                             <Input onChange={handleChange} value={formData.first_name} name={'first_name'} label={' First Name'} type={'text'} required={true} placeholder={'Enter first name'} />
@@ -312,7 +314,7 @@ const EditProfile = () => {
 
                         <div className='values_form_input_Wrapper edit_profile_input_wrapper'>
                             <label>Country<span>*</span></label>
-                            <select name='country_id' onChange={((e) => {
+                            <select disabled={loading} name='country_id' onChange={((e) => {
                                 getStateFunc(e.target.value)
                                 handleChange(e)
                             })} value={formData.country_id}>
@@ -330,7 +332,7 @@ const EditProfile = () => {
                         </div>
                         <div className='values_form_input_Wrapper edit_profile_input_wrapper'>
                             <label>State<span>*</span></label>
-                            <select name='state_id' onChange={((e) => {
+                            <select disabled={loading} name='state_id' onChange={((e) => {
                                 getCityFunc(e.target.value);
                                 handleChange(e)
                             })} value={formData.state_id}>
@@ -348,8 +350,7 @@ const EditProfile = () => {
                         </div>
                         <div className='values_form_input_Wrapper edit_profile_input_wrapper'>
                             <label>City<span>*</span></label>
-                            <select name='city_id' onChange={((e) => {
-
+                            <select disabled={loading} name='city_id' onChange={((e) => {
                                 handleChange(e)
                             })} value={formData.city_id}>
                                 <option>--Select-city--</option>

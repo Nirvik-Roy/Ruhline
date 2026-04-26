@@ -13,13 +13,13 @@ const DashboardSupport = () => {
     const [disputeList, setdisputeList] = useState([]);
     const [deleteModal, setdeleteModal] = useState(false);
     const [deletedId, setdeleteId] = useState();
+    const [deleteloading,setdeleteLoading] = useState(false)
     const dropdownRef = useRef()
     const [loading, setloading] = useState(false)
     const callDisputeList = async () => {
         setloading(true)
         const res = await getDisputeList()
         setdisputeList(res?.data)
-        console.log(res)
         setloading(false)
     }
     useEffect(() => {
@@ -41,13 +41,13 @@ const DashboardSupport = () => {
     };
 
     const handleDelete = async () => {
-        setloading(true)
+        setdeleteLoading(true)
         const res = await deleteDispute(deletedId)
         if (res?.success) {
             setdeleteModal(false)
             callDisputeList()
         }
-        setloading(false)
+        setdeleteLoading(false)
     }
     const handleClickOutside = (event) => {
         if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -64,7 +64,7 @@ const DashboardSupport = () => {
     }, []);
     return (
         <>
-            {deleteModal && <DeleteModal setdeleteModal={setdeleteModal} onClick={handleDelete} title={'Delete dispute'} details={'Do you really want to delete this dispute?'} />}
+            {deleteModal && <DeleteModal loading={deleteloading} setdeleteModal={setdeleteModal} onClick={handleDelete} title={'Delete dispute'} details={'Do you really want to delete this dispute?'} />}
             <div className='dashboard_content_wrapper'>
                 {loading && <DashboardLoader />}
                 <div className='schedule_program_head_wrapper' style={{

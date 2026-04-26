@@ -1,13 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './DashboardSidebar.css'
 import dashboardlogo from '../../../assets/Images/dashboard.svg'
 import { NavLink } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { AuthlogOut } from '../../../../Store/Slices/Loginslice/AuthSlice'
+import DeleteModal from '../../../Components/DeleteModal/DeleteModal'
 const DashboardSidebar = () => {
     const dispatch = useDispatch()
+    const {isLoading} = useSelector(state=>state.auth)
+    const [logoutModal,setlogoutModal] = useState(false)
+    const logout = async () => {
+        dispatch(AuthlogOut())
+    }
     return (
         <>
+            {logoutModal && <DeleteModal onClick={logout} setdeleteModal={setlogoutModal} loading={isLoading} title={'Logout'} details={'Do you really want to logout?'}/>}
             <div className='dashboard_sidebar'>
                 <NavLink to={'/dashboard'} end className={'sidebar_link'}>
                     <svg width='16' height='16' viewBox='0 0 16 16' fill='#fff'
@@ -120,7 +127,7 @@ const DashboardSidebar = () => {
 
                 <div style={{
                     cursor: 'pointer'
-                }} onClick={(() => dispatch(AuthlogOut()))} className={'sidebar_link'}>
+                }} onClick={(() => setlogoutModal(true))} className={'sidebar_link'}>
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_2779_11437)">
                             <path d="M17.8745 14.796C18.7273 13.3988 19.2188 11.7568 19.2188 10C19.2188 4.90863 15.0914 0.78125 10 0.78125C4.90863 0.78125 0.78125 4.90863 0.78125 10C0.78125 15.0914 4.90863 19.2188 10 19.2188C11.9207 19.2188 13.7042 18.6314 15.1807 17.6264" stroke="white" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />

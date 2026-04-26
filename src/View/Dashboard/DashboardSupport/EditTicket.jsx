@@ -11,7 +11,7 @@ import DashboardLoader from '../../../Components/Loaders/DashboardLoader'
 const EditTicket = () => {
     const { id } = useParams()
     const [loading, setloading] = useState(false);
-    const [postLoading,setpostLoading] = useState(false)
+    const [postLoading, setpostLoading] = useState(false)
     const [disputeFormOptions, setdisputeFormOptions] = useState([]);
     const [disputeCategory, setdisputeCategory] = useState('issue_with_program');
     const [programId, setprogramId] = useState();
@@ -111,7 +111,6 @@ const EditTicket = () => {
         setloading(false)
     }
 
-    console.log(singleDispute)
     useEffect(() => {
         if (id) {
             singleDisputeFunc()
@@ -139,7 +138,7 @@ const EditTicket = () => {
                         </div>
                     </div>
                 </div>
-                <form className='new_ticket_form_Wrapper'>
+                {!loading && <form className='new_ticket_form_Wrapper'>
                     <div>
                         <Input onChange={handleChange} name={'subject'} value={inputData?.subject} type={'text'} label={'Subject'} required={true} placeholder={'Enter subject '} />
                         {disputeError?.subject && <small style={{
@@ -272,7 +271,7 @@ const EditTicket = () => {
                             <h5>Png, Jpg, Jpeg supported | file size: 250 KB | max 5 files</h5>
                             <input onChange={handleUpload} multiple maxLength={5} max={5} type='file' />
                         </div>
-                      
+
                         <div style={{
                             display: 'flex',
                             gap: '10px',
@@ -351,12 +350,14 @@ const EditTicket = () => {
                     <div className='cancel_select_button_wrapper' style={{
                         marginTop: '30px'
                     }}>
-                        <button onClick={((e)=>e.preventDefault())}>Cancel</button>
+                        <button onClick={((e) => e.preventDefault())}>Cancel</button>
                         <div onClick={editDisputeFunc}>
-                            <Button loading={postLoading} loadingText='Updating...' children={'Update'} />
+                            <Button styles={{
+                                backgroundColor:'var(--primary-color)'
+                            }} loading={postLoading} loadingText='Updating...' children={'Update'} />
                         </div>
                     </div>
-                </form>
+                </form>}
             </div>
         </>
     )

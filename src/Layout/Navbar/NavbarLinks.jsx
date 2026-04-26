@@ -19,6 +19,7 @@ import SignUpModal from './Signupmodal.jsx'
 import SignInModal from './SignInModal.jsx'
 import ForgotPasswordModal from './Forgotpasswordmodal.jsx'
 import NewPasswordModal from './Newpasswordmodal.jsx'
+import DeleteModal from '../../Components/DeleteModal/DeleteModal.jsx'
 
 const NavbarLinks = () => {
     const dispatch = useDispatch()
@@ -33,9 +34,10 @@ const NavbarLinks = () => {
     const [verifiedModal, setverifiedModal] = useState(false)
     const [reSendModal, setResendModal] = useState(false)
     const [showNavbar, setShowNavbar] = useState(false)
-    const [dropdown, setDropdown] = useState(false)
+    const [dropdown, setDropdown] = useState(false);
+    const [logoutModal, setlogoutModal] = useState(false)
     const [programCategories, setprogramCategories] = useState()
-    const [loading,setloading] = useState(false)
+    const [loading, setloading] = useState(false)
     const handleModal = (i) => {
         setmodalToggle({
             signUp: i === 1,
@@ -68,6 +70,8 @@ const NavbarLinks = () => {
 
     useEffect(() => {
         if (isLogin) handleModal(0)
+
+        if (!isLogin) setlogoutModal(false)
     }, [isLogin])
 
     useEffect(() => {
@@ -91,8 +95,14 @@ const NavbarLinks = () => {
         }
     }, [location, dispatch])
 
+
+    const logout = async () => {
+        dispatch(AuthlogOut())
+    }
+
     return (
         <>
+            {logoutModal && <DeleteModal setdeleteModal={setlogoutModal} onClick={logout} loading={isLoading} title={'Logout'} details={'Do you really want to logout?'} />}
             {/* {(loading) && <Loaders />} */}
 
             {reSendModal && <ResendLinkModal setResendModal={setResendModal} />}
@@ -111,7 +121,7 @@ const NavbarLinks = () => {
 
             {modalToggle.forGotPassword && (
                 <Modal handleModal={handleModal}>
-                    <ForgotPasswordModal setloading={setloading}  handleModal={handleModal} />
+                    <ForgotPasswordModal setloading={setloading} handleModal={handleModal} />
                 </Modal>
             )}
 
@@ -159,8 +169,8 @@ const NavbarLinks = () => {
                 )}
 
                 {isLogin && (
-                    <div onClick={() => dispatch(AuthlogOut())}>
-                        <Button children='Log Out' />
+                    <div>
+                        <Button onClick={(() => setlogoutModal(true))} children='Log Out' />
                     </div>
                 )}
 

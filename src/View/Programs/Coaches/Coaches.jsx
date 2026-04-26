@@ -4,6 +4,7 @@ import Pagination from '../../../Components/Pagination/Pagination'
 import ProgramSidebar from '../ProgramSidebar'
 import { getAllCoaches } from '../../../utils/coach'
 import Loaders from '../../../Components/Loaders/Loaders'
+import DashboardLoader from '../../../Components/Loaders/DashboardLoader'
 
 const Coaches = () => {
     const [coachData, setCoachData] = useState([]);
@@ -77,7 +78,7 @@ const Coaches = () => {
 
     return (
         <>
-            {loading && <Loaders />}
+            {/* {loading && <Loaders />} */}
             <BannerLayout title={'Coaches'} />
             <div className='program_wrapper'>
                 <div className='all_Container program_content_wrapper'>
@@ -93,7 +94,14 @@ const Coaches = () => {
                         Gender={true}
                     />
                     <div className='program_content_right'>
-                        <div className='program_content_grid_Wrapper'>
+                        {loading && <div style={{
+                            position: 'relative',
+                            minHeight:'50vh'
+                        }}>
+                            <DashboardLoader />
+                        </div>
+                        }
+                        {!loading && <div className='program_content_grid_Wrapper'>
                             {currentItems?.length <= 0 && <p>No Coaches are available...</p>}
                             {currentItems?.map((e) => (
                                 <div className='program_card156' key={e.id}>
@@ -114,7 +122,7 @@ const Coaches = () => {
                                     </div>
                                 </div>
                             ))}
-                        </div>
+                        </div>}
                         <div>
                             <Pagination
                                 pageCount={pageCount}
