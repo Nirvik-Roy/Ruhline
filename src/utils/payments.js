@@ -10,12 +10,12 @@ export const postPreview = async (data) => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
+            if (res?.data?.success == true) {
                 return res.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -30,12 +30,12 @@ export const initatePayment = async (data) => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
+            if (res?.data?.success == true) {
                 return res.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }

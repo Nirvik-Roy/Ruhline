@@ -3,12 +3,12 @@ import axios from "axios";
 export const getProgramCategory = async () => {
     try {
         const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/program-category?nested=1`);
-        if (res.data.success == true) {
-            return res.data.data
+        if (res?.data?.success == true) {
+            return res?.data?.data
         }
     } catch (err) {
         toast.error(err.response?.data?.message);
-        return err.response.data.errors
+        return err?.response?.data?.errors
     }
 }
 
@@ -16,12 +16,12 @@ export const getProgramsByCategory = async (categoryId) => {
     if (categoryId) {
         try {
             const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/programs/category/${categoryId}`);
-            if (res.data.success == true) {
-                return res.data.data
+            if (res?.data?.success == true) {
+                return res?.data?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     } else {
         toast.error('Reuired data not found...')
@@ -34,12 +34,12 @@ export const getSingleProgram = async (programId) => {
     if (programId) {
         try {
             const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/programs/${programId}`);
-            if (res.data.success == true) {
-                return res.data.data
+            if (res?.data?.success == true) {
+                return res?.data?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     } else {
         toast.error('Reuired data not found...')
@@ -57,12 +57,12 @@ export const getProgramEnrollments = async () => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data
+            return err?.response?.data
         }
     }
 }
@@ -77,12 +77,12 @@ export const getProgramEnrollmentsById = async (enrollmentId) => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data
+            return err?.response?.data
         }
     }
 }
@@ -96,12 +96,12 @@ export const getEnrollmentSlots = async (enrollmentId, sessionId, date) => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
-                return res.data.data
+            if (res?.data?.success == true) {
+                return res?.data?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     } else {
         toast.error('Enrollment Id is required')
@@ -119,13 +119,13 @@ export const rescheduleProgramApi = async (data, enrollmentId, sessionId) => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
+            if (res?.data?.success == true) {
                 toast.success(res?.data?.message)
-                return res.data
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data
+            return err?.response?.data
         }
     }
 }
@@ -139,13 +139,13 @@ export const scheduleProgramApi = async (data, enrollmentId, sessionId) => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
+            if (res?.data?.success == true) {
                 toast.success(res?.data?.message)
-                return res.data
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data
+            return err?.response?.data
         }
     }
 }
@@ -160,13 +160,13 @@ export const addProgramsReview = async (data) => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
+            if (res?.data?.success == true) {
                 toast.success(res?.data?.message)
-                return res.data
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data
+            return err?.response?.data
         }
     }
 }
@@ -181,12 +181,12 @@ export const getProgramReviews = async () => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     } else {
         toast.error('Enrollment Id is required')
@@ -203,12 +203,12 @@ export const deleteProgramReviews = async (id) => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     } else {
         toast.error('Enrollment Id is required')
@@ -225,13 +225,13 @@ export const editProgramsReview = async (data, id) => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
+            if (res?.data?.success == true) {
                 toast.success(res?.data?.message)
-                return res.data
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data
+            return err?.response?.data
         }
     }
 }
@@ -246,12 +246,12 @@ export const getProgramsModule = async (enrollmentId) => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data
+            return err?.response?.data
         }
     }
 }
@@ -266,12 +266,12 @@ export const checkLockUnlock = async (enrollmentId, structureId) => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data
+            return err?.response?.data
         }
     }
 }
@@ -285,12 +285,12 @@ export const getValuesQuestions = async (enrollmentId, structureId) => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data
+            return err?.response?.data
         }
     }
 }
@@ -306,13 +306,13 @@ export const saveValuesQuestion = async (enrollmentId, structureId, questionId, 
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
+            if (res?.data?.success == true) {
                 toast.success(res?.data?.message)
-                return res.data
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data
+            return err?.response?.data
         }
     }
 }
@@ -328,12 +328,12 @@ export const getWhoamIQuestions = async (enrollmentId, structureId) => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data
+            return err?.response?.data
         }
     }
 }
@@ -350,13 +350,13 @@ export const saveWhoamIQuestion = async (enrollmentId, structureId, questionId, 
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
+            if (res?.data?.success == true) {
                 toast.success(res?.data?.message)
-                return res.data
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data
+            return err?.response?.data
         }
     }
 }
@@ -370,12 +370,12 @@ export const getMotivationWords = async (enrollmentId, structureId) => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data
+            return err?.response?.data
         }
     }
 }
@@ -391,12 +391,12 @@ export const saveMotivationWords = async (enrollmentId, structureId, wordId, dat
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data
+            return err?.response?.data
         }
     }
 }
@@ -412,12 +412,12 @@ export const getlifeElements = async (enrollmentId, structureId) => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data
+            return err?.response?.data
         }
     }
 }
@@ -432,13 +432,13 @@ export const saveLifeElements = async (enrollmentId, structureId, data) => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
+            if (res?.data?.success == true) {
                 toast.success(res?.data?.message)
-                return res.data
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data
+            return err?.response?.data
         }
     }
 }
@@ -453,12 +453,12 @@ export const getQuestionsoflifeElements = async (enrollmentId, structureId, elem
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data
+            return err?.response?.data
         }
     }
 }
@@ -474,13 +474,13 @@ export const saveWheelOfLifequestion = async (enrollmentId, structureId, questio
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
+            if (res?.data?.success == true) {
                 toast.success(res?.data?.message)
-                return res.data
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data
+            return err?.response?.data
         }
     }
 }
@@ -495,12 +495,12 @@ export const getCardGameState = async (enrollmentId, structureId) => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data
+            return err?.response?.data
         }
     }
 }
@@ -514,15 +514,15 @@ export const saveCardGameQuestions = async (enrollmentId, structureId, questionI
             const res = await axios.put(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/modules/${structureId}/card-game/question-sets/${setId}/questions/${questionId}/answer`, data, {
                 headers: {
                     'Authorization': `Bearer ${token}`
-                }
+                },
             });
-            if (res.data.success == true) {
+            if (res?.data?.success == true) {
                 toast.success(res?.data?.message)
-                return res.data
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data
+            return err?.response?.data
         }
     }
 }
@@ -540,13 +540,13 @@ export const saveCardSelection = async (enrollmentId, structureId, data, setId) 
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
+            if (res?.data?.success == true) {
                 toast.success(res?.data?.message)
-                return res.data
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data
+            return err?.response?.data
         }
     }
 }
@@ -561,13 +561,13 @@ export const finalSubmitCard = async (enrollmentId, structureId) => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
+            if (res?.data?.success == true) {
                 toast.success(res?.data?.message)
-                return res.data
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data
+            return err?.response?.data
         }
     }
 }
@@ -582,12 +582,12 @@ export const getGoalSettings = async (enrollmentId, structureId) => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data
+            return err?.response?.data
         }
     }
 }
@@ -601,13 +601,13 @@ export const postGoalSettings = async (enrollmentId, structureId, data) => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
+            if (res?.data?.success == true) {
                 toast.success(res?.data?.message)
-                return res.data
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data
+            return err?.response?.data
         }
     }
 }
@@ -622,13 +622,13 @@ export const updateGoalSettings = async (enrollmentId, structureId, goalId, data
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
+            if (res?.data?.success == true) {
                 toast.success(res?.data?.message)
-                return res.data
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data
+            return err?.response?.data
         }
     }
 }
@@ -643,12 +643,12 @@ export const deleteGoal = async (enrollmentId, structureId, goalId) => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     } else {
         toast.error('Enrollment Id is required')
@@ -664,12 +664,12 @@ export const getHabitTrackerState = async (enrollmentId, structureId) => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data
+            return err?.response?.data
         }
     }
 }
@@ -684,13 +684,13 @@ export const postHabit = async (enrollmentId, structureId, data) => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
+            if (res?.data?.success == true) {
                 toast.success(res?.data?.message)
-                return res.data
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data
+            return err?.response?.data
         }
     }
 }
@@ -705,13 +705,13 @@ export const updateHabit = async (enrollmentId, structureId, habitId, data) => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
+            if (res?.data?.success == true) {
                 toast.success(res?.data?.message)
-                return res.data
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data
+            return err?.response?.data
         }
     }
 }
@@ -726,12 +726,12 @@ export const deleteHabit = async (enrollmentId, structureId, habitId) => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     } else {
         toast.error('Enrollment Id is required')

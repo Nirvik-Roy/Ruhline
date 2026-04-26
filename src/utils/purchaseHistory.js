@@ -10,12 +10,12 @@ export const getPurchaseHistory = async () => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -30,12 +30,12 @@ export const getSinglePurchaseHistory = async (id) => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
