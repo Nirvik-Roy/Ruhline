@@ -13,6 +13,7 @@ import { getSingleProgram } from '../../utils/program'
 import { postPreview } from '../../utils/payments'
 import toast from 'react-hot-toast'
 import RedirectingCheckoutModal from './RedirectingCheckoutModal'
+import DashboardLoader from '../../Components/Loaders/DashboardLoader'
 const ServiceDate = () => {
     const [active, setActive] = useState()
     const navigate = useNavigate()
@@ -25,7 +26,7 @@ const ServiceDate = () => {
     const [previewLoading, setpreviewLoading] = useState(false)
     const [date, setDate] = useState('');
     const [coachData, setcoachesData] = useState([])
-
+    const [slotsLoading,setslotsLoading] = useState(false)
     const getProgramSpecificCoachesFunc = async () => {
         setloading(true)
         const res = await getProgamSpecificCoaches(id)
@@ -33,7 +34,7 @@ const ServiceDate = () => {
         setloading(false)
     }
     useEffect(() => {
-        if(coachId && id){
+        if (coachId && id) {
             getProgramSpecificCoachesFunc()
         }
     }, [id, coachId])
@@ -46,10 +47,10 @@ const ServiceDate = () => {
         return `${year}-${month}-${day}`;
     };
     const getSlots = async () => {
-        setloading(true)
+        setslotsLoading(true)
         const res = await getProgamCoachSlots(id, coachId, date)
         setslotsData(res)
-        setloading(false)
+        setslotsLoading(false)
     }
 
     const getSingleProgramFunc = async () => {
@@ -100,10 +101,16 @@ const ServiceDate = () => {
     }
     return (
         <>
-            {loading && <Loaders />}
             <BannerLayout title={'Select Date and Time'} />
             {previewLoading && <RedirectingCheckoutModal isOpen={true} />}
-            <div className='service_date_wrapper'>
+            {loading && <div style={{
+                height: '50vh',
+                position: 'relative'
+            }}>
+                <DashboardLoader />
+            </div>}
+
+            {!loading && <div className='service_date_wrapper'>
                 <div className='all_Container service_content_date'>
                     <div className='service_date_left'>
                         {singleProgram?.occurrence_type == 'recurring' && <p style={{
@@ -154,13 +161,19 @@ const ServiceDate = () => {
                             justifyContent: 'space-between',
                             flexDirection: 'column',
                             gap: '40px',
-                            height:'37vh',
-                            overflowY:'auto'
+                            height: '37vh',
+                            overflowY: 'auto'
                         }}>
-                            <div className='time_gird_wrapper' >
+                            {slotsLoading && <div style={{
+                                height: '50vh',
+                                position: 'relative'
+                            }}>
+                                <DashboardLoader />
+                            </div>}
+                         {!slotsLoading &&   <div className='time_gird_wrapper' >
                                 {!date && <p style={{
-                                    color:'var(--primary-color)',
-                                    fontWeight:'600',
+                                    color: 'var(--primary-color)',
+                                    fontWeight: '600',
                                 }}>No date selected...</p>}
                                 {slotsData?.slots?.length <= 0 && <p>No slots are available right now...</p>}
                                 {slotsData?.slots?.map((element, index) => {
@@ -176,12 +189,12 @@ const ServiceDate = () => {
                                         </>
                                     )
                                 })}
-                            </div>
+                            </div>}
                             <div className='cancel_select_button_wrapper'>
                                 <button>Cancel</button>
                                 <div onClick={appiledForPreview}>
                                     <Button styles={{
-                                        background:'var(--primary-color)'
+                                        background: 'var(--primary-color)'
                                     }} children={'Select'} />
                                 </div>
                             </div>
@@ -189,7 +202,7 @@ const ServiceDate = () => {
 
                     </div>
                 </div>
-            </div>
+            </div>}
         </>
     )
 }

@@ -6,9 +6,10 @@ import Button from '../../../Components/Button/Button'
 import Loaders from '../../../Components/Loaders/Loaders'
 import { getDisputeformOptions, createDispute } from '../../../utils/dispute'
 import toast from 'react-hot-toast'
+import DashboardLoader from '../../../Components/Loaders/DashboardLoader'
 const AddNewTicket = () => {
     const [loading, setloading] = useState(false);
-    const [postLoading,setpostLoading] = useState(false)
+    const [postLoading, setpostLoading] = useState(false)
     const [disputeFormOptions, setdisputeFormOptions] = useState([]);
     const [disputeCategory, setdisputeCategory] = useState('issue_with_program');
     const [programId, setprogramId] = useState();
@@ -92,8 +93,8 @@ const AddNewTicket = () => {
     }
     return (
         <>
-            {loading && <Loaders />}
             <div className='dashboard_content_wrapper'>
+                {loading && <DashboardLoader />}
                 <div className='schedule_program_head_wrapper' style={{
                     marginBottom: '30px'
                 }}>
@@ -111,7 +112,7 @@ const AddNewTicket = () => {
                         </div>
                     </div>
                 </div>
-                <form className='new_ticket_form_Wrapper'>
+                {!loading && <form className='new_ticket_form_Wrapper'>
                     <div>
                         <Input onChange={handleChange} name={'subject'} value={inputData?.subject} type={'text'} label={'Subject'} required={true} placeholder={'Enter subject '} />
                         {disputeError?.subject && <small style={{
@@ -309,14 +310,14 @@ const AddNewTicket = () => {
                     <div className='cancel_select_button_wrapper' style={{
                         marginTop: '30px'
                     }}>
-                        <button onClick={((e)=>e.preventDefault())}>Cancel</button>
+                        <button onClick={((e) => e.preventDefault())}>Cancel</button>
                         <div onClick={createDisputeFunc}>
                             <Button loading={postLoading} loadingText='Adding...' styles={{
-                                background:'var(--primary-color)'
+                                background: 'var(--primary-color)'
                             }} children={'Add'} />
                         </div>
                     </div>
-                </form>
+                </form>}
             </div>
         </>
     )

@@ -72,6 +72,9 @@ const CardGameForm = ({ cardGamestate, setCardGamestate }) => {
                         setCardGamestate(res?.data)
                     }
                     setCardGamestate(res?.data)
+                    setloading(false)
+                }else{
+                    setloading(false)
                 }
             } else {
                 toast.error('Plz answer the question...')
@@ -97,6 +100,9 @@ const CardGameForm = ({ cardGamestate, setCardGamestate }) => {
                     }
                     setCardGamestate(res?.data)
 
+                    setloading(false)
+                } else {
+                    setloading(false)
                 }
             } else {
                 toast.error('Plz select atleast one option..')
@@ -120,6 +126,9 @@ const CardGameForm = ({ cardGamestate, setCardGamestate }) => {
                     }
                     setCardGamestate(res?.data)
 
+                    setloading(false)
+                } else {
+                    setloading(false)
                 }
             } else {
                 toast.error('Plz select atleast one option..')
@@ -144,9 +153,13 @@ const CardGameForm = ({ cardGamestate, setCardGamestate }) => {
                     }
                     setCardGamestate(res?.data)
 
+                    setloading(false)
+                } else {
+                    setloading(false)
                 }
             } else {
                 toast.error('Plz select atleast one option..')
+                
             }
         }
         setloading(false)

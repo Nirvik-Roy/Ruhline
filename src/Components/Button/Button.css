@@ -16,7 +16,7 @@
 }
 
 .brown_button:disabled{
-  background-color: #e3a590;
+  background-color: #e3a590 !important;
 }
 
 /* HTML: <div class="loader"></div> */

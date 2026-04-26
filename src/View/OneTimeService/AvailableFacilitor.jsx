@@ -7,6 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { getProgamSpecificCoaches } from '../../utils/coach.js'
 import Loaders from '../../Components/Loaders/Loaders.jsx'
 import toast from 'react-hot-toast'
+import DashboardLoader from '../../Components/Loaders/DashboardLoader.jsx'
 const AvailableFacilitor = () => {
     const [selectedIndex, setselectedIndex] = useState();
     const navigate = useNavigate();
@@ -72,10 +73,16 @@ const AvailableFacilitor = () => {
     }, [id])
     return (
         <>
-            {loading && <Loaders />}
+
             <BannerLayout title={'Available Facilitator'} />
             <div className='available_facilitor_wrapper'>
-                <div className='all_Container'>
+                {loading && <div style={{
+                    height: '50vh',
+                    position: 'relative'
+                }}>
+                    <DashboardLoader />
+                </div>}
+                {!loading && <div className='all_Container'>
                     <div className='available_tabs_wrapper'>
                         <p className='service_active'>All</p>
                         {/* <p className={toggle.toggle2 && 'service_active'}>Early Morning</p>
@@ -154,7 +161,7 @@ const AvailableFacilitor = () => {
                         }} />
                     </div>
 
-                </div>
+                </div>}
 
 
             </div>

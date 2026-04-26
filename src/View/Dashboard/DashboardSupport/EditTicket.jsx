@@ -7,6 +7,7 @@ import Loaders from '../../../Components/Loaders/Loaders'
 import { getDisputeformOptions, createDispute, getSingleDispute, editDispute } from '../../../utils/dispute'
 import toast from 'react-hot-toast'
 import { useParams } from 'react-router-dom'
+import DashboardLoader from '../../../Components/Loaders/DashboardLoader'
 const EditTicket = () => {
     const { id } = useParams()
     const [loading, setloading] = useState(false);
@@ -118,8 +119,9 @@ const EditTicket = () => {
     }, [])
     return (
         <>
-            {loading && <Loaders />}
             <div className='dashboard_content_wrapper'>
+                {loading && <DashboardLoader />}
+
                 <div className='schedule_program_head_wrapper' style={{
                     marginBottom: '30px'
                 }}>

@@ -1,6 +1,7 @@
 .dashboard_content_wrapper {
     width: calc(100% - 290px);
     margin-top: 10px;
+    position: relative;
 }
 
 .dashboard_content_wrapper h3 {

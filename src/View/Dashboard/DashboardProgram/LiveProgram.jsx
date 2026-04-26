@@ -24,6 +24,7 @@ import { checkLockUnlock, getCardGameState, getGoalSettings, getHabitTrackerStat
 import { useNavigate, useParams } from 'react-router-dom'
 import Loaders from '../../../Components/Loaders/Loaders'
 import toast from 'react-hot-toast'
+import DashboardLoader from '../../../Components/Loaders/DashboardLoader.jsx'
 const LiveProgram = () => {
   const { programId, enrollmentId } = useParams();
   const navigate = useNavigate()
@@ -234,7 +235,7 @@ const LiveProgram = () => {
 
   return (
     <>
-      {loading && <Loaders />}
+
       {modalIsopen && <WaitingModal setmodalIsopen={setmodalIsopen} />}
       <div className='dashboard_content_wrapper'>
         <div className='live_program_head_wrapper'>
@@ -284,13 +285,20 @@ const LiveProgram = () => {
             ))}
           </div>}
 
-          {(tabs.values && !valuesContent?.progress?.is_completed) && <ValuesContent fetchValuesQuestion={fetchValuesQuestion} valuesContent={valuesContent} completedFunction={completedFunction} />}
-          {tabs.cardGame && <CardGameContent setCardGamestate={setCardGamestate} cardGamestate={cardGamestate} completedFunction={completedFunction} />}
-          {(tabs.wheel && !lifeElements?.progress?.is_completed ) && <WheelLife lifeElements={lifeElements} completedFunction={completedFunction} />}
+          {(tabs.values && !valuesContent?.progress?.is_completed) && <ValuesContent fetchValuesQuestion={fetchValuesQuestion} valuesContent={valuesContent} questionLoading={loading} completedFunction={completedFunction} />}
+          {(tabs.cardGame && !loading) && <CardGameContent setCardGamestate={setCardGamestate} cardGamestate={cardGamestate} completedFunction={completedFunction} />}
+          {(tabs.wheel && !lifeElements?.progress?.is_completed) && <WheelLife lifeElements={lifeElements} completedFunction={completedFunction} />}
           {tabs.goal && <GoalSetting setgoalSettingsContent={setgoalSettingsContent} goalsettingsContent={goalsettingsContent} completedFunction={completedFunction} />}
           {(tabs.motivation && !motivationContent?.progress?.is_completed) && <FindMotivation fetchMotivation={fetchMotivation} motivationContent={motivationContent} completedFunction={completedFunction} />}
-          {(tabs.whoAmI && !whoAmIContent?.progress?.is_completed) && <WhoAmI fetchWhoamIQuestion={fetchWhoamIQuestion} whoAmIContent={whoAmIContent} completedFunction={completedFunction} />}
+          {(tabs.whoAmI && !whoAmIContent?.progress?.is_completed) && <WhoAmI questionLoading={loading} fetchWhoamIQuestion={fetchWhoamIQuestion} whoAmIContent={whoAmIContent} completedFunction={completedFunction} />}
           {tabs.habit && <HabitTracker sethabbitContent={sethabbitContent} habbitContent={habbitContent} />}
+
+          {loading && <div style={{
+            height: '20vh',
+            position: 'relative'
+          }}>
+            <DashboardLoader />
+          </div>}
         </div>
       </div>
     </>

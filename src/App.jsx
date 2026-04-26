@@ -42,6 +42,12 @@ import SingleProgramCategory from './View/Programs/SingleCategory/SingleProgramC
 import SingleProgram from './View/OneTimeService/SingleProgram.jsx'
 import EditTicket from './View/Dashboard/DashboardSupport/EditTicket.jsx'
 function App() {
+  // To prevent form reload globally
+  document.addEventListener('submit', (e) => {
+    if (!e.target.classList.contains('allow-submit')) {
+      e.preventDefault();
+    }
+  });
   return (
     <>
       <BrowserRouter>
@@ -50,24 +56,24 @@ function App() {
         <Routes>
           <Route path='' element={<MainLayout />}>
             {/* <Route path='' element={<PublicRoute />}> */}
-              <Route path='/verify-email' element={<HomePage />} />
-              <Route path='/' element={<HomePage />} />
-              <Route path='/about' element={<AboutUs />} />
-              <Route path='/contact' element={<ContactUs />} />
-              <Route path='/privacy-policy' element={<PrivacyPolicy />} />
-              <Route path='/terms-conditions' element={<TermsConditions />} />
-              <Route path='/refund-policy' element={<RefundPolicy />} />
-              <Route path='/articles' element={<Articles />} />
-              <Route path='/single-articles/:id' element={<SingleArticle />} />
-              <Route path='/program'>
-                <Route path='category/:id' element={<SingleProgramCategory />} />
-                <Route path='life-coaching' element={<LifeCoaching />} />
-                <Route path='coaches' element={<Coaches />} />
-              </Route>
-              <Route path='/single-program/:id' element={<SingleProgram />} />
-              <Route path='/available-facilitor/:id' element={<AvailableFacilitor />} />
-              <Route path='/service-date/:id/:coachName/:coachId' element={<ServiceDate />} />
-              <Route path='/confirm-booking/:id/:coachId' element={<ConfirmBooking />} />
+            <Route path='/verify-email' element={<HomePage />} />
+            <Route path='/' element={<HomePage />} />
+            <Route path='/about' element={<AboutUs />} />
+            <Route path='/contact' element={<ContactUs />} />
+            <Route path='/privacy-policy' element={<PrivacyPolicy />} />
+            <Route path='/terms-conditions' element={<TermsConditions />} />
+            <Route path='/refund-policy' element={<RefundPolicy />} />
+            <Route path='/articles' element={<Articles />} />
+            <Route path='/single-articles/:id' element={<SingleArticle />} />
+            <Route path='/program'>
+              <Route path='category/:id' element={<SingleProgramCategory />} />
+              <Route path='life-coaching' element={<LifeCoaching />} />
+              <Route path='coaches' element={<Coaches />} />
+            </Route>
+            <Route path='/single-program/:id' element={<SingleProgram />} />
+            <Route path='/available-facilitor/:id' element={<AvailableFacilitor />} />
+            <Route path='/service-date/:id/:coachName/:coachId' element={<ServiceDate />} />
+            <Route path='/confirm-booking/:id/:coachId' element={<ConfirmBooking />} />
             {/* </Route> */}
 
             {/* Dashboard Routes */}
@@ -83,13 +89,13 @@ function App() {
                 <Route path='support' element={<DashboardSupport />} />
                 <Route path='support/add-ticket/:id' element={<AddNewTicket />} />
                 <Route path='support/view-ticket/:id' element={<ViewTicket />} />
-                <Route path='support/edit-ticket/:id' element={<EditTicket/>}/>
+                <Route path='support/edit-ticket/:id' element={<EditTicket />} />
                 <Route path='profile/' element={<DashboardProfile />} />
                 <Route path='edit-profile/' element={<EditProfile />} />
                 <Route path='change-password' element={<ProfilePassword />} />
                 <Route path='purchase' element={<DashboardPurchaseHistory />} />
                 <Route path='purchase/single-purchase/:id' element={<SinglePurchaseHistory />} />
-                <Route path='habits' element={<DashboardHabit/>}/>
+                <Route path='habits' element={<DashboardHabit />} />
               </Route>
             </Route>
           </Route>

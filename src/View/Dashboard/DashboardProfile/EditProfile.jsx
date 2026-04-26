@@ -6,6 +6,7 @@ import Button from '../../../Components/Button/Button'
 import { getCities, getCountries, getPhoneCountryCode, getStates } from '../../../utils/location'
 import Loaders from '../../../Components/Loaders/Loaders'
 import { editProfile, getUserProfile } from '../../../utils/user'
+import DashboardLoader from '../../../Components/Loaders/DashboardLoader'
 const EditProfile = () => {
     const [countries, setcountries] = useState([]);
     const [profileData, setProfiledata] = useState([]);
@@ -14,7 +15,7 @@ const EditProfile = () => {
     const [states, setStates] = useState([]);
     const [cities, setCities] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [postLoading,setpostLoading] = useState(false)
+    const [postLoading, setpostLoading] = useState(false)
     const [countryId, setCountryId] = useState();
     const [stateId, setStateId] = useState()
     const [file, setFile] = useState()
@@ -81,9 +82,9 @@ const EditProfile = () => {
                 postal_code: profileData?.profile?.postal_code || ''
             })
         }
-       
+
     }, [profileData])
-    
+
     const getStateFunc = async (id) => {
         setLoading(true)
         if (id) {
@@ -134,7 +135,7 @@ const EditProfile = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        if(name === 'phone'){
+        if (name === 'phone') {
             ValidateContact(value)
         }
         setformData({
@@ -201,8 +202,9 @@ const EditProfile = () => {
     }, [])
     return (
         <>
-            {loading && <Loaders />}
             <div className='dashboard_content_wrapper'>
+                {loading && <DashboardLoader />}
+
                 <div className='schedule_program_head_wrapper' style={{
                     marginBottom: '30px'
                 }}>
@@ -226,29 +228,29 @@ const EditProfile = () => {
                     </div>
                 </div>
 
-                <form className='confirm_form_wrapper'>
+             {!loading &&   <form className='confirm_form_wrapper'>
                     <div className='cofirm_form_grid_wrapper'>
-                    <div>
-                        <Input onChange={handleChange} value={formData.first_name} name={'first_name'} label={' First Name'} type={'text'} required={true} placeholder={'Enter first name'} />
-                        <small style={{
-                            fontSize: '0.7rem',
-                            display: 'block',
-                            marginTop: '5px',
-                            color: 'red'
-                        }}>{editErrors?.first_name && editErrors?.first_name[0]}</small>
+                        <div>
+                            <Input onChange={handleChange} value={formData.first_name} name={'first_name'} label={' First Name'} type={'text'} required={true} placeholder={'Enter first name'} />
+                            <small style={{
+                                fontSize: '0.7rem',
+                                display: 'block',
+                                marginTop: '5px',
+                                color: 'red'
+                            }}>{editErrors?.first_name && editErrors?.first_name[0]}</small>
 
-                    </div>
+                        </div>
 
-                    <div>
+                        <div>
 
-                        <Input onChange={handleChange} value={formData.last_name} name={'last_name'} label={' Last Name'} type={'text'} required={true} placeholder={'Enter last name'} />
-                        <small style={{
-                            fontSize: '0.7rem',
-                            display: 'block',
-                            marginTop: '5px',
-                            color: 'red'
-                        }}>{editErrors?.last_name && editErrors?.last_name[0]}</small>
-                    </div>
+                            <Input onChange={handleChange} value={formData.last_name} name={'last_name'} label={' Last Name'} type={'text'} required={true} placeholder={'Enter last name'} />
+                            <small style={{
+                                fontSize: '0.7rem',
+                                display: 'block',
+                                marginTop: '5px',
+                                color: 'red'
+                            }}>{editErrors?.last_name && editErrors?.last_name[0]}</small>
+                        </div>
                         <Input readOnly={true} value={formData.email} name={'email'} label={'Email'} type={'email'} required={true} placeholder={'Enter email'} />
                         <div className='input_form confirm_input_form'>
                             <label>Phone <span>*</span></label>
@@ -263,12 +265,12 @@ const EditProfile = () => {
 
                             </div>
 
-                                <small style={{
-                                    fontSize: '0.7rem',
-                                    display: 'block',
-                                    marginTop: '5px',
-                                    color: 'red'
-                                }}>{editErrors?.phone ? editErrors?.phone[0] : contacterrorMessage}</small>
+                            <small style={{
+                                fontSize: '0.7rem',
+                                display: 'block',
+                                marginTop: '5px',
+                                color: 'red'
+                            }}>{editErrors?.phone ? editErrors?.phone[0] : contacterrorMessage}</small>
                         </div>
                     </div>
 
@@ -280,33 +282,33 @@ const EditProfile = () => {
                     }}>Address</h4>
 
                     <div className='cofirm_form_grid_wrapper'>
-                    <div>
-                        <Input onChange={handleChange} value={formData.address_line_1} name={'address_line_1'} label={'Address Line 1'} type={'text'} required={true} placeholder={'Enter address line 1'} />
-                        <small style={{
-                            fontSize: '0.7rem',
-                            display: 'block',
-                            marginTop: '5px',
-                            color: 'red'
-                        }}>{editErrors?.address_line_1 && editErrors?.address_line_1[0]}</small>
-                    </div>
-                    <div>
-                        <Input onChange={handleChange} value={formData.address_line_2} name={'address_line_2'} label={'Address Line 2'} type={'text'} required={true} placeholder={'Enter address line 2'} />
-                        <small style={{
-                            fontSize: '0.7rem',
-                            display: 'block',
-                            marginTop: '5px',
-                            color: 'red'
-                        }}>{editErrors?.address_line_2 && editErrors?.address_line_2[0]}</small>
-                    </div>
-                    <div>
-                        <Input onChange={handleChange} value={formData.landmark} name={'landmark'} label={'Landmark'} type={'text'} placeholder={'Enter landmark'} />
-                        <small style={{
-                            fontSize: '0.7rem',
-                            display: 'block',
-                            marginTop: '5px',
-                            color: 'red'
-                        }}>{editErrors?.landmark && editErrors?.landmark[0]}</small>
-                    </div>
+                        <div>
+                            <Input onChange={handleChange} value={formData.address_line_1} name={'address_line_1'} label={'Address Line 1'} type={'text'} required={true} placeholder={'Enter address line 1'} />
+                            <small style={{
+                                fontSize: '0.7rem',
+                                display: 'block',
+                                marginTop: '5px',
+                                color: 'red'
+                            }}>{editErrors?.address_line_1 && editErrors?.address_line_1[0]}</small>
+                        </div>
+                        <div>
+                            <Input onChange={handleChange} value={formData.address_line_2} name={'address_line_2'} label={'Address Line 2'} type={'text'} required={true} placeholder={'Enter address line 2'} />
+                            <small style={{
+                                fontSize: '0.7rem',
+                                display: 'block',
+                                marginTop: '5px',
+                                color: 'red'
+                            }}>{editErrors?.address_line_2 && editErrors?.address_line_2[0]}</small>
+                        </div>
+                        <div>
+                            <Input onChange={handleChange} value={formData.landmark} name={'landmark'} label={'Landmark'} type={'text'} placeholder={'Enter landmark'} />
+                            <small style={{
+                                fontSize: '0.7rem',
+                                display: 'block',
+                                marginTop: '5px',
+                                color: 'red'
+                            }}>{editErrors?.landmark && editErrors?.landmark[0]}</small>
+                        </div>
 
                         <div className='values_form_input_Wrapper edit_profile_input_wrapper'>
                             <label>Country<span>*</span></label>
@@ -363,13 +365,13 @@ const EditProfile = () => {
                             }}>{editErrors?.city_id && editErrors?.city_id[0]}</small>
                         </div>
                         <div>
-                        <Input onChange={handleChange} value={formData.postal_code} name={'postal_code'} label={'Enter postal code'} type={'text'} required={true} placeholder={'1966'} />
-                        <small style={{
-                            fontSize: '0.7rem',
-                            display: 'block',
-                            marginTop: '5px',
-                            color: 'red'
-                        }}>{editErrors?.postal_code && editErrors?.postal_code[0]}</small>
+                            <Input onChange={handleChange} value={formData.postal_code} name={'postal_code'} label={'Enter postal code'} type={'text'} required={true} placeholder={'1966'} />
+                            <small style={{
+                                fontSize: '0.7rem',
+                                display: 'block',
+                                marginTop: '5px',
+                                color: 'red'
+                            }}>{editErrors?.postal_code && editErrors?.postal_code[0]}</small>
 
                         </div>
 
@@ -426,16 +428,17 @@ const EditProfile = () => {
                         marginTop: '30px'
                     }}>
 
-                        <button onClick={((e)=>e.preventDefault())}>Cancel</button>
+                        <button onClick={((e) => e.preventDefault())}>Cancel</button>
                         <div onClick={(() => handleSubmit())}>
 
                             <Button styles={{
-                                width:'140px',
-                                height:'50px'
+                                width: '140px',
+                                height: '50px',
+                                backgroundColor: 'var(--primary-color)'
                             }} loadingText='Adding..' loading={postLoading} children={'Add'} />
                         </div>
                     </div>
-                </form>
+                </form>}
             </div>
         </>
     )

@@ -5,10 +5,11 @@ import RecurringPrograms from './RecurringPrograms'
 import DashboardOneTimePrograms from './DashboardOneTimePrograms'
 import Loaders from '../../../Components/Loaders/Loaders'
 import { getProgramEnrollments } from '../../../utils/program'
+import DashboardLoader from '../../../Components/Loaders/DashboardLoader.jsx'
 const DashboardProgram = () => {
     const [allEnrolledPrograms, setellEnrolledPrograms] = useState([]);
     const [requirringPrograms, setrequirringPrograms] = useState([]);
-    const [oneTimePrograms,setoneTimePrograms] = useState([])
+    const [oneTimePrograms, setoneTimePrograms] = useState([])
     const [loading, setloading] = useState(false)
     const [toggle, setToggle] = useState({
         toggle1: true,
@@ -34,9 +35,9 @@ const DashboardProgram = () => {
 
     useEffect(() => {
         if (allEnrolledPrograms?.length > 0) {
-            setrequirringPrograms(allEnrolledPrograms?.filter((e) => e?.program?.occurrence_type =='recurring'))
+            setrequirringPrograms(allEnrolledPrograms?.filter((e) => e?.program?.occurrence_type == 'recurring'))
             setoneTimePrograms(allEnrolledPrograms?.filter((e) => e?.program?.occurrence_type == 'one_time'))
-        }else{
+        } else {
             setrequirringPrograms([])
         }
     }, [allEnrolledPrograms])
@@ -46,23 +47,25 @@ const DashboardProgram = () => {
     }, [])
     return (
         <>
-            {loading && <Loaders />}
             <div className='dashboard_content_wrapper'>
+                {loading && <DashboardLoader />}
                 <h3>Programs</h3>
                 <hr style={{
                     color: 'rgba(217, 217, 217, 1)',
                     marginTop: '30px'
                 }} />
 
-                <div className='dasboard_programs_tabs_wrapper'>
-                    <p className={toggle.toggle1 && 'active'} onClick={(() => toggleFunction(1))}>All Programs</p>
-                    <p className={toggle.toggle2 && 'active'} onClick={(() => toggleFunction(2))}>Recurring</p>
-                    <p className={toggle.toggle3 && 'active'} onClick={(() => toggleFunction(3))}>One-time</p>
-                </div>
+                {!loading && <>
+                    <div className='dasboard_programs_tabs_wrapper'>
+                        <p className={toggle.toggle1 && 'active'} onClick={(() => toggleFunction(1))}>All Programs</p>
+                        <p className={toggle.toggle2 && 'active'} onClick={(() => toggleFunction(2))}>Recurring</p>
+                        <p className={toggle.toggle3 && 'active'} onClick={(() => toggleFunction(3))}>One-time</p>
+                    </div>
 
-                {toggle.toggle1 && <AllPrograms allEnrolledPrograms={allEnrolledPrograms} />}
-                {toggle.toggle2 && <RecurringPrograms requirringPrograms={requirringPrograms} />}
-                {toggle.toggle3 && <DashboardOneTimePrograms oneTimePrograms={oneTimePrograms} />}
+                    {toggle.toggle1 && <AllPrograms allEnrolledPrograms={allEnrolledPrograms} />}
+                    {toggle.toggle2 && <RecurringPrograms requirringPrograms={requirringPrograms} />}
+                    {toggle.toggle3 && <DashboardOneTimePrograms oneTimePrograms={oneTimePrograms} />}
+                </>}
             </div>
         </>
     )

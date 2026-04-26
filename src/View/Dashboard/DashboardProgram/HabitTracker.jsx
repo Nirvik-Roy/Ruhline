@@ -59,8 +59,7 @@ const HabitTracker = ({ habbitContent, sethabbitContent }) => {
     }, []);
     return (
         <>
-        {loading && <Loaders/>}
-        {deleteModal && <DeleteModal setdeleteModal={setdeleteModal} details={'Do you really want to remove this habit?'} title={'Remove habit'} onClick={handleDelete}/>}
+        {deleteModal && <DeleteModal loading={loading} setdeleteModal={setdeleteModal} details={'Do you really want to remove this habit?'} title={'Remove habit'} onClick={handleDelete}/>}
             {(!createHabit && !editHabit) && <div>
                 <div className='values_head' style={{
                     display: 'flex',

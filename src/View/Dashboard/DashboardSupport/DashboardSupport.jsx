@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import Loaders from '../../../Components/Loaders/Loaders'
 import { deleteDispute, getDisputeList } from '../../../utils/dispute'
 import DeleteModal from '../../../Components/DeleteModal/DeleteModal.jsx'
+import DashboardLoader from '../../../Components/Loaders/DashboardLoader.jsx'
 const DashboardSupport = () => {
     const [dropdown, setdropdown] = useState(false);
     const navigate = useNavigate();
@@ -64,8 +65,8 @@ const DashboardSupport = () => {
     return (
         <>
             {deleteModal && <DeleteModal setdeleteModal={setdeleteModal} onClick={handleDelete} title={'Delete dispute'} details={'Do you really want to delete this dispute?'} />}
-            {loading && <Loaders />}
             <div className='dashboard_content_wrapper'>
+                {loading && <DashboardLoader />}
                 <div className='schedule_program_head_wrapper' style={{
                     marginBottom: '30px'
                 }}>
@@ -90,7 +91,7 @@ const DashboardSupport = () => {
                 </div>
 
 
-                <div className='dashboard_support_list_Wrapper' style={{
+             {!loading &&   <div className='dashboard_support_list_Wrapper' style={{
                     minHeight: '60vh'
                 }}>
                     {currentItems?.length <= 0 && <p style={{
@@ -118,14 +119,14 @@ const DashboardSupport = () => {
                                         }
                                     })} class="fa-solid fa-ellipsis"></i>
 
-                                    {dropdown === e.id && <div className='dashboard_actions_wrapper' 
-                                    ref={dropdownRef}
-                                    style={e?.status == 'closed' ? {
-                                        top: '35px',
-                                        height: 'fit-content'
-                                    } : {
+                                    {dropdown === e.id && <div className='dashboard_actions_wrapper'
+                                        ref={dropdownRef}
+                                        style={e?.status == 'closed' ? {
+                                            top: '35px',
+                                            height: 'fit-content'
+                                        } : {
 
-                                    }}>
+                                        }}>
                                         <p onClick={(() => navigate(`/dashboard/support/view-ticket/${e?.id}`))}>View</p>
                                         {e?.status != 'closed' && <p onClick={(() => { navigate(`/dashboard/support/edit-ticket/${e?.id}`) })}>Edit</p>}
                                         <p onClick={(() => {
@@ -143,7 +144,7 @@ const DashboardSupport = () => {
                             </div>
                         </div>
                     ))}
-                </div>
+                </div>}
                 <Pagination pageCount={pageCount}
                     currentPage={currentPage}
                     onPageChange={handlePageChange} />

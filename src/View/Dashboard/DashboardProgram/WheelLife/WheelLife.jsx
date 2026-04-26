@@ -6,10 +6,11 @@ import { useParams } from 'react-router-dom'
 import Loaders from '../../../../Components/Loaders/Loaders'
 import PrevSubmit from '../../../../Components/PrevSubmit/PrevSubmit'
 import toast from 'react-hot-toast'
+import DashboardLoader from '../../../../Components/Loaders/DashboardLoader'
 
 const WheelLife = ({ completedFunction, lifeElements }) => {
     const [loading, setloading] = useState(false);
-    const [postLoading,setpostLoading] = useState(false)
+    const [postLoading, setpostLoading] = useState(false)
     const [ratingData, setratingData] = useState([]);
     const [questionsData, setquestionsdata] = useState([]);
     const { enrollmentId } = useParams()
@@ -67,7 +68,7 @@ const WheelLife = ({ completedFunction, lifeElements }) => {
         }
         setpostLoading(false)
     }
- 
+
     useEffect(() => {
         if (!lifeElements?.elements) return;
         const mappedSections = lifeElements.elements.map((e) => ({
@@ -78,9 +79,17 @@ const WheelLife = ({ completedFunction, lifeElements }) => {
     }, [lifeElements]);
     return (
         <>
-            {loading && <Loaders />}
+
             {toggle.life && <LifeElements postLoading={postLoading} postLifeElements={postLifeElements} ratingData={ratingData} handleRating={handleRating} lifeElements={lifeElements} toggleFunction={toggleFunction} />}
-            {toggle.questions && <ElementsQuestion  fetchLifeElementsQuestion={fetchLifeElementsQuestion} questionsData={questionsData} completedFunction={completedFunction} />}
+
+            {toggle.questions && <ElementsQuestion fetchLifeElementsQuestion={fetchLifeElementsQuestion} questionsData={questionsData} completedFunction={completedFunction} />}
+
+            {loading && <div style={{
+                height: '30vh',
+                position: 'relative'
+            }}>
+                <DashboardLoader />
+            </div>}
         </>
     )
 }

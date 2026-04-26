@@ -6,6 +6,7 @@ import AboutCards from './AboutCards/AboutCards'
 import MeetFounder from './MeetFounder/MeetFounder'
 import { getAllCmsData } from '../../utils/cms'
 import Loaders from '../../Components/Loaders/Loaders'
+import DashboardLoader from '../../Components/Loaders/DashboardLoader'
 const AboutUs = () => {
     const [loading, setloading] = useState(false);
     const [aboutData, setaboutData] = useState()
@@ -13,8 +14,9 @@ const AboutUs = () => {
         try {
             setloading(true);
             const res = await getAllCmsData('/about-page');
-            console.log(res)
-            setaboutData(res?.data)
+            if (res?.success) {
+                setaboutData(res?.data)
+            }
         } catch (err) {
             console.log(err)
         } finally {
@@ -26,11 +28,19 @@ const AboutUs = () => {
     }, [])
     return (
         <>
-            {loading && <Loaders />}
             <BannerLayout title={'About Us'} />
-            <HomeAbout data={aboutData?.section_01}/>
-            <AboutCards data={aboutData?.section_02?.mission_vision_values} />
-            <MeetFounder data={aboutData?.section_03}/>
+            {loading && <div style={{
+                minHeight: '70vh',
+                position: 'relative'
+            }}>
+
+                {<DashboardLoader />}
+            </div>}
+            {!loading && <>
+                <HomeAbout data={aboutData?.section_01} />
+                <AboutCards data={aboutData?.section_02?.mission_vision_values} />
+                <MeetFounder data={aboutData?.section_03} />
+            </>}
         </>
     )
 }

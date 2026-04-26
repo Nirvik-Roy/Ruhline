@@ -5,6 +5,7 @@ import Pagination from '../../../Components/Pagination/Pagination'
 import { useNavigate } from 'react-router-dom'
 import { getPurchaseHistory } from '../../../utils/purchaseHistory'
 import Loaders from '../../../Components/Loaders/Loaders'
+import DashboardLoader from '../../../Components/Loaders/DashboardLoader'
 const DashboardPurchaseHistory = () => {
     const [dropdown, setdropdown] = useState(false);
     const navigate = useNavigate();
@@ -41,23 +42,23 @@ const DashboardPurchaseHistory = () => {
     };
 
 
-     const handleClickOutside = (event) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                setdropdown([]);
-            }
+    const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setdropdown([]);
+        }
+    };
+
+
+    useEffect(() => {
+        document.addEventListener("click", handleClickOutside);
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
         };
-    
-    
-        useEffect(() => {
-            document.addEventListener("click", handleClickOutside);
-            return () => {
-                document.removeEventListener("click", handleClickOutside);
-            };
-        }, []);
+    }, []);
     return (
         <>
-            {loading && <Loaders />}
             <div className='dashboard_content_wrapper'>
+                {loading && <DashboardLoader />}
                 <div className='schedule_program_head_wrapper' style={{
                     marginBottom: '30px'
                 }}>
@@ -75,9 +76,11 @@ const DashboardPurchaseHistory = () => {
                         </div>
                     </div>
                 </div>
-                <div className='dashboard_support_list_Wrapper' style={{
-                    minHeight: '50vh'
+                {!loading && <div className='dashboard_support_list_Wrapper' style={{
+                    minHeight: '50vh',
+                    position:'relative'
                 }}>
+                
                     {currentItems.length <= 0 && <p style={{
                         color: 'var(--primary-color)',
                         textAlign: 'center',
@@ -89,7 +92,7 @@ const DashboardPurchaseHistory = () => {
                                 <h2>#{e.id} <span style={{
                                     textTransform: 'uppercase'
                                 }}>{new Date(e?.created_at)
-                                    .toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short",timeZone:'utc' })}</span></h2>
+                                    .toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short", timeZone: 'utc' })}</span></h2>
                                 <div className='dashboard_support_status' style={{
                                     position: 'relative'
                                 }}>
@@ -111,11 +114,11 @@ const DashboardPurchaseHistory = () => {
                                         }
                                     })} class="fa-solid fa-ellipsis"></i>
 
-                                    {dropdown === e.id && <div className='dashboard_actions_wrapper' 
-                                    ref={dropdownRef}
-                                    style={{
-                                        bottom: '-60px'
-                                    }}>
+                                    {dropdown === e.id && <div className='dashboard_actions_wrapper'
+                                        ref={dropdownRef}
+                                        style={{
+                                            bottom: '-60px'
+                                        }}>
                                         <p onClick={(() => navigate(`/dashboard/purchase/single-purchase/${e?.id}`))}>View</p>
                                     </div>}
                                 </div>
@@ -126,7 +129,7 @@ const DashboardPurchaseHistory = () => {
                             </div>
                         </div>
                     ))}
-                </div>
+                </div>}
                 <Pagination pageCount={pageCount}
                     currentPage={currentPage}
                     onPageChange={handlePageChange} />

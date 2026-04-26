@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from '../Button/Button.jsx'
 import '../Modal/Modal.css'
-const DeleteModal = ({ title, onClick, details, setdeleteModal }) => {
+const DeleteModal = ({ title, onClick, details, setdeleteModal,loading }) => {
     return (
         <>
             <div className='modal_wrapper'></div>
@@ -29,7 +29,7 @@ const DeleteModal = ({ title, onClick, details, setdeleteModal }) => {
                     </div>
                     <div onClick={onClick}>
 
-                        <Button children={'Confirm'} />
+                        <Button loading={loading} loadingText='Loading...' children={'Confirm'} />
                     </div>
                 </div>
             </div>

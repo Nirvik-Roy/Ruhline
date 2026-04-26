@@ -10,7 +10,6 @@ const HomeBlog = ({ data }) => {
         try {
             setloading(true);
             const res = await getAllCmsData('/article/article');
-            console.log(res)
             setarticleData(res?.data?.data)
         } catch (err) {
             console.log(err)
@@ -23,7 +22,7 @@ const HomeBlog = ({ data }) => {
     }, [])
     return (
         <>
-            {loading && <Loaders />}
+            {/* {loading && <Loaders />} */}
             {<div className='home_blog_wrapper'>
                 <div className='home_blog_content_wrapper all_Container'>
                     <h2 className='all_heading' dangerouslySetInnerHTML={{

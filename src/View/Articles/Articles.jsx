@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import { getAllCmsData } from '../../utils/cms'
 import Loaders from '../../Components/Loaders/Loaders'
 import TimeAgo from 'react-timeago'
+import DashboardLoader from '../../Components/Loaders/DashboardLoader'
 const Articles = () => {
     const navigate = useNavigate()
     const [loading, setloading] = useState(false);
@@ -82,9 +83,17 @@ const Articles = () => {
     ]
     return (
         <>
-            {loading && <Loaders />}
             <BannerLayout title={'Articles'} />
-            <div className='articles_wrapper'>
+            {loading && <div style={{
+                minHeight:'70vh',
+                position:'relative'
+            }}>
+
+                { <DashboardLoader />}
+            </div>}
+            
+
+          { !loading && <div className='articles_wrapper'>
                 <div className='articles_content_wrapper all_Container'>
                     {articleData?.map((e) => (
                         <div onClick={(() => navigate(`/single-articles/${e?.id}`))} className='home_blog_slide'>
@@ -105,7 +114,7 @@ const Articles = () => {
                     color:'var(--primary-color)',
                     fontWeight:'600'
                 }}>No articles available...</p>}
-            </div>
+            </div>}
         </>
     )
 }

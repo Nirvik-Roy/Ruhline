@@ -7,6 +7,7 @@ import img from '../../../assets/Images/Rectangle 448.png'
 import { useNavigate, useParams } from 'react-router-dom'
 import { getProgramsByCategory } from '../../../utils/program'
 import Loaders from '../../../Components/Loaders/Loaders'
+import DashboardLoader from '../../../Components/Loaders/DashboardLoader'
 const SingleProgramCategory = () => {
     const { id } = useParams()
     const navigate = useNavigate();
@@ -49,13 +50,21 @@ const SingleProgramCategory = () => {
 
     return (
         <>
-            {loading && <Loaders />}
             <BannerLayout title={singleCategoriesProgram[0]?.program_category?.name} />
+            
             <div className='program_wrapper'>
                 <div className='all_Container program_content_wrapper'>
                     <ProgramSidebar getProgramByCategories={getProgramByCategories} singleCategoriesProgram={singleCategoriesProgram} setSearchTerm={setSearchTerm} Category={true} Enrollment={true} />
-                    <div className='program_content_right'>
-                        <div className='program_content_grid_Wrapper'>
+                    { <div className='program_content_right' style={{
+                        position:'relative'
+                    }}>
+                        {loading && <div style={{
+                            minHeight: '50vh',
+                            position: 'relative'
+                        }}>
+                            <DashboardLoader />
+                        </div>}
+                      {!loading &&  <div className='program_content_grid_Wrapper'>
                             {currentItems?.length <= 0 && <p>No Programs Available...</p>}
                             {currentItems?.map((e) => (
                                 <div onClick={(() => navigate(`/single-program/${e?.id}`))} className='program_card156' key={e.id}>
@@ -64,14 +73,14 @@ const SingleProgramCategory = () => {
                                 </div>
                             ))}
 
-                        </div>
+                        </div>}
                         <div >
                             <Pagination pageCount={pageCount}
                                 currentPage={currentPage}
                                 onPageChange={handlePageChange} />
 
                         </div>
-                    </div>
+                    </div>}
                 </div>
 
             </div>

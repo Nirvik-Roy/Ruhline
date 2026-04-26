@@ -62,8 +62,7 @@ const GoalSetting = ({ goalsettingsContent, setgoalSettingsContent }) => {
     }, []);
     return (
         <>
-            {loading && <Loaders />}
-            {deleteModal && <DeleteModal onClick={handleDelete} setdeleteModal={setdeleteModal} title={'Delete goal'} details={'Do you really want to delete this goal?'} />}
+            {deleteModal && <DeleteModal loading={loading} onClick={handleDelete} setdeleteModal={setdeleteModal} title={'Delete goal'} details={'Do you really want to delete this goal?'} />}
             {(!createGoal && !editGoal) && <div>
                 <div className='values_head' style={{
                     display: 'flex',

@@ -10,18 +10,20 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { getEnrollmentSlots, getSingleProgram, getProgramEnrollmentsById, rescheduleProgramApi, scheduleProgramApi } from '../../../utils/program'
 import Loaders from '../../../Components/Loaders/Loaders'
 import toast from 'react-hot-toast'
+import DashboardLoader from '../../../Components/Loaders/DashboardLoader'
 const DashboardSession = () => {
     const { enrollmentId, sessionId, programId } = useParams()
     const [timeData, settitmeData] = useState('')
     const [loading, setloading] = useState();
-    const [postLoading,setpostLoading] = useState(false)
+    const [postLoading, setpostLoading] = useState(false)
     const [date, setDate] = useState('');
     const [slotsData, setslotsData] = useState([])
     const [slotsStartDate, setslotsStartDate] = useState('');
     const [singleProgram, setsingleProgram] = useState({});
     const [singleSessionDetails, setsingleSessionDetails] = useState({})
     const [searchParams, setSearchParams] = useSearchParams();
-    const [coachData, setCoachData] = useState({})
+    const [coachData, setCoachData] = useState({});
+    const [slotsLoading, setslotsLoading] = useState(false)
     const formatDate = (date) => {
         const year = date.getFullYear();
         const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -32,10 +34,10 @@ const DashboardSession = () => {
     const navigate = useNavigate()
 
     const getSlots = async () => {
-        setloading(true)
+        setslotsLoading(true)
         const res = await getEnrollmentSlots(enrollmentId, sessionId, date)
         setslotsData(res)
-        setloading(false)
+        setslotsLoading(false)
     }
 
     useEffect(() => {
@@ -99,7 +101,7 @@ const DashboardSession = () => {
             const res = await scheduleProgramApi({
                 slot_start_at: slotsStartDate
             }, enrollmentId, sessionId)
-            if(res?.success){
+            if (res?.success) {
                 navigate(-1)
             }
             setpostLoading(false)
@@ -111,11 +113,11 @@ const DashboardSession = () => {
 
     return (
         <>
-            {loading && <Loaders />}
             <div className='dashboard_content_wrapper'>
-                <div className='dashboard_session_wrapper'>
+                {loading && <DashboardLoader />}
+                {!loading && <div className='dashboard_session_wrapper'>
                     <div className='service_date_left dashboard_session_left'>
-                    
+
                         <div className='service_arrow_wrapper'>
                             <img src={arrow} onClick={(() => navigate(-1))} />
                             <h4>{searchParams.get('session')}</h4>
@@ -153,39 +155,49 @@ const DashboardSession = () => {
 
                     </div>
                     <div className='dashboard_session_right'>
+
                         <Calendar onChange={(e) => {
                             settitmeData(e.toDateString())
                             setDate(formatDate(e))
                         }} className={'service_date_calendar'} />
-                        {timeData && <h4>{timeData}</h4>}
-                        <div className='time_gird_wrapper'>
-                            {slotsData?.slots?.length <= 0 && <p>No slots are available right now...</p>}
-                            {slotsData?.slots?.map((element, index) => {
-                                return (
-                                    <>
-                                        <p onClick={(() => {
-                                            setslotsStartDate(element?.start_at)
-                                            setActive(index)
-                                        })} style={active === index ? {
-                                            background: 'rgba(144, 155, 109, 1)',
-                                            color: "#fff"
-                                        } : {}}>{element?.label}</p>
-                                    </>
-                                )
-                            })}
-                        </div>
-
-                        <div className='cancel_select_button_wrapper'>
-
-                            <button>Cancel</button>
-                            <div onClick={singleSessionDetails?.can_reschedule ? rescheduleProgramFunc : scheduleProgramFunc}>
-                                <Button loading={postLoading} loadingText='Submitting...' styles={{
-                                    background:'var(--primary-color)'
-                                }} children={'Select'} />
+                        {slotsLoading && <div style={{
+                            height: '50vh',
+                            position: 'relative'
+                        }}>
+                            <DashboardLoader />
+                        </div>}
+                        {!slotsLoading && <>
+                            {timeData && <h4>{timeData}</h4>}
+                            <div className='time_gird_wrapper'>
+                                {slotsData?.slots?.length <= 0 && <p>No slots are available right now...</p>}
+                                {slotsData?.slots?.map((element, index) => {
+                                    return (
+                                        <>
+                                            <p onClick={(() => {
+                                                setslotsStartDate(element?.start_at)
+                                                setActive(index)
+                                            })} style={active === index ? {
+                                                background: 'rgba(144, 155, 109, 1)',
+                                                color: "#fff"
+                                            } : {}}>{element?.label}</p>
+                                        </>
+                                    )
+                                })}
                             </div>
-                        </div>
+
+                            <div className='cancel_select_button_wrapper'>
+
+                                <button>Cancel</button>
+                                <div onClick={singleSessionDetails?.can_reschedule ? rescheduleProgramFunc : scheduleProgramFunc}>
+                                    <Button loading={postLoading} loadingText='Submitting...' styles={{
+                                        background: 'var(--primary-color)'
+                                    }} children={'Select'} />
+                                </div>
+                            </div>
+
+                        </>}
                     </div>
-                </div>
+                </div>}
             </div>
         </>
     )

@@ -6,6 +6,7 @@ import { getProgramCategory } from '../../utils/program'
 import Loaders from '../../Components/Loaders/Loaders'
 import { useParams } from 'react-router-dom'
 import toast from 'react-hot-toast'
+import DashboardLoader from '../../Components/Loaders/DashboardLoader'
 const ProgramSidebar = ({ Category, Enrollment, Coaches, Gender, setSearchTerm, getProgramByCategories, setcoachType, coachType, setGender, gender, getCoachesFunc, applyFunction }) => {
     const { id } = useParams()
     const [programCategories, setprogramCategories] = useState([])
@@ -28,126 +29,130 @@ const ProgramSidebar = ({ Category, Enrollment, Coaches, Gender, setSearchTerm, 
     }, [id])
 
     useEffect(() => {
-        if (programCategories.length > 0) {
-            const filteredData = programCategories.filter((e) => e.id == id)
+        if (programCategories?.length > 0) {
+            const filteredData = programCategories?.filter((e) => e.id == id)
             setfilterCategories([...filteredData])
         }
     }, [programCategories])
 
-    console.log(coachType)
     return (
         <>
-            {loading && <Loaders />}
-            <div className='program_sidebar_wrapper'>
-                <div className='search_sidebar_wrapper'>
-                    <input onChange={((e) => setSearchTerm(e.target.value))} type='text' placeholder='Search' />
-                    <img src={search} />
-                </div>
+            <div className='program_sidebar_wrapper' style={{
+                position: 'relative'
+            }}>
+                {loading && <DashboardLoader />}
+                {!loading && <>
 
-                {Category && <div className='dropown_wrapper'>
-                    <div className='dropdown_head'>
-                        <h3>Sub Category</h3>
-                        <i class="fa-solid fa-angle-down"></i>
+                    <div className='search_sidebar_wrapper'>
+                        <input onChange={((e) => setSearchTerm(e.target.value))} type='text' placeholder='Search' />
+                        <img src={search} />
                     </div>
-                    <ul className='dropdown_list'>
-                        {filterCategories?.map((e) => {
-                            return (
-                                <>
-                                    {e?.children?.map((element) => (
-                                        <li style={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            gap: '10px'
-                                        }}> <input checked={categoryId == element.id} onChange={(() => {
-                                            if (categoryId == element.id) {
-                                                setcategoryId('')
-                                            } else {
-                                                setcategoryId(element?.id)
 
-                                            }
-                                        })} type='checkbox' style={{
-                                            width: '20px',
-                                            height: '20px',
-                                            accentColor: 'var(--primary-color)'
-                                        }} /> {element?.name}</li>
-                                    ))}
-                                </>
-                            )
-                        })}
-                    </ul>
-                </div>}
-
-                {Coaches &&
-                    <div className='dropown_wrapper'>
+                    {Category && <div className='dropown_wrapper'>
                         <div className='dropdown_head'>
-                            <h3>Coaches Type</h3>
+                            <h3>Sub Category</h3>
+                            <i class="fa-solid fa-angle-down"></i>
+                        </div>
+                        <ul className='dropdown_list'>
+                            {filterCategories?.map((e) => {
+                                return (
+                                    <>
+                                        {e?.children?.map((element) => (
+                                            <li style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: '10px'
+                                            }}> <input checked={categoryId == element.id} onChange={(() => {
+                                                if (categoryId == element.id) {
+                                                    setcategoryId('')
+                                                } else {
+                                                    setcategoryId(element?.id)
+
+                                                }
+                                            })} type='checkbox' style={{
+                                                width: '20px',
+                                                height: '20px',
+                                                accentColor: 'var(--primary-color)'
+                                            }} /> {element?.name}</li>
+                                        ))}
+                                    </>
+                                )
+                            })}
+                        </ul>
+                    </div>}
+
+                    {Coaches &&
+                        <div className='dropown_wrapper'>
+                            <div className='dropdown_head'>
+                                <h3>Coaches Type</h3>
+                                <i class="fa-solid fa-angle-down"></i>
+                            </div>
+                            <ul className='dropdown_list'>
+                                <div className='dropdown_radio_wrapper'>
+                                    <input checked={coachType == 'Mentor'} onChange={((e) => {
+                                        setcoachType(e.target.value)
+                                    })} value={'Mentor'} type='radio' />
+                                    <p>Mentor</p>
+                                </div>
+                                <div className='dropdown_radio_wrapper'>
+                                    <input checked={coachType == 'Yoga Trainer'} onChange={((e) => {
+
+                                        setcoachType(e.target.value)
+
+                                    })} value={'Yoga Trainer'} type='radio' />
+                                    <p>Yoga Trainer</p>
+                                </div>
+                            </ul>
+                        </div>}
+
+
+                    {Gender && <div className='dropown_wrapper'>
+                        <div className='dropdown_head'>
+                            <h3>Gender</h3>
                             <i class="fa-solid fa-angle-down"></i>
                         </div>
                         <ul className='dropdown_list'>
                             <div className='dropdown_radio_wrapper'>
-                                <input checked={coachType == 'Mentor'} onChange={((e) => {
-                                    setcoachType(e.target.value)
-                                })} value={'Mentor'} type='radio' />
-                                <p>Mentor</p>
+                                <input checked={gender == 'male'} onChange={(() => {
+                                    setGender('male')
+                                })} type='radio' />
+                                <p>Male</p>
                             </div>
                             <div className='dropdown_radio_wrapper'>
-                                <input checked={coachType == 'Yoga Trainer'} onChange={((e) => {
-
-                                    setcoachType(e.target.value)
-
-                                })} value={'Yoga Trainer'} type='radio' />
-                                <p>Yoga Trainer</p>
+                                <input checked={gender == 'female'} onChange={(() => {
+                                    setGender('female')
+                                })} type='radio' />
+                                <p>Female</p>
                             </div>
                         </ul>
                     </div>}
 
-
-                {Gender && <div className='dropown_wrapper'>
-                    <div className='dropdown_head'>
-                        <h3>Gender</h3>
-                        <i class="fa-solid fa-angle-down"></i>
-                    </div>
-                    <ul className='dropdown_list'>
-                        <div className='dropdown_radio_wrapper'>
-                            <input checked={gender == 'male'} onChange={(() => {
-                                setGender('male')
-                            })} type='radio' />
-                            <p>Male</p>
-                        </div>
-                        <div className='dropdown_radio_wrapper'>
-                            <input checked={gender == 'female'} onChange={(() => {
-                                setGender('female')
-                            })} type='radio' />
-                            <p>Female</p>
-                        </div>
-                    </ul>
-                </div>}
-
-                {Category && <div className='dropdown_btn_wrapper'>
-                    <Button onClick={(() => {
-                        if (categoryId) {
-                            getProgramByCategories(categoryId)
-                        } else {
-                            toast.error('Plz select a category')
-                        }
-                    })} children={'Apply'} styles={{ width: '48%' }} />
-                    <Button onClick={(() => {
-                        getProgramByCategories(id)
-                        setcategoryId('')
-                    })} children={'Reset'} styles={{ border: '1px solid var(--primary-color)', background: 'transparent', color: 'var(--primary-color)', width: '48%' }} />
-                </div>}
+                    {Category && <div className='dropdown_btn_wrapper'>
+                        <Button onClick={(() => {
+                            if (categoryId) {
+                                getProgramByCategories(categoryId)
+                            } else {
+                                toast.error('Plz select a category')
+                            }
+                        })} children={'Apply'} styles={{ width: '48%' }} />
+                        <Button onClick={(() => {
+                            getProgramByCategories(id)
+                            setcategoryId('')
+                        })} children={'Reset'} styles={{ border: '1px solid var(--primary-color)', background: 'transparent', color: 'var(--primary-color)', width: '48%' }} />
+                    </div>}
 
 
-                {(Gender || Coaches) && <div className='dropdown_btn_wrapper'>
-                    <Button onClick={(() => {
-                        applyFunction()
-                    })} children={'Apply'} styles={{ width: '48%' }} />
-                    <Button onClick={(() => {
-                        getCoachesFunc()
-                        setGender('')
-                        setcoachType('')
-                    })} children={'Reset'} styles={{ border: '1px solid var(--primary-color)', background: 'transparent', color: 'var(--primary-color)', width: '48%' }} />
-                </div>}
+                    {(Gender || Coaches) && <div className='dropdown_btn_wrapper'>
+                        <Button onClick={(() => {
+                            applyFunction()
+                        })} children={'Apply'} styles={{ width: '48%' }} />
+                        <Button onClick={(() => {
+                            getCoachesFunc()
+                            setGender('')
+                            setcoachType('')
+                        })} children={'Reset'} styles={{ border: '1px solid var(--primary-color)', background: 'transparent', color: 'var(--primary-color)', width: '48%' }} />
+                    </div>}
+                </>}
             </div>
         </>
     )

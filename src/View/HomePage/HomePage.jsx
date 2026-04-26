@@ -15,8 +15,9 @@ const HomePage = () => {
     try {
       setGlobalLoading(true);
       const res = await getAllCmsData('/home-page');
-      console.log(res)
-      sethomePageData(res?.data)
+      if(res?.success){
+        sethomePageData(res?.data)
+      }
     } catch (err) {
       console.log(err)
     } finally {

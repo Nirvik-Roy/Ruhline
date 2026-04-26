@@ -5,6 +5,7 @@ import userImg from '../../../assets/Images/User Info.png'
 import { useNavigate } from 'react-router-dom'
 import { getUserProfile } from '../../../utils/user'
 import Loaders from '../../../Components/Loaders/Loaders.jsx'
+import DashboardLoader from '../../../Components/Loaders/DashboardLoader.jsx'
 const DashboardProfile = () => {
     const navigate = useNavigate()
     const [loader, setLoader] = useState(false);
@@ -27,8 +28,9 @@ const DashboardProfile = () => {
 
     return (
         <>
-            {loader && <Loaders />}
+
             <div className='dashboard_content_wrapper'>
+                {loader && <DashboardLoader />}
                 <div className='schedule_program_head_wrapper' style={{
                     marginBottom: '30px'
                 }}>
@@ -66,7 +68,7 @@ const DashboardProfile = () => {
                     </div>
                 </div>
 
-                <div className='profile_dashboard_Wrapper'>
+                {!loader && <div className='profile_dashboard_Wrapper'>
                     <img src={profileData?.profile?.profile_image ? profileData?.profile?.profile_image : userImg} />
                     <div className='profile_details_wrapper'>
                         <h1>My Profile</h1>
@@ -80,7 +82,7 @@ const DashboardProfile = () => {
                     </div>
 
 
-                </div>
+                </div>}
             </div>
         </>
     )

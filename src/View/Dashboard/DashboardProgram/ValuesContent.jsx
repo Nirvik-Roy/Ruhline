@@ -8,7 +8,7 @@ import { useParams } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import Loaders from '../../../Components/Loaders/Loaders'
 
-const ValuesContent = ({ completedFunction, valuesContent, fetchValuesQuestion }) => {
+const ValuesContent = ({ completedFunction, valuesContent, fetchValuesQuestion, questionLoading }) => {
     const { enrollmentId } = useParams()
     const questions = valuesContent?.questions || [];
     const [questionIndex, setquestionIndex] = useState(0);
@@ -17,7 +17,7 @@ const ValuesContent = ({ completedFunction, valuesContent, fetchValuesQuestion }
     const [singleChoiceAnswer, setsingleChoiceAnswer] = useState("")
     const [dropdownAnswer, setdropdownAnswer] = useState("");
     const [loading, setloading] = useState(false);
-    const [postLoading,setpostLoading] = useState(false)
+    const [postLoading, setpostLoading] = useState(false)
 
     const handleMultichoice = (value) => {
         if (multiChoiceAnswer.includes(value)) {
@@ -150,7 +150,7 @@ const ValuesContent = ({ completedFunction, valuesContent, fetchValuesQuestion }
                 }
             })} objective={`Question ${questionIndex + 1} of ${questions?.length}`} />
 
-            <form className='values_form_wrapper'>
+            {!questionLoading && <form className='values_form_wrapper'>
                 <h5>Answer the Question </h5>
                 {questions?.length <= 0 && !loading && <p style={{
                     textAlign: 'center',
@@ -221,7 +221,7 @@ const ValuesContent = ({ completedFunction, valuesContent, fetchValuesQuestion }
                         }
                     }
                 })}
-            </form>
+            </form>}
         </>
     )
 }

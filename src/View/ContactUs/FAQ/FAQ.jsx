@@ -3,6 +3,7 @@ import './FAQ.css'
 import FAQAccordion from './FAQAccordion'
 import { getAllCmsData } from '../../../utils/cms'
 import Loaders from '../../../Components/Loaders/Loaders'
+import DashboardLoader from '../../../Components/Loaders/DashboardLoader'
 const FAQ = () => {
     const [toggle, setToggle] = useState({
         toggle1: true,
@@ -55,7 +56,13 @@ const FAQ = () => {
 
     return (
         <>
-            {loading && <Loaders />}
+            {loading && <div style={{
+                minHeight: '70vh',
+                position: 'relative'
+            }}>
+
+                {<DashboardLoader />}
+            </div>}
             {(faqMentee?.length > 0 || faqMentor?.length > 0) && <div className='faq_wrapper'>
                 <div className='all_Container faq_content_wrapper'>
                     <h2 className='all_heading'>FAQS</h2>

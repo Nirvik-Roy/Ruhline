@@ -10,12 +10,9 @@ const Dashboard = () => {
   const { isLogin, isLoading } = useSelector(state => state.auth);
   const navigate = useNavigate()
   const [profileData, setprofileData] = useState([])
-  const [loading, setloading] = useState(false)
   const getProfileFunc = async () => {
-    setloading(true)
     const result = await getUserProfile();
     setprofileData(result?.user || [])
-    setloading(false)
   }
   useEffect(() => {
     getProfileFunc()
@@ -27,7 +24,7 @@ const Dashboard = () => {
   }, [isLogin])
   return (
     <>
-      {(isLoading || loading) && <Loaders />}
+      {/* {(isLoading) && <Loaders />} */}
       <BannerLayout title={'Dashboard'} />
       <div className='dashboard_layout_wrapper'>
         <div className='all_Container dashboard_layout_content_wrapper'>

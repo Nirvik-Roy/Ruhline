@@ -93,7 +93,7 @@ const NavbarLinks = () => {
 
     return (
         <>
-            {(loading) && <Loaders />}
+            {/* {(loading) && <Loaders />} */}
 
             {reSendModal && <ResendLinkModal setResendModal={setResendModal} />}
 

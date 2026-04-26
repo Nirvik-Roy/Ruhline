@@ -4,6 +4,7 @@ import Footer from '../Layout/Footer/Footer'
 import { Outlet } from 'react-router-dom'
 import { getAllCmsData } from '../utils/cms'
 import Loaders from '../Components/Loaders/Loaders'
+import RuhlineLoader from '../Components/Loaders/RuhlineLoader'
 const MainLayout = () => {
     const [loading, setloading] = useState(false);
     const [data, setData] = useState();
@@ -31,7 +32,7 @@ const MainLayout = () => {
     }, [data])
     return (
         <>
-            {loading && <Loaders />}
+            {loading && <RuhlineLoader />}
             <Navbar navbarData={data} />
             <Outlet context={{ setGlobalLoading: setloading }} />
             <Footer footerData={data} />
