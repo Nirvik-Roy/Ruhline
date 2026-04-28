@@ -7,10 +7,9 @@ export const Autoverify = createAsyncThunk('Autoverify', async (verificationData
     if (verificationData) {
         try {
             const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/auth/customer/email/verify`, verificationData)
-            if (res?.data.success) {
+            if (res?.data?.success) {
                 toast.success(res?.data?.message)
-                console.log(res)
-                return res.data.data;
+                return res?.data?.data;
             }
         } catch (err) {
             console.log(err)

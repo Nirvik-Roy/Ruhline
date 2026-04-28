@@ -6,9 +6,9 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 export const Resendmail = createAsyncThunk('Resendmail', async (emailData, { rejectWithValue }) => {
     try {
         const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/auth/customer/email/resend-verification`, emailData,)
-        if (res?.data.success) {
+        if (res?.data?.success) {
             toast.success(res?.data?.data?.message);
-            return res.data.data;
+            return res?.data?.data;
         }
     } catch (err) {
         console.log(err)

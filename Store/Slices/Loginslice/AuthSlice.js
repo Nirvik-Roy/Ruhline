@@ -8,9 +8,9 @@ export const Auth = createAsyncThunk('Auth', async (loginParams, { rejectWithVal
     if (loginParams) {
         try {
             const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/auth/customer/login`, loginParams);
-            if (res.data.success == true) {
+            if (res?.data?.success == true) {
                 toast.success(res.data?.message || 'Login Success');
-                return res.data.data
+                return res?.data?.data
             }
         } catch (err) {
             // toast.error(err.response?.data?.data.errors?.email[0])
@@ -30,10 +30,10 @@ export const AuthlogOut = createAsyncThunk('AuthlogOut', async (loginParams, { r
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
+            if (res?.data?.success == true) {
                 toast.success(res.data?.message || 'Logut Success');
                 localStorage.removeItem('token')
-                return res.data.data
+                return res?.data?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message)
