@@ -268,21 +268,27 @@ const LiveProgram = () => {
               fontWeight: '600',
               gridColumn: '1/-1'
             }}>No modules are available right now...</p>}
-            {allProgramModules?.map((e) => (
-              <div
-                key={e.sort_order}
-                style={e.sort_order === id ? { border: '2px solid var(--primary-color)' } : {}}
-                onClick={() => {
-                  fetchLockUnlockDetails(e?.program_structure_id, e?.title);
-                  setId(e.sort_order);
-                }}
-                className='program_tab'
-              >
-                <img src={MODULE_ICONS[e?.title] ?? ''} alt={e?.title} />
-                <p>{e.title}</p>
-                {isModuleCompleted(e) && <img style={tickStyle} src={tick} alt='completed' />}
-              </div>
-            ))}
+            {allProgramModules?.map((e) => {
+              if (!e?.module_type?.startsWith('intermediate') && e?.title != 'Upload Documents') {
+                return (
+                  <>
+                    <div
+                      key={e.sort_order}
+                      style={e.sort_order === id ? { border: '2px solid var(--primary-color)' } : {}}
+                      onClick={() => {
+                        fetchLockUnlockDetails(e?.program_structure_id, e?.title);
+                        setId(e.sort_order);
+                      }}
+                      className='program_tab'
+                    >
+                      <img src={MODULE_ICONS[e?.title] ?? ''} alt={e?.title} />
+                      <p>{e.title}</p>
+                      {isModuleCompleted(e) && <img style={tickStyle} src={tick} alt='completed' />}
+                    </div>
+                  </>
+                )
+              }
+            })}
           </div>}
 
           {(tabs.values && !valuesContent?.progress?.is_completed) && <ValuesContent fetchValuesQuestion={fetchValuesQuestion} valuesContent={valuesContent} questionLoading={loading} completedFunction={completedFunction} />}
