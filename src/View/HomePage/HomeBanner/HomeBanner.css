@@ -3,6 +3,7 @@
     /* min-height: 100vh; */
     background-position: center;
     background-size: cover;
+    background-repeat: no-repeat;
     padding: 170px 0 80px 0;
 }
 

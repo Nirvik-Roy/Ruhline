@@ -8,7 +8,6 @@ import RuhlineLoader from '../Components/Loaders/RuhlineLoader'
 const MainLayout = () => {
     const [loading, setloading] = useState(false);
     const [data, setData] = useState();
-
     const fetchData = async () => {
         try {
             setloading(true);
@@ -34,7 +33,7 @@ const MainLayout = () => {
         <>
             {loading && <RuhlineLoader />}
             <Navbar navbarData={data} />
-            <Outlet context={{ setGlobalLoading: setloading }} />
+            <Outlet context={{ setGlobalLoading: setloading, sitesettingsData: data }} />
             <Footer footerData={data} />
         </>
     )
