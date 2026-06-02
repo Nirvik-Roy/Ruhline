@@ -31,7 +31,7 @@ const AboutCards = ({ data }) => {
                         <div className='about_card1'>
                             <img src={e?.icon} />
                             <h3>{e?.title}</h3>
-                            <p>{e?.description}</p>
+                            <p dangerouslySetInnerHTML={{ __html: e?.description }}>{ }</p>
                         </div>
                     ))}
                 </div>
