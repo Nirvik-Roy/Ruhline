@@ -50,7 +50,7 @@ const SingleProgramCategory = () => {
 
     return (
         <>
-            <BannerLayout title={singleCategoriesProgram[0]?.program_category?.name} />
+            <BannerLayout title={singleCategoriesProgram?.[0]?.program_category?.name} />
             
             <div className='program_wrapper'>
                 <div className='all_Container program_content_wrapper'>
