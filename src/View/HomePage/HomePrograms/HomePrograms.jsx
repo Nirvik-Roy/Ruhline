@@ -2,7 +2,9 @@ import React from 'react'
 import './HomePrograms.css'
 import HomeProgramSlider from './HomeProgramSlider'
 import Button from '../../../Components/Button/Button'
+import { useNavigate } from 'react-router-dom'
 const HomePrograms = ({ data }) => {
+    const navigate = useNavigate()
     return (
         <>
             <div className='home_programs_wrapper'>
@@ -21,7 +23,7 @@ const HomePrograms = ({ data }) => {
                     justifyContent:'center'
                 }}>
 
-                {/* <Button styles={{ padding: '15px 20px' }} children={'View All Programs'} /> */}
+                <Button onClick={(()=>navigate('/program/category/1'))} styles={{ padding: '15px 20px' }} children={'View All Services'} />
                 </div>
             </div>
         </>
