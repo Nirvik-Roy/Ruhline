@@ -567,6 +567,24 @@ export const finalSubmitCard = async (enrollmentId, structureId) => {
     }
 }
 
+export const getprogramResources = async (enrollmentId, structureId) => {
+    const token = localStorage.getItem('token')
+    if (token && enrollmentId && structureId) {
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/modules/${structureId}/upload-documents/resources`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res?.data?.success == true) {
+                return res?.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err?.response?.data
+        }
+    }
+}
 
 export const getGoalSettings = async (enrollmentId, structureId) => {
     const token = localStorage.getItem('token')

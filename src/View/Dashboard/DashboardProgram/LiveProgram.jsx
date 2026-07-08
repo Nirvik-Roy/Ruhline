@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import './DashboardProgram.css'
 import arrow from '../../../assets/Images/Vector (4).svg'
 import download from '../../../assets/Images/Layer_1 (1).svg'
 import video from '../../../assets/Images/Group 1597882967.png'
@@ -20,7 +21,7 @@ import WhoAmI from './WhoAmI'
 import WaitingModal from './WaitingModal'
 import HabitTracker from './HabitTracker'
 import tick from '../../../assets/Images/Layer_1.svg'
-import { checkLockUnlock, getCardGameState, getGoalSettings, getHabitTrackerState, getlifeElements, getMotivationWords, getProgramsModule, getValuesQuestions, getWhoamIQuestions } from '../../../utils/program'
+import { checkLockUnlock, getCardGameState, getGoalSettings, getHabitTrackerState, getlifeElements, getMotivationWords, getprogramResources, getProgramsModule, getValuesQuestions, getWhoamIQuestions } from '../../../utils/program'
 import { useNavigate, useParams } from 'react-router-dom'
 import Loaders from '../../../Components/Loaders/Loaders'
 import toast from 'react-hot-toast'
@@ -41,6 +42,12 @@ const LiveProgram = () => {
   const [completed, setCompleted] = useState([]);
   const [loading, setloading] = useState(false)
   const [allProgramModules, setallProgramModules] = useState([])
+  const [resourcesloading, setresourcesloading] = useState(false)
+  const [programResources, setprogramResources] = useState([])
+  const [resourcesDropdownOpen, setResourcesDropdownOpen] = useState(false)
+  const [downloadMode, setDownloadMode] = useState('all')
+  const [selectedResources, setSelectedResources] = useState([])
+  const resourcesDropdownRef = useRef(null)
   const [tabs, setTabs] = useState({
     values: false,
     cardGame: false,
@@ -95,6 +102,39 @@ const LiveProgram = () => {
     width: '18px',
   };
 
+  const resourcesList = Array.isArray(programResources)
+    ? programResources
+    : programResources?.documents || programResources?.resources || []
+
+  const getResourceName = (resource, index) =>
+    resource?.document_name || resource?.name || resource?.title || resource?.file_name || `Document ${index + 1}`
+
+  const getResourceId = (resource, index) =>
+    resource?.id ?? resource?.document_id ?? index
+
+  const toggleResourceSelection = (resourceId) => {
+    setSelectedResources((prev) =>
+      prev.includes(resourceId)
+        ? prev.filter((id) => id !== resourceId)
+        : [...prev, resourceId]
+    )
+  }
+
+  const handleResourcesClickOutside = (event) => {
+    if (resourcesDropdownRef.current && !resourcesDropdownRef.current.contains(event.target)) {
+      setResourcesDropdownOpen(false)
+    }
+  }
+
+  const fetchProgramResources = async (structureId) => {
+    setresourcesloading(true)
+    const res = await getprogramResources(enrollmentId, structureId)
+    if (res?.success) {
+      setprogramResources(res?.data || {})
+    }
+    setresourcesloading(false)
+  }
+
   const isModuleCompleted = (module) =>
     module?.is_completed || MODULE_PROGRESS[module?.title];
 
@@ -115,6 +155,7 @@ const LiveProgram = () => {
     const res = await getValuesQuestions(Number(enrollmentId), structureId)
     if (res?.success) {
       setvaluesContent(res?.data || {})
+      fetchProgramResources(structureId)
       tabsFunction(1)
     }
     setloading(false)
@@ -126,6 +167,7 @@ const LiveProgram = () => {
     const res = await getWhoamIQuestions(Number(enrollmentId), structureId)
     if (res?.success) {
       setwhoAmiIContent(res?.data || {})
+      fetchProgramResources(structureId)
       tabsFunction(7)
     }
     setloading(false)
@@ -137,6 +179,7 @@ const LiveProgram = () => {
     const res = await getMotivationWords(Number(enrollmentId), structureId)
     if (res?.success) {
       setmotivationContent(res?.data || {})
+      fetchProgramResources(structureId)
       tabsFunction(5)
     }
     setloading(false)
@@ -148,6 +191,7 @@ const LiveProgram = () => {
     const res = await getlifeElements(Number(enrollmentId), structureId)
     if (res?.success) {
       setLifeelements(res?.data || {})
+      fetchProgramResources(structureId)
       tabsFunction(3)
     }
     setloading(false)
@@ -159,6 +203,7 @@ const LiveProgram = () => {
     const res = await getCardGameState(Number(enrollmentId), structureId)
     if (res?.success) {
       setCardGamestate(res?.data || {})
+      fetchProgramResources(structureId)
       tabsFunction(2)
     }
     setloading(false)
@@ -170,6 +215,7 @@ const LiveProgram = () => {
     const res = await getHabitTrackerState(Number(enrollmentId), structureId)
     if (res?.success) {
       sethabbitContent(res?.data || {})
+      fetchProgramResources(structureId)
       tabsFunction(6)
     }
     setloading(false)
@@ -180,6 +226,7 @@ const LiveProgram = () => {
     const res = await getGoalSettings(Number(enrollmentId), structureId)
     if (res?.success) {
       setgoalSettingsContent(res?.data || {})
+      fetchProgramResources(structureId)
       tabsFunction(4)
     }
     setloading(false)
@@ -228,6 +275,13 @@ const LiveProgram = () => {
     }
   }, [enrollmentId])
 
+  useEffect(() => {
+    document.addEventListener('click', handleResourcesClickOutside)
+    return () => {
+      document.removeEventListener('click', handleResourcesClickOutside)
+    }
+  }, [])
+
   const completedFunction = (id) => {
     setCompleted([...completed, id])
   }
@@ -243,9 +297,93 @@ const LiveProgram = () => {
             <img onClick={(() => navigate(-1))} src={arrow} />
             <h3>Program 1</h3>
           </div>
-          <div className='download_resources_head'>
-            <h3>Download Resources</h3>
-            <img src={download} />
+          <div
+            className='download_resources_wrapper'
+            ref={resourcesDropdownRef}
+          >
+            <div
+              className={`download_resources_head ${resourcesDropdownOpen ? 'active' : ''}`}
+              onClick={(e) => {
+                e.stopPropagation()
+                setResourcesDropdownOpen((prev) => !prev)
+              }}
+            >
+              <h3>Download Resources</h3>
+              <img src={download} alt='download' />
+              <img
+                src={down}
+                alt='toggle'
+                className={`download_resources_chevron ${resourcesDropdownOpen ? 'open' : ''}`}
+              />
+            </div>
+
+            {resourcesDropdownOpen && (
+              <div className='download_resources_dropdown'>
+                <div className='download_mode_tabs'>
+                  <button
+                    type='button'
+                    className={downloadMode === 'all' ? 'active' : ''}
+                    onClick={() => setDownloadMode('all')}
+                  >
+                    Download All
+                  </button>
+                  <button
+                    type='button'
+                    className={downloadMode === 'selective' ? 'active' : ''}
+                    onClick={() => setDownloadMode('selective')}
+                  >
+                    Selective Download
+                  </button>
+                </div>
+
+                <div className='download_resources_list'>
+                  {resourcesloading && (
+                    <p className='download_resources_empty'>Loading resources...</p>
+                  )}
+
+                  {!resourcesloading && resourcesList.length <= 0 && (
+                    <p className='download_resources_empty'>No resources available</p>
+                  )}
+
+                  {!resourcesloading && resourcesList.map((resource, index) => {
+                    const resourceId = getResourceId(resource, index)
+                    const resourceName = getResourceName(resource, index)
+
+                    return (
+                      <div key={resourceId} className='download_resource_item'>
+                        {downloadMode === 'selective' && (
+                          <input
+                            type='checkbox'
+                            checked={selectedResources.includes(resourceId)}
+                            onChange={() => toggleResourceSelection(resourceId)}
+                          />
+                        )}
+                        <span className='download_resource_name'>{resourceName}</span>
+                        <button type='button' className='download_resource_btn'>
+                          <img src={download} alt='download' />
+                        </button>
+                      </div>
+                    )
+                  })}
+                </div>
+
+                <div className='download_resources_footer'>
+                  {downloadMode === 'all' ? (
+                    <button type='button' className='download_resources_action_btn'>
+                      Download All Files
+                    </button>
+                  ) : (
+                    <button
+                      type='button'
+                      className='download_resources_action_btn'
+                      disabled={selectedResources.length === 0}
+                    >
+                      Download Selected ({selectedResources.length})
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         </div>
 

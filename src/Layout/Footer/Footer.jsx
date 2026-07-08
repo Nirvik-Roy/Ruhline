@@ -42,7 +42,7 @@ const Footer = ({ footerData }) => {
           </div>
           <div className='footer_3'>
             <h3>Contact Us</h3>
-            <div className='footer_location' >
+            {/* <div className='footer_location' >
               <img src={location} />
               <div>
                 <p dangerouslySetInnerHTML={{
@@ -56,7 +56,7 @@ const Footer = ({ footerData }) => {
                 }}></p>
               </div>
        
-            </div>
+            </div> */}
 
             <div className='footer_location'>
               <img src={message} />

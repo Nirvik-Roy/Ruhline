@@ -8,7 +8,7 @@ const ConfirmBookingRight = ({ paymentDetails, paymentFunc }) => {
         <div className='coupon_input_wrapper_45 input_form'>
           <input placeholder='Have a code? type it here...' />
           <span onClick={(() => {
-            toast.error('This feature is not available in this moment...')
+            toast.error('This feature is not available at this moment...')
           })}>Apply</span>
         </div>
         <div className='order_summary_wrapper562'>
