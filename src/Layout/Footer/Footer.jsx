@@ -60,7 +60,7 @@ const Footer = ({ footerData }) => {
 
             <div className='footer_location'>
               <img src={message} />
-              <p>bidishabhowmick6@gmail.com</p>
+              <p>{footerData?.contact_email}</p>
             </div>
 
             <div className='footer_follow_us_wrapper'>

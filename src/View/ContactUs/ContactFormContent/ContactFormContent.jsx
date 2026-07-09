@@ -10,12 +10,14 @@ import axios from "axios";
 import Loaders from "../../../Components/Loaders/Loaders";
 import { getPhoneCountryCode } from "../../../utils/location";
 import DashboardLoader from "../../../Components/Loaders/DashboardLoader";
+import { useOutletContext } from "react-router-dom";
 const ContactFormContent = ({ contactData }) => {
   const [loading, setLoading] = useState(false);
   const [postLoading, setpostLoading] = useState(false);
   const [emailErrormessage, setEmailerrorMessage] = useState("");
   const [errors, setErrors] = useState([]);
   const [phoneData, setPhoneData] = useState([]);
+  const { sitesettingsData } = useOutletContext();
 
   const [formData, setformData] = useState({
     name: "",
@@ -220,20 +222,22 @@ const ContactFormContent = ({ contactData }) => {
               </div>
 
               <div className="phone_email_wrapper">
-                <div className="phone_wrapper">
+               {sitesettingsData?.contact_phone?.number && <div className="phone_wrapper">
                   <img src={phone} />
                   <div>
                     <h5>PHONE</h5>
-                    <span>03 5432 1234</span>
+                    <span>{sitesettingsData?.contact_phone?.number}</span>
                   </div>
-                </div>
-                <div className="phone_wrapper">
-                  <img src={mail} />
-                  <div>
-                    <h5>EMAIL</h5>
-                    <span>info@marcc.com.au</span>
+                </div>}
+                {sitesettingsData?.contact_email && (
+                  <div className="phone_wrapper">
+                    <img src={mail} />
+                    <div>
+                      <h5>EMAIL</h5>
+                      <span>{sitesettingsData?.contact_email}</span>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </form>
           </>

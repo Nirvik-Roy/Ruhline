@@ -4,10 +4,8 @@ import ContactFormContent from "../ContactFormContent/ContactFormContent";
 import img from "../../../assets/Images/Rectangle 453.png";
 import FAQ from "../FAQ/FAQ";
 import { getAllCmsData } from "../../../utils/cms";
-import { useOutletContext } from "react-router-dom";
 const ContactUsForm = () => {
   const [contactData, setcontactData] = useState({});
-  const { sitesettingsData } = useOutletContext();
   const getContactData = async () => {
     const response = await getAllCmsData("/contact-page");
     if (response?.success) {
@@ -18,7 +16,6 @@ const ContactUsForm = () => {
     getContactData();
   }, []);
 
-  console.log(contactData);
   return (
     <>
       <div className="contact_us_wrapper">
