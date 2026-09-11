@@ -22,6 +22,7 @@
     position: absolute;
     right: 90px;
     bottom: -20%;
+    z-index: 9;
 }
 
 .note_list_head_wrapper {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './DashboardProfile.css'
 import Button from '../../../Components/Button/Button'
-import userImg from '../../../assets/Images/User Info.png'
+import userImg from '../../../assets/Images/pngtree-default-avatar-profile-icon-gray-placeholder-vector-png-image_16213764.png'
 import { useNavigate } from 'react-router-dom'
 import { getUserProfile } from '../../../utils/user'
 import Loaders from '../../../Components/Loaders/Loaders.jsx'

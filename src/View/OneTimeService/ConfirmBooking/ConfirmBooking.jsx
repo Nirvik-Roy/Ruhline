@@ -76,8 +76,8 @@ const ConfirmBooking = () => {
         program_id: id,
         coach_id: coachId,
         slot_start_at: original,
-        success_url: `https://ruhline.vercel.app/confirm-booking/${id}/${coachId}/?slot=${encodedSlot}&status=success`,
-        cancel_url: `https://ruhline.vercel.app/confirm-booking/${id}/${coachId}?status=cancel`
+        success_url: `https://ruhline.com/confirm-booking/${id}/${coachId}/?slot=${encodedSlot}&status=success`,
+        cancel_url: `https://ruhline.com/confirm-booking/${id}/${coachId}?status=cancel`
       });
       if (res?.success) {
         window.location.href = `${res?.data?.checkout_url}`
