@@ -78,7 +78,7 @@ const FindMotivation = ({ completedFunction, motivationContent, fetchMotivation 
                 toast.error('Incorrect guess..')
             }
         } else {
-            toast.error('Plz fill all the boxes..')
+            toast.error('Please fill all the boxes..')
         }
 
         setpostLoading(false)

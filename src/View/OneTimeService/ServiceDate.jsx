@@ -96,7 +96,7 @@ const ServiceDate = () => {
                 setpreviewLoading(false)
             }
         } else {
-            toast.error('Plz select a slot...')
+            toast.error('Please select a slot...')
         }
     }
     return (

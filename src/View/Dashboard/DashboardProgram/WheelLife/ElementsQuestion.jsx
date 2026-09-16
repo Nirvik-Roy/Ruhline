@@ -72,7 +72,7 @@ const ElementsQuestion = ({ questionsData, fetchLifeElementsQuestion }) => {
                     }
                 }
             } else {
-                toast.error('Plz answer the question...')
+                toast.error('Please answer the question...')
             }
         }
 
@@ -104,7 +104,7 @@ const ElementsQuestion = ({ questionsData, fetchLifeElementsQuestion }) => {
 
                 }
             } else {
-                toast.error('Plz select atleast one option..')
+                toast.error('Please select atleast one option..')
             }
         }
 
@@ -132,7 +132,7 @@ const ElementsQuestion = ({ questionsData, fetchLifeElementsQuestion }) => {
                     }
                 }
             } else {
-                toast.error('Plz select atleast one option..')
+                toast.error('Please select atleast one option..')
             }
         }
 
@@ -161,7 +161,7 @@ const ElementsQuestion = ({ questionsData, fetchLifeElementsQuestion }) => {
                     }
                 }
             } else {
-                toast.error('Plz select atleast one option..')
+                toast.error('Please select atleast one option..')
             }
         }
         setpostLoading(false)

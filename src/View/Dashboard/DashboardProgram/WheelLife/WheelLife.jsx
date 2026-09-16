@@ -45,7 +45,7 @@ const WheelLife = ({ completedFunction, lifeElements }) => {
         const hasZeroRating = ratingData.some(item => item.rating === 0);
         if (hasZeroRating) {
             setpostLoading(false)
-            toast.error('Plz rate all the elements')
+            toast.error('Please rate all the elements')
             return;
         } else {
             const payload = {

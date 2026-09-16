@@ -150,7 +150,7 @@ const AvailableFacilitor = () => {
                         if (selectedCoachid) {
                             navigate(`/service-date/${id}/${coachName}/${selectedCoachid}`)
                         } else {
-                            toast.error('Plz select a coach before procceding..')
+                            toast.error('Please select a coach before procceding..')
                         }
                     })}>
                         <Button children={'Next'} styles={{

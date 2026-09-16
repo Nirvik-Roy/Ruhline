@@ -89,7 +89,7 @@ const DashboardSession = () => {
             }
             setpostLoading(false)
         } else {
-            toast.error('Plz select a slot...')
+            toast.error('Please select a slot...')
             setpostLoading(false)
         }
     }
@@ -106,7 +106,7 @@ const DashboardSession = () => {
             }
             setpostLoading(false)
         } else {
-            toast.error('Plz select a slot...')
+            toast.error('Please select a slot...')
             setpostLoading(false)
         }
     }

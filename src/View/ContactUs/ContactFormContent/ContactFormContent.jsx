@@ -91,7 +91,7 @@ const ContactFormContent = ({ contactData }) => {
         setpostLoading(false);
       }
     } else {
-      toast.error("Plz enter all the fileds...");
+      toast.error("Please enter all the fileds...");
     }
   };
   return (

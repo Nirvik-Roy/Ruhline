@@ -21,7 +21,7 @@ const FeedBackModal = ({ setModal, setfeedBackModal, id, fetchReviews, isEdit = 
             setModal(false)
             setloading(false)
         } else {
-            toast.error('Plz provide all the neccessary details..')
+            toast.error('Please provide all the neccessary details..')
         }
     }
     const editFeedBack = async () => {
@@ -38,7 +38,7 @@ const FeedBackModal = ({ setModal, setfeedBackModal, id, fetchReviews, isEdit = 
             setloading(false)
 
         } else {
-            toast.error('Plz provide all the neccessary details..')
+            toast.error('Please provide all the neccessary details..')
         }
     }
 

@@ -67,7 +67,7 @@ const WhoAmiI = ({ completedFunction, whoAmIContent, fetchWhoamIQuestion, questi
                     fetchWhoamIQuestion(whoAmIContent?.program_structure_id)
                 }
             } else {
-                toast.error('Plz answer the question...')
+                toast.error('Please answer the question...')
             }
         }
 
@@ -89,7 +89,7 @@ const WhoAmiI = ({ completedFunction, whoAmIContent, fetchWhoamIQuestion, questi
                     fetchWhoamIQuestion(whoAmIContent?.program_structure_id)
                 }
             } else {
-                toast.error('Plz select atleast one option..')
+                toast.error('Please select atleast one option..')
             }
         }
 
@@ -109,7 +109,7 @@ const WhoAmiI = ({ completedFunction, whoAmIContent, fetchWhoamIQuestion, questi
                     fetchWhoamIQuestion(whoAmIContent?.program_structure_id)
                 }
             } else {
-                toast.error('Plz select atleast one option..')
+                toast.error('Please select atleast one option..')
             }
         }
 
@@ -130,7 +130,7 @@ const WhoAmiI = ({ completedFunction, whoAmIContent, fetchWhoamIQuestion, questi
                     fetchWhoamIQuestion(whoAmIContent?.program_structure_id)
                 }
             } else {
-                toast.error('Plz select atleast one option..')
+                toast.error('Please select atleast one option..')
             }
         }
         setloading(false)
