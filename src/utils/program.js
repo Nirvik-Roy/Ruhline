@@ -750,3 +750,23 @@ export const deleteHabit = async (enrollmentId, structureId, habitId) => {
         toast.error('Enrollment Id is required')
     }
 }
+
+export const joinMeeting = async (enrollmentId, sessionId,) => {
+    const token = localStorage.getItem('token')
+    if (token  && enrollmentId && sessionId) {
+        try {
+            const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/sessions/${sessionId}/video-token`, {}, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message)
+                return res?.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err?.response?.data
+        }
+    }
+}

@@ -18,6 +18,7 @@
     "@fullcalendar/resource-timegrid": "^6.1.19",
     "@fullcalendar/timegrid": "^6.1.19",
     "@reduxjs/toolkit": "^2.11.2",
+    "@zoom/meetingsdk": "^6.5.0",
     "axios": "^1.13.2",
     "react": "^19.2.0",
     "react-calendar": "^6.0.0",

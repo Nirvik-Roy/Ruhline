@@ -3,7 +3,7 @@ import { Link, useNavigate, useOutletContext, useParams } from 'react-router-dom
 import arrow from '../../../assets/Images/Vector (4).svg'
 import img from '../../../assets/Images/Capa_1 (1).svg'
 import FeedBackModal from './FeedBackModal'
-import { deleteProgramReviews, getProgramEnrollmentsById, getProgramReviews } from '../../../utils/program'
+import { deleteProgramReviews, getProgramEnrollmentsById, getProgramReviews, joinMeeting } from '../../../utils/program'
 import Loaders from '../../../Components/Loaders/Loaders'
 import { Rating } from 'react-simple-star-rating'
 import ReviewCard from '../../OneTimeService/ReviewCard'
@@ -22,7 +22,8 @@ const DashboardProgramSchedule = () => {
   const [editId, seteditId] = useState()
   const [edit, setedit] = useState(false)
   const [deleteId, setdeleteId] = useState()
-  const [deleteModal, setdeleteModal] = useState(false)
+  const [deleteModal, setdeleteModal] = useState(false);
+  const [joining, setJoining] = useState(false)
   const fetchEnrollmentById = async () => {
     setloading(true)
     const res = await getProgramEnrollmentsById(id)
@@ -43,7 +44,6 @@ const DashboardProgramSchedule = () => {
     }
     setloading(false)
   }
-  console.log(profileData)
   useEffect(() => {
     fetchReviews()
   }, [])
@@ -63,6 +63,16 @@ const DashboardProgramSchedule = () => {
     }
     setloading(false)
   }
+
+  const joinMeetingFunc = async (sessionId) => {
+    setJoining(true);
+    const res = await joinMeeting(id, sessionId);
+    if (res?.success) {
+      console.log(res)
+    }
+    setJoining(false)
+  }
+
   return (
     <>
       {deleteModal && <DeleteModal onClick={handleDelete} title={'Delete review'} setdeleteModal={setdeleteModal} details={'Do you really want to delete this review?'} />}
@@ -122,7 +132,10 @@ const DashboardProgramSchedule = () => {
                   {e?.can_reschedule && <small onClick={(() => navigate(`/dashboard/programs/session/${programId}/${id}/${e?.id}?session=Session ${e?.session_number}`))}>Reschedule</small>}
 
                   {e?.can_schedule && <small onClick={(() => navigate(`/dashboard/programs/session/${programId}/${id}/${e?.id}?session=Session ${e?.session_number}`))}>Schedule</small>}
-                  {e?.join_now_url && <small onClick={(() => navigate(`/dashboard/programs/live-programs/${programId}/${id}`))}>Join Now</small>}
+                  {e?.join_now_url && <small
+                    onClick={(() => joinMeetingFunc(e?.id))}
+                  // onClick={(() => navigate(`/dashboard/programs/live-programs/${programId}/${id}`))}
+                  >{joining ? 'Joining' : 'Join Now'}</small>}
                 </div>
               ))}
 
