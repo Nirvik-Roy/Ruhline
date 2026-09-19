@@ -129,6 +129,7 @@ const DashboardProgramSchedule = () => {
                     timeStyle: "short",
                     timeZone: 'utc'
                   })}</span>}
+                  
                   {e?.can_reschedule && <small onClick={(() => navigate(`/dashboard/programs/session/${programId}/${id}/${e?.id}?session=Session ${e?.session_number}`))}>Reschedule</small>}
 
                   {e?.can_schedule && <small onClick={(() => navigate(`/dashboard/programs/session/${programId}/${id}/${e?.id}?session=Session ${e?.session_number}`))}>Schedule</small>}
