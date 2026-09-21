@@ -81,14 +81,14 @@ const ServiceDate = () => {
                 })
                 if (res?.success) {
                     const encrypted = btoa(slotsStartDate);
-                    navigate(`/confirm-booking/${id}/${coachId}/?slot=${encodeURIComponent(encrypted)}`)
-                    const previewData = localStorage.getItem('previewData')
-                    if (previewData) {
-                        localStorage.removeItem('previewData')
-                        localStorage.setItem('previewData', JSON.stringify(res?.data))
-                    } else {
-                        localStorage.setItem('previewData', JSON.stringify(res?.data))
+                    const previewPayload = {
+                        ...res?.data,
+                        program_id: id,
+                        coach_id: coachId,
+                        slot_start_at: slotsStartDate,
                     }
+                    localStorage.setItem('previewData', JSON.stringify(previewPayload))
+                    navigate(`/confirm-booking/${id}/${coachId}/?slot=${encodeURIComponent(encrypted)}`)
                 }
             } catch (err) {
                 console.log(err)

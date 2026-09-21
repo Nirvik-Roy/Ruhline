@@ -72,10 +72,12 @@ const ConfirmBooking = () => {
       setpaymentLoading(true);
       setsucces(null)
       const encodedSlot = encodeURIComponent(slot);
+      const preview = JSON.parse(localStorage.getItem('previewData') || '{}')
       const res = await initatePayment({
         program_id: id,
         coach_id: coachId,
         slot_start_at: original,
+        ...(preview?.coupon_code ? { coupon_code: preview.coupon_code } : {}),
         success_url: `https://ruhline.com/confirm-booking/${id}/${coachId}/?slot=${encodedSlot}&status=success`,
         cancel_url: `https://ruhline.com/confirm-booking/${id}/${coachId}?status=cancel`
       });
@@ -99,7 +101,7 @@ const ConfirmBooking = () => {
       <div className='confirm_booking_wrapper'>
         <div className='all_Container confirm_booking_content_wrapper'>
           <ConfirmBookingLeft phoneCountryCode={phoneCountryCode} singleProgramData={singleProgramData} userData={userData} paymentDetails={paymentDetails} />
-          <ConfirmBookingRight paymentFunc={paymentFunc} paymentDetails={paymentDetails} />
+          <ConfirmBookingRight paymentFunc={paymentFunc} paymentDetails={paymentDetails} setpaymentDetails={setpaymentDetails} />
         </div>
       </div>
     </>

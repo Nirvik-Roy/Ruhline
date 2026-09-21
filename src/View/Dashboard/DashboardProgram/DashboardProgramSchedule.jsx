@@ -9,6 +9,7 @@ import { Rating } from 'react-simple-star-rating'
 import ReviewCard from '../../OneTimeService/ReviewCard'
 import DeleteModal from '../../../Components/DeleteModal/DeleteModal'
 import DashboardLoader from '../../../Components/Loaders/DashboardLoader'
+import ZoomMeeting from '../../../Components/ZoomMeeting/ZoomMeeting.jsx'
 const DashboardProgramSchedule = () => {
   const [modal, setModal] = useState(false);
   const { profileData } = useOutletContext();
@@ -68,7 +69,14 @@ const DashboardProgramSchedule = () => {
     setJoining(true);
     const res = await joinMeeting(id, sessionId);
     if (res?.success) {
-      console.log(res)
+      localStorage.removeItem('video_token')
+      localStorage.setItem(
+        'video_token',
+        JSON.stringify({ ...(res?.data || {}), session_id: sessionId })
+      )
+      navigate(`/dashboard/programs/live-programs/${programId}/${id}`, {
+        state: { sessionId },
+      })
     }
     setJoining(false)
   }
@@ -79,7 +87,7 @@ const DashboardProgramSchedule = () => {
       {modal && <FeedBackModal setedit={setedit} isEdit={edit} editId={editId} reviewsData={reviewsData} fetchReviews={fetchReviews} id={id} modal={modal} setModal={setModal} />}
       <div className='dashboard_content_wrapper'>
         {loading && <DashboardLoader />}
-
+        
         {!loading && <>
 
           <div className='schedule_program_head_wrapper'>

@@ -689,6 +689,53 @@
   cursor: pointer;
 }
 
+.coupon_discount_value {
+  color: #2e7d32 !important;
+}
+
+.coupon_applied_badge {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  padding: 10px 12px;
+  background: #f5e4dd;
+  border-left: 3px solid var(--primary-color);
+  font-size: 14px;
+  color: var(--text-color);
+}
+
+.coupon_applied_badge strong {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.coupon_applied_badge em {
+  font-style: normal;
+  color: #226325;
+  font-weight: 600;
+  width: 100%;
+  font-size: 13px;
+}
+
+.coupon_remove_btn {
+  margin-left: auto;
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--primary-color);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.coupon_remove_btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .order_summary_wrapper562 {
   margin-top: 15px;
   margin-bottom: 20px;

@@ -751,7 +751,7 @@ export const deleteHabit = async (enrollmentId, structureId, habitId) => {
     }
 }
 
-export const joinMeeting = async (enrollmentId, sessionId,) => {
+export const joinMeeting = async (enrollmentId, sessionId, options = {}) => {
     const token = localStorage.getItem('token')
     if (token  && enrollmentId && sessionId) {
         try {
@@ -761,7 +761,9 @@ export const joinMeeting = async (enrollmentId, sessionId,) => {
                 }
             });
             if (res?.data?.success == true) {
-                toast.success(res?.data?.message)
+                if (!options.silent) {
+                    toast.success(res?.data?.message)
+                }
                 return res?.data
             }
         } catch (err) {
