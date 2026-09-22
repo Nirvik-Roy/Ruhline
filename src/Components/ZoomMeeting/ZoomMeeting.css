@@ -5,7 +5,8 @@
   min-height: 446px;
   background: #242424;
   border-radius: 15px;
-  overflow: hidden;
+  /* visible so Leave/End confirmation popper is not clipped */
+  overflow: visible;
 }
 
 #zoom-meeting {
@@ -14,32 +15,61 @@
   height: 100%;
   min-height: 446px;
   background: #242424;
+  overflow: visible;
+}
+
+.zoom-meeting-shell--ended #zoom-meeting {
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .zoom-meeting-status {
   position: absolute;
   inset: 0;
-  z-index: 2;
+  /* Above Zoom SDK chrome / leave poppers (often ~10000) */
+  z-index: 10050;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 24px;
   text-align: center;
   color: #fff;
-  background: rgba(0, 0, 0, 0.72);
+  background: #242424;
+  font-size: 1.125rem;
   font-weight: 600;
   pointer-events: none;
+  border-radius: 15px;
+}
+
+.zoom-meeting-status--ended {
+  color: #e8e8e8;
+  pointer-events: auto;
 }
 
 .zoom-meeting-status--error {
   color: #ffb4b4;
   pointer-events: auto;
+  background: rgba(0, 0, 0, 0.85);
 }
 
-.react-draggable{
+/* Do not raise the video above Zoom leave/end poppers */
+.react-draggable {
   position: relative;
-  z-index: 9;
+  /* z-index: 1; */
 }
+
+/*
+  Leave icon shows Cancel in the footer, but Leave/End Meeting lives in a
+  transition popper that often renders behind the meeting UI.
+*/
+#transition-popper,
+[id^="transition-popper"],
+.zoom-meeting-shell [class*="leave-meeting"],
+.zoom-meeting-shell [class*="LeaveMeeting"] {
+  z-index: 10000 !important;
+  pointer-events: auto !important;
+}
+
 @media (max-width: 900px) {
   .zoom-meeting-shell,
   #zoom-meeting {

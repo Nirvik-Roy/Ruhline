@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom'
 import { saveWheelOfLifequestion } from '../../../../utils/program'
 import toast from 'react-hot-toast'
 import Loaders from '../../../../Components/Loaders/Loaders'
-const ElementsQuestion = ({ questionsData, fetchLifeElementsQuestion }) => {
+const ElementsQuestion = ({ questionsData, fetchLifeElementsQuestion, markWheelOfLifeCompleted }) => {
     const [questionIndex, setquestionIndex] = useState(0);
     const [descriptiveAnswer, setdescriptiveAnswer] = useState("")
     const [multiChoiceAnswer, setmultichoiceAnswer] = useState([])
@@ -24,6 +24,34 @@ const ElementsQuestion = ({ questionsData, fetchLifeElementsQuestion }) => {
         } else {
             setmultichoiceAnswer([...multiChoiceAnswer, value])
         }
+    }
+
+    const resetAnswers = () => {
+        setdescriptiveAnswer('')
+        setmultichoiceAnswer([])
+        setdropdownAnswer('')
+        setsingleChoiceAnswer('')
+    }
+
+    const handleSaveSuccess = (res) => {
+        const isLastQuestion = questionIndex === questionsData?.questions?.length - 1;
+
+        if (!isLastQuestion) {
+            setquestionIndex(questionIndex + 1);
+            resetAnswers();
+            fetchLifeElementsQuestion(questionsData?.element?.id);
+            return;
+        }
+
+        if (res?.data?.navigation?.has_next_element) {
+            fetchLifeElementsQuestion(res?.data?.navigation?.next_element_id);
+            setquestionIndex(0);
+            resetAnswers();
+            return;
+        }
+
+        // Last question of last element — hide questions immediately (like Values)
+        markWheelOfLifeCompleted?.();
     }
 
 
@@ -53,23 +81,7 @@ const ElementsQuestion = ({ questionsData, fetchLifeElementsQuestion }) => {
                 formData.append('answer_text', descriptiveAnswer)
                 const res = await saveWheelOfLifequestion(enrollmentId, questionsData?.program_structure_id, questionsData?.questions?.[questionIndex].id, formData, questionsData?.element?.id)
                 if (res?.success) {
-                    if (questionIndex < questionsData?.questions?.length - 1) {
-                        setquestionIndex(questionIndex + 1);
-                        setdescriptiveAnswer('')
-                        setmultichoiceAnswer([])
-                        setdropdownAnswer('')
-                        setsingleChoiceAnswer('')
-                        fetchLifeElementsQuestion(questionsData?.element?.id)
-                    }
-
-                    if (questionIndex == questionsData?.questions?.length - 1 && res?.data?.navigation?.has_next_element) {
-                        fetchLifeElementsQuestion(res?.data?.navigation?.next_element_id)
-                        setquestionIndex(0);
-                        setdescriptiveAnswer('')
-                        setmultichoiceAnswer([])
-                        setdropdownAnswer('')
-                        setsingleChoiceAnswer('')
-                    }
+                    handleSaveSuccess(res)
                 }
             } else {
                 toast.error('Please answer the question...')
@@ -84,24 +96,7 @@ const ElementsQuestion = ({ questionsData, fetchLifeElementsQuestion }) => {
                 ))
                 const res = await saveWheelOfLifequestion(enrollmentId, questionsData?.program_structure_id, questionsData?.questions[questionIndex].id, formData, questionsData?.element?.id);
                 if (res?.success) {
-                    if (questionIndex < questionsData?.questions?.length - 1) {
-                        setquestionIndex(questionIndex + 1);
-                        setdescriptiveAnswer('')
-                        setmultichoiceAnswer([])
-                        setdropdownAnswer('')
-                        setsingleChoiceAnswer('')
-                        fetchLifeElementsQuestion(questionsData?.element?.id)
-                    }
-
-                    if (questionIndex == questionsData?.questions?.length - 1 && res?.data?.navigation?.has_next_element) {
-                        fetchLifeElementsQuestion(res?.data?.navigation?.next_element_id)
-                        setquestionIndex(0);
-                        setdescriptiveAnswer('')
-                        setmultichoiceAnswer([])
-                        setdropdownAnswer('')
-                        setsingleChoiceAnswer('')
-                    }
-
+                    handleSaveSuccess(res)
                 }
             } else {
                 toast.error('Please select atleast one option..')
@@ -114,22 +109,7 @@ const ElementsQuestion = ({ questionsData, fetchLifeElementsQuestion }) => {
                 formData.append('answer_option', singleChoiceAnswer)
                 const res = await saveWheelOfLifequestion(enrollmentId, questionsData?.program_structure_id, questionsData?.questions[questionIndex].id, formData, questionsData?.element?.id);
                 if (res?.success) {
-                    if (questionIndex < questionsData?.questions?.length - 1) {
-                        setquestionIndex(questionIndex + 1);
-                        setdescriptiveAnswer('')
-                        setmultichoiceAnswer([])
-                        setdropdownAnswer('')
-                        setsingleChoiceAnswer('')
-                        fetchLifeElementsQuestion(questionsData?.element?.id)
-                    }
-                    if (questionIndex == questionsData?.questions?.length - 1 && res?.data?.navigation?.has_next_element) {
-                        fetchLifeElementsQuestion(res?.data?.navigation?.next_element_id)
-                        setquestionIndex(0);
-                        setdescriptiveAnswer('')
-                        setmultichoiceAnswer([])
-                        setdropdownAnswer('')
-                        setsingleChoiceAnswer('')
-                    }
+                    handleSaveSuccess(res)
                 }
             } else {
                 toast.error('Please select atleast one option..')
@@ -143,22 +123,7 @@ const ElementsQuestion = ({ questionsData, fetchLifeElementsQuestion }) => {
                 formData.append('answer_option', dropdownAnswer)
                 const res = await saveWheelOfLifequestion(enrollmentId, questionsData?.program_structure_id, questionsData?.questions[questionIndex].id, formData, questionsData?.element?.id);
                 if (res?.success) {
-                    if (questionIndex < questionsData?.questions?.length - 1) {
-                        setquestionIndex(questionIndex + 1);
-                        setdescriptiveAnswer('')
-                        setmultichoiceAnswer([])
-                        setdropdownAnswer('')
-                        setsingleChoiceAnswer('')
-                        fetchLifeElementsQuestion(questionsData?.element?.id)
-                    }
-                    if (questionIndex == questionsData?.questions?.length - 1 && res?.data?.navigation?.has_next_element) {
-                        fetchLifeElementsQuestion(res?.data?.navigation?.next_element_id)
-                        setquestionIndex(0);
-                        setdescriptiveAnswer('')
-                        setmultichoiceAnswer([])
-                        setdropdownAnswer('')
-                        setsingleChoiceAnswer('')
-                    }
+                    handleSaveSuccess(res)
                 }
             } else {
                 toast.error('Please select atleast one option..')

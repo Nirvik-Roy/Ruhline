@@ -33,6 +33,11 @@ import {
   getSingleProgram,
   getValuesQuestions,
   getWhoamIQuestions,
+  getIntermediateValues,
+  getIntermediateEightCommonMistakes,
+  getIntermediateGoalSettings,
+  getIntermediateQuestionsGoalWhy,
+  getIntermediateYMethod,
   joinMeeting,
 } from "../../../utils/program";
 import {
@@ -111,6 +116,18 @@ const LiveProgram = () => {
   const [lifeElements, setLifeelements] = useState({});
   const [cardGamestate, setCardGamestate] = useState({});
   const [motivationContent, setmotivationContent] = useState({});
+  const [intermediateValuesContent, setIntermediateValuesContent] = useState({});
+  const [intermediateMistakesContent, setIntermediateMistakesContent] = useState({});
+  const [intermediateGoalSettingsContent, setIntermediateGoalSettingsContent] = useState({});
+  const [intermediateYMethodContent, setIntermediateYMethodContent] = useState({});
+  const [intermediateQuestionsGoalWhyContent, setIntermediateQuestionsGoalWhyContent] = useState({});
+  const [modals, setmodals] = useState({
+    values: false,
+    commonMistakes: false,
+    goalSettings: false,
+    theYMethod: false,
+    eachGoal: false,
+  });
   const [id, setId] = useState(null);
   const [completed, setCompleted] = useState([]);
   const [loading, setloading] = useState(false);
@@ -286,6 +303,21 @@ const LiveProgram = () => {
   const isModuleCompleted = (module) =>
     module?.is_completed || MODULE_PROGRESS[module?.title];
 
+  const isWheelOfLifeCompleted =
+    Boolean(lifeElements?.progress?.is_completed) ||
+    Boolean(
+      allProgramModules?.find((m) => m?.title === "Wheel of Life")
+        ?.is_completed,
+    );
+
+  const markWheelOfLifeCompleted = () => {
+    setLifeelements((prev) => ({
+      ...prev,
+      progress: { ...(prev?.progress || {}), is_completed: true },
+    }));
+    fetchAllProgramModules();
+  };
+
   const fetchAllProgramModules = async () => {
     setloading(true);
     const res = await getProgramsModule(enrollmentId);
@@ -300,7 +332,7 @@ const LiveProgram = () => {
     const res = await getValuesQuestions(Number(enrollmentId), structureId);
     if (res?.success) {
       setvaluesContent(res?.data || {});
-      fetchProgramResources(structureId);
+      // fetchProgramResources(structureId);
       tabsFunction(1);
     }
     setloading(false);
@@ -311,7 +343,7 @@ const LiveProgram = () => {
     const res = await getWhoamIQuestions(Number(enrollmentId), structureId);
     if (res?.success) {
       setwhoAmiIContent(res?.data || {});
-      fetchProgramResources(structureId);
+      // fetchProgramResources(structureId);
       tabsFunction(7);
     }
     setloading(false);
@@ -322,7 +354,7 @@ const LiveProgram = () => {
     const res = await getMotivationWords(Number(enrollmentId), structureId);
     if (res?.success) {
       setmotivationContent(res?.data || {});
-      fetchProgramResources(structureId);
+      // fetchProgramResources(structureId);
       tabsFunction(5);
     }
     setloading(false);
@@ -333,7 +365,7 @@ const LiveProgram = () => {
     const res = await getlifeElements(Number(enrollmentId), structureId);
     if (res?.success) {
       setLifeelements(res?.data || {});
-      fetchProgramResources(structureId);
+      // fetchProgramResources(structureId);
       tabsFunction(3);
     }
     setloading(false);
@@ -344,7 +376,7 @@ const LiveProgram = () => {
     const res = await getCardGameState(Number(enrollmentId), structureId);
     if (res?.success) {
       setCardGamestate(res?.data || {});
-      fetchProgramResources(structureId);
+      // fetchProgramResources(structureId);
       tabsFunction(2);
     }
     setloading(false);
@@ -355,10 +387,20 @@ const LiveProgram = () => {
     const res = await getHabitTrackerState(Number(enrollmentId), structureId);
     if (res?.success) {
       sethabbitContent(res?.data || {});
-      fetchProgramResources(structureId);
+      // fetchProgramResources(structureId);
       tabsFunction(6);
     }
     setloading(false);
+  };
+
+  const setModal = (id) => {
+    setmodals({
+      values: id == 1 ? true : false,
+      commonMistakes: id == 2 ? true : false,
+      goalSettings: id == 3 ? true : false,
+      theYMethod: id == 4 ? true : false,
+      eachGoal: id == 5 ? true : false,
+    });
   };
 
   const fetchGoalSettings = async (structureId) => {
@@ -366,10 +408,60 @@ const LiveProgram = () => {
     const res = await getGoalSettings(Number(enrollmentId), structureId);
     if (res?.success) {
       setgoalSettingsContent(res?.data || {});
-      fetchProgramResources(structureId);
+      // fetchProgramResources(structureId);
       tabsFunction(4);
     }
     setloading(false);
+  };
+
+  const fetchIntermediateValues = async (structureId) => {
+ 
+    const res = await getIntermediateValues(Number(enrollmentId), structureId);
+    if (res?.success) {
+      setIntermediateValuesContent(res?.data || {});
+      setModal(1);
+    }
+  
+  };
+
+  const fetchIntermediateEightCommonMistakes = async (structureId) => {
+
+    const res = await getIntermediateEightCommonMistakes(Number(enrollmentId), structureId);
+    if (res?.success) {
+      setIntermediateMistakesContent(res?.data || {});
+      setModal(2);
+    }
+ 
+  };
+
+  const fetchIntermediateGoalSettings = async (structureId) => {
+   
+    const res = await getIntermediateGoalSettings(Number(enrollmentId), structureId);
+    if (res?.success) {
+      setIntermediateGoalSettingsContent(res?.data || {});
+      setModal(3);
+    }
+ 
+  };
+
+  const fetchIntermediateYMethod = async (structureId) => {
+
+    const res = await getIntermediateYMethod(Number(enrollmentId), structureId);
+    if (res?.success) {
+      setIntermediateYMethodContent(res?.data || {});
+      setModal(4);
+    }
+ 
+  };
+
+  const fetchIntermediateQuestionsGoalWhy = async (structureId) => {
+  
+    const res = await getIntermediateQuestionsGoalWhy(Number(enrollmentId), structureId);
+    if (res?.success) {
+      setIntermediateQuestionsGoalWhyContent(res?.data || {});
+      setModal(5);
+    }
+
   };
 
   const fetchLockUnlockDetails = async (structureId, moduleName) => {
@@ -403,6 +495,26 @@ const LiveProgram = () => {
       if (moduleName == "Goal Settings") {
         fetchGoalSettings(structureId);
       }
+
+      if (moduleName == "Intermediate - Values") {
+        fetchIntermediateValues(structureId);
+      }
+
+      if (moduleName == "Intermediate - Eight most common mistakes") {
+        fetchIntermediateEightCommonMistakes(structureId);
+      }
+
+      if (moduleName == "Intermediate - Goal Settings") {
+        fetchIntermediateGoalSettings(structureId);
+      }
+
+      if (moduleName == "Intermediate - The Y Method") {
+        fetchIntermediateYMethod(structureId);
+      }
+
+      if (moduleName == "Intermediate - Questions for each goal - why?") {
+        fetchIntermediateQuestionsGoalWhy(structureId);
+      }
     } else {
       toast.error("Module is not unlocked yet!");
     }
@@ -426,30 +538,23 @@ const LiveProgram = () => {
     setCompleted([...completed, id]);
   };
 
-  const [modals, setmodals] = useState({
-    values: false,
-    commonMistakes: false,
-    goalSettings: false,
-    theYMethod: false,
-    eachGoal:false
-  });
-
-  const setModal = (id) => {
-    setmodals({
-      values: id == 1 ? true : false,
-      commonMistakes: id == 2 ? true : false,
-      goalSettings: id == 3 ? true : false,
-      theYMethod: id == 4 ? true : false,
-      eachGoal:id == 5 ? true : false,
-    });
-  };
   return (
     <>
-      {modals.values && <ValuesModal setModal={setModal} />}
-      {modals.commonMistakes && <CommonMistakesModal setModal={setModal} />}
-      {modals.goalSettings && <GoalSettingsModal setModal={setModal} />}
-      {modals.theYMethod && <TheYMethodModal setModal={setModal} />}
-      {modals.eachGoal && <QuestionForEachGoalModal setModal={setModal} />}
+      {modals.values && (
+        <ValuesModal setModal={setModal} data={intermediateValuesContent} />
+      )}
+      {modals.commonMistakes && (
+        <CommonMistakesModal setModal={setModal} data={intermediateMistakesContent} />
+      )}
+      {modals.goalSettings && (
+        <GoalSettingsModal setModal={setModal} data={intermediateGoalSettingsContent} />
+      )}
+      {modals.theYMethod && (
+        <TheYMethodModal setModal={setModal} data={intermediateYMethodContent} />
+      )}
+      {modals.eachGoal && (
+        <QuestionForEachGoalModal setModal={setModal} data={intermediateQuestionsGoalWhyContent} />
+      )}
       {modalIsopen && <WaitingModal setmodalIsopen={setmodalIsopen} />}
       {singleLoading && (
         <div className="dashboard_content_wrapper">
@@ -631,15 +736,11 @@ const LiveProgram = () => {
                               : {}
                           }
                           onClick={() => {
-                            if (!e?.module_type?.startsWith("intermediate")) {
-                              fetchLockUnlockDetails(
-                                e?.program_structure_id,
-                                e?.title,
-                              );
-                              setId(e.sort_order);
-                            }else{
-                              setModal(e?.title === 'Intermediate - Values' ? 1 : e?.title === 'Intermediate - Eight most common mistakes' ? 2 : e?.title === 'Intermediate - Goal Settings' ? 3 : e?.title === 'Intermediate - The Y Method' ? 4 : e?.title === 'Intermediate - Questions for each goal - why?' ? 5 : 0)
-                            }
+                            fetchLockUnlockDetails(
+                              e?.program_structure_id,
+                              e?.title,
+                            );
+                            setId(e.sort_order);
                           }}
                           className="program_tab"
                         >
@@ -676,9 +777,10 @@ const LiveProgram = () => {
                 completedFunction={completedFunction}
               />
             )}
-            {tabs.wheel && !lifeElements?.progress?.is_completed && (
+            {tabs.wheel && !isWheelOfLifeCompleted && (
               <WheelLife
                 lifeElements={lifeElements}
+                markWheelOfLifeCompleted={markWheelOfLifeCompleted}
                 completedFunction={completedFunction}
               />
             )}

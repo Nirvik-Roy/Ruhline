@@ -3,23 +3,19 @@ import './IntermediateSteps.css'
 
 const GOAL_BADGES = ['Reward', 'Motivation', 'Action']
 
-const GOAL_QUESTIONS = [
-  {
-    label: 'Motivation:',
-    text: 'Why do you want to achieve this?',
-  },
-  {
-    label: 'Reward:',
-    text: 'What will you do to reward yourself when you achieve this?',
-  },
-  {
-    label: 'Next Steps:',
-    text: 'what are the very next actions you need to take to kickstart your success?',
-  },
-]
+const normalizePage = (page) => (Array.isArray(page) ? {} : page || {})
 
-const QuestionForEachGoalModal = ({ setModal }) => {
+const QuestionForEachGoalModal = ({ setModal, data }) => {
   const handleClose = () => setModal(0)
+  const page = normalizePage(data?.page)
+
+  const questions = [1, 2, 3]
+    .map((n) => ({
+      key: n,
+      label: page?.[`question_heading_${n}`],
+      text: page?.[`question_description_${n}`],
+    }))
+    .filter((q) => q.label || q.text)
 
   return (
     <>
@@ -39,24 +35,13 @@ const QuestionForEachGoalModal = ({ setModal }) => {
         </button>
 
         <h2 id="goal-question-modal-title" className="goal_question_modal_title">
-          Question for each Goal- Why?
+          {page?.headline_1}
         </h2>
 
         <div className="goal_question_modal_intro">
-          <p>
-            The final part to goal setting is to understand what drives you.
-            What will keep you going when the going gets tough?
-          </p>
-          <p>
-            If you can&apos;t find a meaningful goal, then consider if it&apos;s
-            really a goal you should be working toward this year. Chances are,
-            it probably isn&apos;t a priority ...
-          </p>
-          <p>
-            As humans, we&apos;re hardwired to seek pleasure, so if there&apos;s
-            no real desire to achieve something, we&apos;re not going to put
-            much effort in, are we?
-          </p>
+          {page?.headline_2 && <p>{page.headline_2}</p>}
+          {page?.headline_3 && <p>{page.headline_3}</p>}
+          {page?.headline_4 && <p>{page.headline_4}</p>}
         </div>
 
         <div className="goal_question_badges">
@@ -67,21 +52,23 @@ const QuestionForEachGoalModal = ({ setModal }) => {
           ))}
         </div>
 
-        <h3 className="goal_question_modal_section">
-          For Every Goal You have, Answer these 3 Questions:
-        </h3>
+        {page?.headline_5 && (
+          <h3 className="goal_question_modal_section">{page.headline_5}</h3>
+        )}
 
         <ol className="goal_question_modal_list">
-          {GOAL_QUESTIONS.map(({ label, text }) => (
-            <li key={label}>
-              <strong>{label}</strong> {text}
+          {questions.map(({ key, label, text }) => (
+            <li key={key}>
+              {label && <strong>{label}</strong>} {text}
             </li>
           ))}
         </ol>
 
-        <p className="goal_question_modal_quote">
-          &ldquo;Small rewards lead to bigger goals&rdquo;
-        </p>
+        {page?.quote && (
+          <p className="goal_question_modal_quote">
+            &ldquo;{page.quote}&rdquo;
+          </p>
+        )}
       </div>
     </>
   )

@@ -1,17 +1,14 @@
 import React from 'react'
 import './IntermediateSteps.css'
 
-const Y_METHOD_STEPS = [
-  { step: 1, label: 'REFLECTION', detail: '(BUCKETS & TEST)', side: 'right' },
-  { step: 2, label: 'BRAINSTORM', detail: '(ACTION & TIME)', side: 'left' },
-  { step: 3, label: 'UNDERSTANDING', detail: '(THE Y & HOW)', side: 'right' },
-  { step: 4, label: 'GIANT ROCKS', detail: '(MOTIVATION & REWARDS)', side: 'left' },
-  { step: 5, label: 'HABITS & TRACKING', detail: '(MONTHLY TRACKER)', side: 'right' },
-  
-]
+const normalizePage = (page) => (Array.isArray(page) ? {} : page || {})
 
-const TheYMethodModal = ({ setModal }) => {
-  const handleClose = () => setModal?.(false)
+const TheYMethodModal = ({ setModal, data }) => {
+  const handleClose = () => setModal(0)
+  const page = normalizePage(data?.page)
+  const steps = [...(page?.steps || [])].sort(
+    (a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0),
+  )
 
   return (
     <>
@@ -30,25 +27,24 @@ const TheYMethodModal = ({ setModal }) => {
           <i className="fa-solid fa-xmark" />
         </button>
         <h2 id="y-method-modal-title" className="y_method_modal_title">
-          The Y Method
+          {page?.headline}
         </h2>
         <div className="y_method_timeline">
-          {Y_METHOD_STEPS.map(({ step, label, detail, side }) => (
-            <div
-              key={step}
-              className={`y_method_step y_method_step--${side}`}
-            >
-              <div className="y_method_step_content">
-                <span className="y_method_step_pill">Step {step}</span>
-                <p className="y_method_step_text">
-                  {label}
-                  <br />
-                  {detail}
-                </p>
+          {steps.map((step, index) => {
+            const side = index % 2 === 0 ? 'right' : 'left'
+            return (
+              <div
+                key={step.id}
+                className={`y_method_step y_method_step--${side}`}
+              >
+                <div className="y_method_step_content">
+                  <span className="y_method_step_pill">Step {index + 1}</span>
+                  <p className="y_method_step_text" dangerouslySetInnerHTML={{__html:step.description}}></p>
+                </div>
+                <span className="y_method_step_dot" aria-hidden="true" />
               </div>
-              <span className="y_method_step_dot" aria-hidden="true" />
-            </div>
-          ))}
+            )
+          })}
         </div>
       </div>
     </>

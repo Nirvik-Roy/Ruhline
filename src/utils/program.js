@@ -271,6 +271,101 @@ export const checkLockUnlock = async (enrollmentId, structureId) => {
     }
 }
 
+export const getIntermediateValues = async (enrollmentId, structureId) => {
+    const token = localStorage.getItem('token')
+    if (token && enrollmentId && structureId) {
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/modules/${structureId}/intermediate-values`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res?.data?.success == true) {
+                return res?.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err?.response?.data
+        }
+    }
+}
+
+export const getIntermediateEightCommonMistakes = async (enrollmentId, structureId) => {
+    const token = localStorage.getItem('token')
+    if (token && enrollmentId && structureId) {
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/modules/${structureId}/intermediate-eight-most-common-mistakes`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res?.data?.success == true) {
+                return res?.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err?.response?.data
+        }
+    }
+}
+
+export const getIntermediateGoalSettings = async (enrollmentId, structureId) => {
+    const token = localStorage.getItem('token')
+    if (token && enrollmentId && structureId) {
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/modules/${structureId}/intermediate-goal-settings`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res?.data?.success == true) {
+                return res?.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err?.response?.data
+        }
+    }
+}
+
+export const getIntermediateQuestionsGoalWhy = async (enrollmentId, structureId) => {
+    const token = localStorage.getItem('token')
+    if (token && enrollmentId && structureId) {
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/modules/${structureId}/intermediate-questions-goal-why`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res?.data?.success == true) {
+                return res?.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err?.response?.data
+        }
+    }
+}
+
+export const getIntermediateYMethod = async (enrollmentId, structureId) => {
+    const token = localStorage.getItem('token')
+    if (token && enrollmentId && structureId) {
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/modules/${structureId}/intermediate-y-method`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res?.data?.success == true) {
+                return res?.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err?.response?.data
+        }
+    }
+}
+
 export const getValuesQuestions = async (enrollmentId, structureId) => {
     const token = localStorage.getItem('token')
     if (token && enrollmentId && structureId) {

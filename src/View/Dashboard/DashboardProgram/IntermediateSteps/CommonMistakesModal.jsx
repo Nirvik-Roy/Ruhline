@@ -1,19 +1,14 @@
 import React from 'react'
 import './IntermediateSteps.css'
 
-const COMMON_MISTAKES = [
-  'SETTING UNREALISTIC GOALS',
-  'NEGLECTING GOALS THAT BRING YOU JOY',
-  'UNDERESTIMATING COMPLETION TIME',
-  'NOT APPRECIATING FAILURE',
-  'SETTING "OTHER PEOPLE\'S GOALS"',
-  'NOT REVIEWING PROGRESS',
-  'SETTING "NEGATIVE" GOALS',
-  'SETTING TOO MANY GOALS',
-]
+const normalizePage = (page) => (Array.isArray(page) ? {} : page || {})
 
-const CommonMistakesModal = ({ setModal }) => {
+const CommonMistakesModal = ({ setModal, data }) => {
   const handleClose = () => setModal(0)
+  const page = normalizePage(data?.page)
+  const mistakes = [...(page?.mistakes || [])].sort(
+    (a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0),
+  )
 
   return (
     <>
@@ -36,17 +31,17 @@ const CommonMistakesModal = ({ setModal }) => {
           id="common-mistakes-modal-title"
           className="common_mistakes_modal_title"
         >
-          Eight Most Common Mistakes
+          {page?.headline}
         </h2>
 
         <div className="common_mistakes_grid">
-          {COMMON_MISTAKES.map((mistake, index) => (
-            <article key={mistake} className="common_mistakes_card">
+          {mistakes.map((mistake, index) => (
+            <article key={mistake.id} className="common_mistakes_card">
               <span className="common_mistakes_badge" aria-hidden="true">
                 {index + 1}
               </span>
               <p className="common_mistakes_label">MISTAKE</p>
-              <p className="common_mistakes_text">{mistake}</p>
+              <p className="common_mistakes_text" dangerouslySetInnerHTML={{__html:mistake.description}}></p>
             </article>
           ))}
         </div>

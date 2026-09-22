@@ -8,7 +8,7 @@ import PrevSubmit from '../../../../Components/PrevSubmit/PrevSubmit'
 import toast from 'react-hot-toast'
 import DashboardLoader from '../../../../Components/Loaders/DashboardLoader'
 
-const WheelLife = ({ completedFunction, lifeElements }) => {
+const WheelLife = ({ completedFunction, lifeElements, markWheelOfLifeCompleted }) => {
     const [loading, setloading] = useState(false);
     const [postLoading, setpostLoading] = useState(false)
     const [ratingData, setratingData] = useState([]);
@@ -82,7 +82,14 @@ const WheelLife = ({ completedFunction, lifeElements }) => {
 
             {toggle.life && <LifeElements postLoading={postLoading} postLifeElements={postLifeElements} ratingData={ratingData} handleRating={handleRating} lifeElements={lifeElements} toggleFunction={toggleFunction} />}
 
-            {toggle.questions && <ElementsQuestion fetchLifeElementsQuestion={fetchLifeElementsQuestion} questionsData={questionsData} completedFunction={completedFunction} />}
+            {toggle.questions && (
+                <ElementsQuestion
+                    fetchLifeElementsQuestion={fetchLifeElementsQuestion}
+                    markWheelOfLifeCompleted={markWheelOfLifeCompleted}
+                    questionsData={questionsData}
+                    completedFunction={completedFunction}
+                />
+            )}
 
             {loading && <div style={{
                 height: '30vh',
