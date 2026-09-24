@@ -102,6 +102,52 @@ const normalizeMeetingData = (token) => {
   };
 };
 
+const SPECIAL_MODULE_TITLES = [
+  "Intermediate - Values",
+  "Intermediate - Eight most common mistakes",
+  "Intermediate - Goal Settings",
+  "Intermediate - The Y Method",
+  "Intermediate - Questions for each goal - why?",
+  "Upload Documents",
+];
+
+const TRACKED_COMPLETION_TITLES = [
+  "Values",
+  "Find your Motivation",
+  "Who am I",
+  "Wheel of Life",
+  "Card Game",
+  "Goal Settings",
+  "Habit Tracker",
+];
+
+const withNormalizedProgress = (data) => {
+  if (!data || typeof data !== "object") return data || {};
+  return {
+    ...data,
+    progress: {
+      ...(data.progress || {}),
+      is_completed: Boolean(data?.progress?.is_completed),
+    },
+  };
+};
+
+const isGoalSettingsCompleted = (content) => {
+  if (!content?.program_structure_id) return undefined;
+  return (
+    Boolean(content?.progress?.is_completed) ||
+    (Array.isArray(content?.goals) && content.goals.length > 0)
+  );
+};
+
+const isHabitTrackerCompleted = (content) => {
+  if (!content?.program_structure_id) return undefined;
+  return (
+    Boolean(content?.progress?.is_completed) ||
+    (Array.isArray(content?.habits) && content.habits.length > 0)
+  );
+};
+
 const LiveProgram = () => {
   const { programId, enrollmentId } = useParams();
   const navigate = useNavigate();
@@ -138,6 +184,7 @@ const LiveProgram = () => {
   const [downloadMode, setDownloadMode] = useState("all");
   const [selectedResources, setSelectedResources] = useState([]);
   const resourcesDropdownRef = useRef(null);
+  const prevCompletionRef = useRef({});
   const [singleProgramDetails, setsingleProgramDetails] = useState({});
   // Start true so ZoomMeeting is not mounted, then torn down when the program fetch begins
   const [singleLoading, setsingleLoading] = useState(true);
@@ -251,6 +298,8 @@ const LiveProgram = () => {
     "Who am I": whoAmIContent?.progress?.is_completed,
     "Wheel of Life": lifeElements?.progress?.is_completed,
     "Card Game": cardGamestate?.navigation?.current_phase == "completed",
+    "Goal Settings": isGoalSettingsCompleted(goalsettingsContent) === true,
+    "Habit Tracker": isHabitTrackerCompleted(habbitContent) === true,
   };
 
   const tickStyle = {
@@ -273,6 +322,44 @@ const LiveProgram = () => {
 
   const getResourceId = (resource, index) =>
     resource?.id ?? resource?.document_id ?? index;
+
+  const getResourceUrl = (resource) => {
+    const raw =
+      resource?.file_url ||
+      resource?.download_url ||
+      resource?.document_url ||
+      resource?.url ||
+      resource?.file ||
+      resource?.path ||
+      resource?.file_path ||
+      null;
+
+    if (!raw || typeof raw !== "string") return null;
+    if (/^https?:\/\//i.test(raw) || raw.startsWith("blob:") || raw.startsWith("data:")) {
+      return raw;
+    }
+
+    const apiBase = (import.meta.env.VITE_BASE_URL || "").replace(/\/$/, "");
+    const hostBase = apiBase.replace(/\/api\/v\d+$/i, "");
+    return `${hostBase}/${raw.replace(/^\//, "")}`;
+  };
+
+  const downloadSingleResource = (resource, index) => {
+    const url = getResourceUrl(resource);
+    if (!url) {
+      toast.error("Download link not available for this document");
+      return;
+    }
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = getResourceName(resource, index);
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  };
 
   const toggleResourceSelection = (resourceId) => {
     setSelectedResources((prev) =>
@@ -315,23 +402,24 @@ const LiveProgram = () => {
       ...prev,
       progress: { ...(prev?.progress || {}), is_completed: true },
     }));
-    fetchAllProgramModules();
   };
 
   const fetchAllProgramModules = async () => {
     setloading(true);
     const res = await getProgramsModule(enrollmentId);
+    const modules = res?.success ? res?.data?.modules || [] : [];
     if (res?.success) {
-      setallProgramModules(res?.data?.modules || []);
+      setallProgramModules(modules);
     }
     setloading(false);
+    return modules;
   };
 
   const fetchValuesQuestion = async (structureId) => {
     setloading(true);
     const res = await getValuesQuestions(Number(enrollmentId), structureId);
     if (res?.success) {
-      setvaluesContent(res?.data || {});
+      setvaluesContent(withNormalizedProgress(res?.data || {}));
       // fetchProgramResources(structureId);
       tabsFunction(1);
     }
@@ -342,7 +430,7 @@ const LiveProgram = () => {
     setloading(true);
     const res = await getWhoamIQuestions(Number(enrollmentId), structureId);
     if (res?.success) {
-      setwhoAmiIContent(res?.data || {});
+      setwhoAmiIContent(withNormalizedProgress(res?.data || {}));
       // fetchProgramResources(structureId);
       tabsFunction(7);
     }
@@ -353,7 +441,7 @@ const LiveProgram = () => {
     setloading(true);
     const res = await getMotivationWords(Number(enrollmentId), structureId);
     if (res?.success) {
-      setmotivationContent(res?.data || {});
+      setmotivationContent(withNormalizedProgress(res?.data || {}));
       // fetchProgramResources(structureId);
       tabsFunction(5);
     }
@@ -364,7 +452,7 @@ const LiveProgram = () => {
     setloading(true);
     const res = await getlifeElements(Number(enrollmentId), structureId);
     if (res?.success) {
-      setLifeelements(res?.data || {});
+      setLifeelements(withNormalizedProgress(res?.data || {}));
       // fetchProgramResources(structureId);
       tabsFunction(3);
     }
@@ -403,11 +491,45 @@ const LiveProgram = () => {
     });
   };
 
+  const setGoalSettingsNormalized = (data) => {
+    setgoalSettingsContent((prev) => {
+      const next = { ...(data || {}) };
+      if (!next.program_structure_id && prev?.program_structure_id) {
+        next.program_structure_id = prev.program_structure_id;
+      }
+      if (!Array.isArray(next.goals)) {
+        if (next.id || next.goal_name) {
+          next.goals = [...(prev?.goals || []), next];
+        } else {
+          next.goals = prev?.goals || [];
+        }
+      }
+      return next;
+    });
+  };
+
+  const setHabitContentNormalized = (data) => {
+    sethabbitContent((prev) => {
+      const next = { ...(data || {}) };
+      if (!next.program_structure_id && prev?.program_structure_id) {
+        next.program_structure_id = prev.program_structure_id;
+      }
+      if (!Array.isArray(next.habits)) {
+        if (next.id || next.habit_name) {
+          next.habits = [...(prev?.habits || []), next];
+        } else {
+          next.habits = prev?.habits || [];
+        }
+      }
+      return next;
+    });
+  };
+
   const fetchGoalSettings = async (structureId) => {
     setloading(true);
     const res = await getGoalSettings(Number(enrollmentId), structureId);
     if (res?.success) {
-      setgoalSettingsContent(res?.data || {});
+      setgoalSettingsContent(withNormalizedProgress(res?.data || {}));
       // fetchProgramResources(structureId);
       tabsFunction(4);
     }
@@ -464,61 +586,89 @@ const LiveProgram = () => {
 
   };
 
+  const openModuleByTitle = (structureId, moduleName) => {
+    if (moduleName == "Values") {
+      fetchValuesQuestion(structureId);
+    }
+
+    if (moduleName == "Find your Motivation") {
+      fetchMotivation(structureId);
+    }
+
+    if (moduleName == "Who am I") {
+      fetchWhoamIQuestion(structureId);
+    }
+
+    if (moduleName == "Wheel of Life") {
+      fetchWheelofLifeelements(structureId);
+    }
+
+    if (moduleName == "Card Game") {
+      fetchCardGameState(structureId);
+    }
+
+    if (moduleName == "Habit Tracker") {
+      fetchHabitDetaisls(structureId);
+    }
+
+    if (moduleName == "Goal Settings") {
+      fetchGoalSettings(structureId);
+    }
+
+    if (moduleName == "Intermediate - Values") {
+      fetchIntermediateValues(structureId);
+    }
+
+    if (moduleName == "Intermediate - Eight most common mistakes") {
+      fetchIntermediateEightCommonMistakes(structureId);
+    }
+
+    if (moduleName == "Intermediate - Goal Settings") {
+      fetchIntermediateGoalSettings(structureId);
+    }
+
+    if (moduleName == "Intermediate - The Y Method") {
+      fetchIntermediateYMethod(structureId);
+    }
+
+    if (moduleName == "Intermediate - Questions for each goal - why?") {
+      fetchIntermediateQuestionsGoalWhy(structureId);
+    }
+
+    if (moduleName == "Upload Documents") {
+      fetchProgramResources(structureId);
+    }
+  };
+
   const fetchLockUnlockDetails = async (structureId, moduleName) => {
     setloading(true);
     const res = await checkLockUnlock(enrollmentId, structureId);
     if (res?.success) {
-      if (moduleName == "Values") {
-        fetchValuesQuestion(structureId);
-      }
-
-      if (moduleName == "Find your Motivation") {
-        fetchMotivation(structureId);
-      }
-
-      if (moduleName == "Who am I") {
-        fetchWhoamIQuestion(structureId);
-      }
-
-      if (moduleName == "Wheel of Life") {
-        fetchWheelofLifeelements(structureId);
-      }
-
-      if (moduleName == "Card Game") {
-        fetchCardGameState(structureId);
-      }
-
-      if (moduleName == "Habit Tracker") {
-        fetchHabitDetaisls(structureId);
-      }
-
-      if (moduleName == "Goal Settings") {
-        fetchGoalSettings(structureId);
-      }
-
-      if (moduleName == "Intermediate - Values") {
-        fetchIntermediateValues(structureId);
-      }
-
-      if (moduleName == "Intermediate - Eight most common mistakes") {
-        fetchIntermediateEightCommonMistakes(structureId);
-      }
-
-      if (moduleName == "Intermediate - Goal Settings") {
-        fetchIntermediateGoalSettings(structureId);
-      }
-
-      if (moduleName == "Intermediate - The Y Method") {
-        fetchIntermediateYMethod(structureId);
-      }
-
-      if (moduleName == "Intermediate - Questions for each goal - why?") {
-        fetchIntermediateQuestionsGoalWhy(structureId);
-      }
+      openModuleByTitle(structureId, moduleName);
     } else {
       toast.error("Module is not unlocked yet!");
     }
     setloading(false);
+  };
+
+  const handleModuleCompleted = async (completedTitle) => {
+    const modules = await fetchAllProgramModules();
+    const current = modules.find((m) => m.title === completedTitle);
+    if (!current) return;
+
+    const next = modules
+      .filter((m) => m.sort_order > current.sort_order)
+      .sort((a, b) => a.sort_order - b.sort_order)[0];
+
+    if (!next || !SPECIAL_MODULE_TITLES.includes(next.title)) return;
+
+    const lock = await checkLockUnlock(
+      enrollmentId,
+      next.program_structure_id,
+    );
+    if (!lock?.success) return;
+
+    openModuleByTitle(next.program_structure_id, next.title);
   };
 
   useEffect(() => {
@@ -533,6 +683,47 @@ const LiveProgram = () => {
       document.removeEventListener("click", handleResourcesClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    const cardPhase = cardGamestate?.navigation?.current_phase;
+    const currentCompletion = {
+      Values: valuesContent?.progress?.is_completed,
+      "Find your Motivation": motivationContent?.progress?.is_completed,
+      "Who am I": whoAmIContent?.progress?.is_completed,
+      "Wheel of Life": lifeElements?.progress?.is_completed,
+      // Only boolean once Card Game state has actually been fetched
+      "Card Game":
+        cardPhase == null ? undefined : cardPhase === "completed",
+      "Goal Settings": isGoalSettingsCompleted(goalsettingsContent),
+      "Habit Tracker": isHabitTrackerCompleted(habbitContent),
+    };
+
+    TRACKED_COMPLETION_TITLES.forEach((title) => {
+      const curr = currentCompletion[title];
+      // Module not loaded yet — don't overwrite a prior false/true with undefined
+      if (typeof curr !== "boolean") return;
+
+      const wasIncomplete = prevCompletionRef.current[title] === false;
+      const isNowComplete = curr === true;
+      if (wasIncomplete && isNowComplete) {
+        handleModuleCompleted(title);
+      }
+
+      prevCompletionRef.current[title] = curr;
+    });
+  }, [
+    valuesContent?.progress?.is_completed,
+    motivationContent?.progress?.is_completed,
+    whoAmIContent?.progress?.is_completed,
+    lifeElements?.progress?.is_completed,
+    cardGamestate?.navigation?.current_phase,
+    goalsettingsContent?.program_structure_id,
+    goalsettingsContent?.progress?.is_completed,
+    goalsettingsContent?.goals?.length,
+    habbitContent?.program_structure_id,
+    habbitContent?.progress?.is_completed,
+    habbitContent?.habits?.length,
+  ]);
 
   const completedFunction = (id) => {
     setCompleted([...completed, id]);
@@ -645,6 +836,10 @@ const LiveProgram = () => {
                             <button
                               type="button"
                               className="download_resource_btn"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                downloadSingleResource(resource, index);
+                              }}
                             >
                               <img src={download} alt="download" />
                             </button>
@@ -786,7 +981,7 @@ const LiveProgram = () => {
             )}
             {tabs.goal && (
               <GoalSetting
-                setgoalSettingsContent={setgoalSettingsContent}
+                setgoalSettingsContent={setGoalSettingsNormalized}
                 goalsettingsContent={goalsettingsContent}
                 completedFunction={completedFunction}
               />
@@ -808,7 +1003,7 @@ const LiveProgram = () => {
             )}
             {tabs.habit && (
               <HabitTracker
-                sethabbitContent={sethabbitContent}
+                sethabbitContent={setHabitContentNormalized}
                 habbitContent={habbitContent}
               />
             )}
