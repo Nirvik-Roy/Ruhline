@@ -157,7 +157,7 @@ const NavbarLinks = () => {
                 <NavLink to='/contact'>Contact Us</NavLink>
 
                 {!isLogin && (
-                    <div onClick={() => handleModal(1)}>
+                    <div onClick={() => handleModal(2)}>
                         <Button children='Login/Sign Up' />
                     </div>
                 )}

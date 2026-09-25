@@ -22,7 +22,7 @@ const AllPrograms = ({ allEnrolledPrograms }) => {
                             background: 'rgba(36, 159, 50, 1)',
                             textTransform: 'capitalize'
                         }}>{e.enrollment_status}</p>
-                        <img src={e?.program?.main_image || img} />
+                        <img src={e?.program?.main_image || '/dummy_image.jpg'} />
                         <h6>{e?.program?.name}</h6>
                         <small style={{
                             textTransform: 'capitalize'

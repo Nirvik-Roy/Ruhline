@@ -24,7 +24,7 @@ const OneTimeServiceDetails = ({ singleProgramData }) => {
             <div className='one_time_service_details_wrapper'>
                 <div className='left_one_time_service'>
                     <div className='service_big_img'>
-                        <img src={singleProgramData?.main_image || bigImg} />
+                        <img src={singleProgramData?.main_image || '/dummy_image.jpg'} />
                     </div>
                     <div className='service_small_img_wrapper'>
                         {singleProgramData?.gallery_images?.map((e, i) => (
@@ -36,7 +36,9 @@ const OneTimeServiceDetails = ({ singleProgramData }) => {
                     </div>
                 </div>
                 <div className='right_one_time_service_details'>
-                    {singleProgramData?.tag && <small>{singleProgramData?.tag}</small>}
+                    {singleProgramData?.tag && <small style={{
+                        textTransform: 'capitalize'
+                    }}>{singleProgramData?.tag}</small>}
                     <div>
                         {singleProgramData?.original_price && <del>SAR{singleProgramData?.original_price}</del>}
                         {singleProgramData?.sale_price && <h1>SAR{singleProgramData?.sale_price}</h1>}
@@ -52,7 +54,6 @@ const OneTimeServiceDetails = ({ singleProgramData }) => {
                     }} dangerouslySetInnerHTML={{
                         __html: singleProgramData?.description
                     }}>
-
                     </p>
                     <div onClick={(() => openModal())}>
                         <Button children={'Book Now'} />
