@@ -43,6 +43,17 @@
   border-radius: 2px;
 }
 
+.fc .fc-view-harness{
+   min-height: 80vh !important;
+}
+.hcalx91_calendar_main_wrap .fc-event-title{
+  cursor: pointer !important;
+}
+.fc .fc-daygrid-body-unbalanced .fc-daygrid-day-events{
+  flex-direction: column !important;
+  padding: 20px !important;
+}
+
 .hcalx91_legend_upcoming {
   background-color: #eab308;
 }

@@ -366,6 +366,25 @@ export const getIntermediateYMethod = async (enrollmentId, structureId) => {
     }
 }
 
+export const getQuoteModule = async (enrollmentId, structureId) => {
+    const token = localStorage.getItem('token')
+    if (token && enrollmentId && structureId) {
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/customer/enrollments/${enrollmentId}/modules/${structureId}/quote`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res?.data?.success == true) {
+                return res?.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err?.response?.data
+        }
+    }
+}
+
 export const getValuesQuestions = async (enrollmentId, structureId) => {
     const token = localStorage.getItem('token')
     if (token && enrollmentId && structureId) {
@@ -843,6 +862,81 @@ export const deleteHabit = async (enrollmentId, structureId, habitId) => {
         }
     } else {
         toast.error('Enrollment Id is required')
+    }
+}
+
+export const getHabitsCalendar = async (month, year) => {
+    const token = localStorage.getItem('token')
+    if (token) {
+        try {
+            const params = new URLSearchParams()
+            if (month != null && month !== '') {
+                params.append('month', month)
+            }
+            if (year != null && year !== '') {
+                params.append('year', year)
+            }
+            const query = params.toString() ? `?${params.toString()}` : ''
+            const res = await axios.get(
+                `${import.meta.env.VITE_BASE_URL}/customer/habits/calendar${query}`,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                },
+            )
+            if (res?.data?.success == true) {
+                return res?.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err?.response?.data
+        }
+    }
+}
+
+export const getHabitDateDetails = async (habitId, date) => {
+    const token = localStorage.getItem('token')
+    if (token && habitId && date) {
+        try {
+            const res = await axios.get(
+                `${import.meta.env.VITE_BASE_URL}/customer/habits/${habitId}/date/${date}`,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                },
+            )
+            if (res?.data?.success == true) {
+                return res?.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err?.response?.data
+        }
+    }
+}
+
+export const logCustomerHabit = async (habitId, body) => {
+    const token = localStorage.getItem('token')
+    if (token && habitId && body) {
+        try {
+            const res = await axios.post(
+                `${import.meta.env.VITE_BASE_URL}/customer/habits/${habitId}/log`,
+                body,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                },
+            )
+            if (res?.data?.success == true) {
+                return res?.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err?.response?.data
+        }
     }
 }
 

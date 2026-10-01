@@ -38,6 +38,7 @@ import {
   getIntermediateGoalSettings,
   getIntermediateQuestionsGoalWhy,
   getIntermediateYMethod,
+  getQuoteModule,
   joinMeeting,
 } from "../../../utils/program";
 import {
@@ -55,6 +56,7 @@ import CommonMistakesModal from "./IntermediateSteps/CommonMistakesModal.jsx";
 import GoalSettingsModal from "./IntermediateSteps/GoalSettingsModal.jsx";
 import TheYMethodModal from "./IntermediateSteps/TheYMethodModal.jsx";
 import QuestionForEachGoalModal from "./IntermediateSteps/QuestionForEachGoalModal.jsx";
+import QuoteModal from "../../../Components/Modal/QuoteModal.jsx";
 
 const readStoredVideoToken = () => {
   try {
@@ -109,6 +111,7 @@ const SPECIAL_MODULE_TITLES = [
   "Intermediate - The Y Method",
   "Intermediate - Questions for each goal - why?",
   "Upload Documents",
+  "Quote",
 ];
 
 const TRACKED_COMPLETION_TITLES = [
@@ -167,12 +170,14 @@ const LiveProgram = () => {
   const [intermediateGoalSettingsContent, setIntermediateGoalSettingsContent] = useState({});
   const [intermediateYMethodContent, setIntermediateYMethodContent] = useState({});
   const [intermediateQuestionsGoalWhyContent, setIntermediateQuestionsGoalWhyContent] = useState({});
+  const [quoteModuleContent, setQuoteModuleContent] = useState({});
   const [modals, setmodals] = useState({
     values: false,
     commonMistakes: false,
     goalSettings: false,
     theYMethod: false,
     eachGoal: false,
+    quote: false,
   });
   const [id, setId] = useState(null);
   const [completed, setCompleted] = useState([]);
@@ -488,6 +493,7 @@ const LiveProgram = () => {
       goalSettings: id == 3 ? true : false,
       theYMethod: id == 4 ? true : false,
       eachGoal: id == 5 ? true : false,
+      quote: id == 6 ? true : false,
     });
   };
 
@@ -586,6 +592,14 @@ const LiveProgram = () => {
 
   };
 
+  const fetchQuoteModule = async (structureId) => {
+    const res = await getQuoteModule(Number(enrollmentId), structureId);
+    if (res?.success) {
+      setQuoteModuleContent(res?.data || {});
+      setModal(6);
+    }
+  };
+
   const openModuleByTitle = (structureId, moduleName) => {
     if (moduleName == "Values") {
       fetchValuesQuestion(structureId);
@@ -637,6 +651,10 @@ const LiveProgram = () => {
 
     if (moduleName == "Upload Documents") {
       fetchProgramResources(structureId);
+    }
+
+    if (moduleName == "Quote") {
+      fetchQuoteModule(structureId);
     }
   };
 
@@ -745,6 +763,9 @@ const LiveProgram = () => {
       )}
       {modals.eachGoal && (
         <QuestionForEachGoalModal setModal={setModal} data={intermediateQuestionsGoalWhyContent} />
+      )}
+      {modals.quote && (
+        <QuoteModal setModal={setModal} data={quoteModuleContent} />
       )}
       {modalIsopen && <WaitingModal setmodalIsopen={setmodalIsopen} />}
       {singleLoading && (
@@ -918,8 +939,9 @@ const LiveProgram = () => {
                 )}
                 {allProgramModules?.map((e) => {
                   if (
-                    //!e?.module_type?.startsWith("intermediate") &&//
-                    e?.title != "Upload Documents"
+                    !e?.module_type?.startsWith("intermediate") &&
+                    e?.title != "Upload Documents" &&
+                    e?.title != 'Quote'
                   ) {
                     return (
                       <>

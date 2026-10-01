@@ -1,0 +1,330 @@
+.habit_notif_anchor {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 10050;
+  display: flex;
+  justify-content: flex-end;
+  pointer-events: none;
+}
+
+.habit_notif_card {
+  position: relative;
+  pointer-events: auto;
+  display: flex;
+  align-items: stretch;
+  width: min(500px, calc(100vw - 32px));
+  min-height: 112px;
+  padding: 40px 20px 40px 0;
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 10px 32px rgba(70, 35, 7, 0.12);
+  overflow: hidden;
+  font-family: Lora, Georgia, "Times New Roman", serif;
+  color: var(--text-color);
+  animation: habit_notif_slide_in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.habit_notif_card--completion {
+  width: min(480px, calc(100vw - 32px));
+  padding-bottom: 24px;
+}
+
+.habit_notif_card--exiting {
+  animation: habit_notif_slide_out 0.32s cubic-bezier(0.55, 0, 1, 0.45) both;
+}
+
+@keyframes habit_notif_slide_in {
+  from {
+    opacity: 0;
+    transform: translateX(calc(100% + 32px));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes habit_notif_slide_out {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(calc(100% + 32px));
+  }
+}
+
+.habit_notif_splash {
+  flex-shrink: 0;
+  width: 94px;
+  position: relative;
+  align-self: stretch;
+  
+}
+
+.habit_notif_splash svg {
+  position: absolute;
+  left: -8px;
+  bottom: -40px;
+  width: 96px;
+  height: auto;
+  display: block;
+}
+
+.habit_notif_splash--success svg .habit_notif_blob {
+  fill: #e3b02a;
+}
+
+.habit_notif_splash--error svg .habit_notif_blob {
+  fill: #f0c4b8;
+}
+
+.habit_notif_splash--warning svg .habit_notif_blob {
+  fill: #f5d78e;
+}
+
+.habit_notif_splash--default svg .habit_notif_blob {
+  fill: #e3b02a;
+}
+
+.habit_notif_splash svg .habit_notif_drop {
+  fill: #e3b02a;
+}
+
+.habit_notif_splash--error svg .habit_notif_drop {
+  fill: #f0c4b8;
+}
+
+.habit_notif_splash--warning svg .habit_notif_drop {
+  fill: #f5d78e;
+}
+
+.habit_notif_body {
+  flex: 1;
+  min-width: 0;
+  padding-right: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.habit_notif_body--with_action {
+  padding-right: 4px;
+}
+
+.habit_notif_close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--primary-color);
+  font-size: 1.15rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.habit_notif_close:hover {
+  opacity: 0.75;
+}
+
+.habit_notif_title {
+  margin: 0 36px 4px 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--text-color);
+}
+
+.habit_notif_desc {
+  margin: 0;
+  font-size: 0.7rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--text-color);
+}
+
+.habit_notif_actions {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding-right: 4px;
+  padding-top: 28px;
+}
+
+.habit_notif_mark_btn {
+  border: none;
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-family: inherit;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: #ffffff;
+  background-color: var(--primary-color);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity 0.2s ease;
+}
+
+.habit_notif_mark_btn:hover {
+  opacity: 0.9;
+}
+
+.habit_notif_mark_btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.habit_notif_divider {
+  margin: 14px 0 12px;
+  border: none;
+  border-top: 1px solid rgba(70, 35, 7, 0.12);
+}
+
+.habit_notif_question {
+  margin: 0 0 14px;
+  font-size: 0.9rem;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--text-color);
+}
+
+.habit_notif_required {
+  color: #d32f2f;
+  font-style: normal;
+}
+
+.habit_notif_radios {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px 28px;
+}
+
+.habit_notif_radio {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 400;
+  user-select: none;
+}
+
+.habit_notif_radio input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.habit_notif_radio_mark {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(70, 35, 7, 0.35);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.habit_notif_radio input:checked + .habit_notif_radio_mark {
+  border-color: var(--primary-color);
+  background-color: var(--primary-color);
+}
+
+.habit_notif_radio input:checked + .habit_notif_radio_mark::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ffffff;
+}
+
+.habit_notif_status_row {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding-top: 4px;
+}
+
+.habit_notif_status_icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 1rem;
+}
+
+.habit_notif_status_icon--success {
+  background-color: #3d9a5c;
+}
+
+.habit_notif_status_icon--error {
+  background-color: #c94c4c;
+}
+
+.habit_notif_status_icon--warning {
+  background-color: #d9a421;
+}
+
+.habit_notif_status_text .habit_notif_title {
+  margin: 0 28px 6px 0;
+  font-size: 1.25rem;
+}
+
+.habit_notif_status_text .habit_notif_desc {
+  font-size: 0.95rem;
+  padding-right: 12px;
+}
+
+@media(max-width:999px){
+  .habit_notif_splash{display: none;}
+  .habit_notif_card{
+    padding: 40px !important;
+  }
+}
+@media (max-width: 520px) {
+  .habit_notif_anchor {
+    top: 16px;
+    right: 16px;
+    left: 16px;
+  }
+
+  .habit_notif_card {
+    width: 100%;
+    flex-wrap: wrap;
+    padding: 18px 16px 18px 0;
+  }
+
+  .habit_notif_card--reminder {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .habit_notif_actions {
+    padding: 12px 16px 0 72px;
+    justify-content: flex-start;
+  }
+
+  .habit_notif_mark_btn {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+}
