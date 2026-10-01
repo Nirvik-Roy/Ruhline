@@ -183,6 +183,7 @@ const LiveProgram = () => {
   const [completed, setCompleted] = useState([]);
   const [loading, setloading] = useState(false);
   const [allProgramModules, setallProgramModules] = useState([]);
+  const [modulesRefreshing, setModulesRefreshing] = useState(false);
   const [resourcesloading, setresourcesloading] = useState(false);
   const [programResources, setprogramResources] = useState([]);
   const [resourcesDropdownOpen, setResourcesDropdownOpen] = useState(false);
@@ -395,6 +396,14 @@ const LiveProgram = () => {
   const isModuleCompleted = (module) =>
     module?.is_completed || MODULE_PROGRESS[module?.title];
 
+  const isModuleLocked = (module) => {
+    if (module == null) return false;
+    if (typeof module.is_unlocked === "boolean") return !module.is_unlocked;
+    if (typeof module.is_locked === "boolean") return module.is_locked;
+    if (module.unlock_status === "locked") return true;
+    return false;
+  };
+
   const isWheelOfLifeCompleted =
     Boolean(lifeElements?.progress?.is_completed) ||
     Boolean(
@@ -409,15 +418,30 @@ const LiveProgram = () => {
     }));
   };
 
-  const fetchAllProgramModules = async () => {
-    setloading(true);
+  const fetchAllProgramModules = async (options = {}) => {
+    const { silent = false } = options;
+    if (silent) {
+      setModulesRefreshing(true);
+    } else {
+      setloading(true);
+    }
     const res = await getProgramsModule(enrollmentId);
     const modules = res?.success ? res?.data?.modules || [] : [];
     if (res?.success) {
       setallProgramModules(modules);
     }
-    setloading(false);
+    if (silent) {
+      setModulesRefreshing(false);
+    } else {
+      setloading(false);
+    }
     return modules;
+  };
+
+  const handleModulesRefresh = (event) => {
+    event?.stopPropagation?.();
+    if (!enrollmentId || modulesRefreshing) return;
+    fetchAllProgramModules({ silent: true });
   };
 
   const fetchValuesQuestion = async (structureId) => {
@@ -914,12 +938,36 @@ const LiveProgram = () => {
           <div className="live_program_modules_wrapper">
             <div className="live_program_modules_head">
               <h4>Program Modules</h4>
-              <div
-                className="down_img56"
-                src={arrow}
-                onClick={() => setmoduleOpen(!moduleOpen)}
-              >
-                <img src={down} />
+              <div className="live_program_modules_head_actions">
+                <button
+                  type="button"
+                  className="live_program_modules_refresh"
+                  onClick={handleModulesRefresh}
+                  disabled={modulesRefreshing}
+                  aria-label="Refresh program modules"
+                >
+                  <i
+                    className={`fa-solid fa-rotate-right${modulesRefreshing ? " live_program_modules_refresh_spin" : ""}`}
+                    aria-hidden
+                  />
+                </button>
+                <div
+                  className="down_img56"
+                  src={arrow}
+                  onClick={() => setmoduleOpen(!moduleOpen)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      setmoduleOpen(!moduleOpen);
+                    }
+                  }}
+                  aria-expanded={moduleOpen}
+                  aria-label="Toggle program modules"
+                >
+                  <img src={down} alt="" />
+                </div>
               </div>
             </div>
 
@@ -943,24 +991,29 @@ const LiveProgram = () => {
                     e?.title != "Upload Documents" &&
                     e?.title != 'Quote'
                   ) {
+                    const locked = isModuleLocked(e);
                     return (
-                      <>
-                        <div
-                          key={e.sort_order}
-                          style={
-                            e.sort_order === id
-                              ? { border: "2px solid var(--primary-color)" }
-                              : {}
+                      <div
+                        key={e.sort_order}
+                        style={
+                          !locked && e.sort_order === id
+                            ? { border: "2px solid var(--primary-color)" }
+                            : {}
+                        }
+                        onClick={() => {
+                          if (locked) {
+                            toast.error("Module is not unlocked yet!");
+                            return;
                           }
-                          onClick={() => {
-                            fetchLockUnlockDetails(
-                              e?.program_structure_id,
-                              e?.title,
-                            );
-                            setId(e.sort_order);
-                          }}
-                          className="program_tab"
-                        >
+                          fetchLockUnlockDetails(
+                            e?.program_structure_id,
+                            e?.title,
+                          );
+                          setId(e.sort_order);
+                        }}
+                        className={`program_tab${locked ? " program_tab--locked" : ""}`}
+                      >
+                        <div className="program_tab_content">
                           {MODULE_ICONS[e?.title] && (
                             <img
                               src={MODULE_ICONS[e?.title] || frameIcon}
@@ -969,10 +1022,22 @@ const LiveProgram = () => {
                           )}
                           <p>{e.title}</p>
                           {isModuleCompleted(e) && (
-                            <img style={tickStyle} src={tick} alt="completed" />
+                            <img
+                              style={tickStyle}
+                              src={tick}
+                              alt="completed"
+                            />
                           )}
                         </div>
-                      </>
+                        {locked && (
+                          <div className="program_tab_lock_overlay">
+                            <span className="program_tab_lock_icon" aria-hidden>
+                              <i className="fa-solid fa-lock" />
+                            </span>
+                            <span className="program_tab_lock_label">Locked</span>
+                          </div>
+                        )}
+                      </div>
                     );
                   }
                 })}
